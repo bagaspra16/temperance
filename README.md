@@ -1,6 +1,6 @@
 # Temperance - Aplikasi Manajemen Tujuan dan Tugas
 
-![Temperance Logo](public/favicon.ico)
+![Temperance Logo](public/readme-logo.png)
 
 Temperance adalah aplikasi manajemen tujuan dan tugas yang komprehensif, dirancang untuk membantu pengguna melacak dan mencapai tujuan mereka dengan lebih efektif. Aplikasi ini memungkinkan pengguna untuk membuat kategori, menetapkan tujuan, membagi tujuan menjadi tugas-tugas yang lebih kecil, dan melacak kemajuan mereka secara real-time.
 
