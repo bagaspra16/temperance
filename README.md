@@ -85,21 +85,11 @@ DB_USERNAME=your_postgres_username
 DB_PASSWORD=your_postgres_password
 ```
 
-Atau untuk SQLite:
-
-```
-DB_CONNECTION=sqlite
-DB_DATABASE=/absolute/path/to/database.sqlite
-```
-
 #### 6. Migrasi dan Seeding Database
 
 ```bash
 # Jalankan migrasi database
 php artisan migrate
-
-# (Opsional) Jalankan seeder untuk data contoh
-php artisan db:seed
 ```
 
 #### 7. Menjalankan Aplikasi
