@@ -16,16 +16,15 @@ Temperance adalah aplikasi manajemen tujuan dan tugas yang komprehensif, diranca
 ## Teknologi yang Digunakan
 
 - **Framework**: Laravel 10
-- **Database**: MySQL/SQLite
+- **Database**: PostgreSQL
 - **Frontend**: Blade Templates, Tailwind CSS
 - **Autentikasi**: Laravel's built-in authentication
 
 ## Persyaratan Sistem
 
-- PHP >= 8.1
+- PHP >= 8.2
 - Composer
-- Node.js & NPM
-- Database MySQL atau SQLite
+- Database PostgreSQL 14
 
 ## Instalasi
 
@@ -76,12 +75,12 @@ php artisan key:generate
 Edit file `.env` dan sesuaikan pengaturan database:
 
 ```
-DB_CONNECTION=mysql
+DB_CONNECTION=postgresql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=temperance
-DB_USERNAME=root
-DB_PASSWORD=
+DB_USERNAME=your_postgres_username
+DB_PASSWORD=your_postgres_password
 ```
 
 Atau untuk SQLite:
@@ -107,7 +106,7 @@ php artisan db:seed
 php artisan serve
 ```
 
-Aplikasi akan berjalan di `http://localhost:8000`
+Aplikasi akan berjalan di `http://localhost:8000` atau `http://127.0.0.1:8000`
 
 ### Alur Kerja Git
 
@@ -184,10 +183,3 @@ Aplikasi ini menggunakan beberapa tabel utama:
 - **tasks**: Tugas-tugas yang terkait dengan tujuan
 - **progress**: Catatan kemajuan untuk tujuan dan tugas
 
-## Kontribusi
-
-Kontribusi sangat diterima! Silakan ikuti alur kerja Git yang dijelaskan di atas untuk berkontribusi pada proyek ini.
-
-## Lisensi
-
-Temperance dilisensikan di bawah [MIT license](https://opensource.org/licenses/MIT).
