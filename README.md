@@ -56,10 +56,6 @@ git checkout -b nama-anda
 ```bash
 # Instalasi dependensi PHP
 composer install
-
-# Instalasi dependensi Node.js
-npm install
-npm run dev
 ```
 
 #### 4. Konfigurasi Lingkungan
@@ -77,9 +73,9 @@ php artisan key:generate
 Edit file `.env` dan sesuaikan pengaturan database:
 
 ```
-DB_CONNECTION=postgresql
+DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
-DB_PORT=3306
+DB_PORT=5432
 DB_DATABASE=temperance
 DB_USERNAME=your_postgres_username
 DB_PASSWORD=your_postgres_password
