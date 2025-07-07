@@ -19,7 +19,7 @@ class GoalController extends Controller
     {
         $goals = Goal::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(9);
         
         return view('goals.index', compact('goals'));
     }
@@ -75,11 +75,16 @@ class GoalController extends Controller
      */
     public function show(string $id)
     {
-        $goal = Goal::where('user_id', Auth::id())->findOrFail($id);
-        $tasks = $goal->tasks()->orderBy('created_at', 'desc')->get();
-        $progress = $goal->progressRecords()->orderBy('created_at', 'desc')->get();
-        
-        return view('goals.show', compact('goal', 'tasks', 'progress'));
+        $goal = Goal::with(['tasks', 'progressRecords', 'tasks.progressRecords'])->where('user_id', Auth::id())->findOrFail($id);
+
+        $goalProgress = $goal->progressRecords;
+        $taskProgress = $goal->tasks->flatMap(function ($task) {
+            return $task->progressRecords;
+        });
+
+        $progressHistory = $goalProgress->merge($taskProgress)->sortByDesc('created_at');
+
+        return view('goals.show', compact('goal', 'progressHistory'));
     }
 
     /**

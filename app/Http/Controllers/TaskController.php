@@ -19,7 +19,7 @@ class TaskController extends Controller
     {
         $tasks = Task::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
         
         return view('tasks.index', compact('tasks'));
     }
@@ -65,6 +65,9 @@ class TaskController extends Controller
         $task->user_id = Auth::id();
         $task->save();
 
+        // Update goal progress after creating a new task
+        $this->updateGoalProgress($task->goal_id);
+
         return redirect()->route('goals.show', $task->goal_id)
             ->with('success', 'Task created successfully.');
     }
@@ -92,6 +95,12 @@ class TaskController extends Controller
     public function edit(string $id)
     {
         $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($task->is_completed) {
+            return redirect()->route('goals.show', $task->goal_id)
+                ->with('error', 'Completed tasks cannot be edited.');
+        }
+
         $goals = Goal::where('user_id', Auth::id())
             ->where('status', '!=', 'completed')
             ->where('status', '!=', 'abandoned')
@@ -109,6 +118,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($task->is_completed) {
+            return redirect()->route('goals.show', $task->goal_id)
+                ->with('error', 'Completed tasks cannot be edited.');
+        }
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -124,11 +140,10 @@ class TaskController extends Controller
                 ->withInput();
         }
 
-        $task = Task::where('user_id', Auth::id())->findOrFail($id);
         $data = $request->all();
         
         // Set completed_at timestamp if task is being marked as completed
-        if ($request->status === 'completed' && $task->status !== 'completed') {
+        if ($request->status === 'completed' && !$task->is_completed) {
             $data['completed_at'] = now();
             
             // Create progress record
@@ -138,18 +153,12 @@ class TaskController extends Controller
                 'user_id' => Auth::id(),
                 'task_id' => $task->id
             ]);
-            
-            // Update goal progress
-            $this->updateGoalProgress($task->goal_id);
-        } elseif ($request->status !== 'completed' && $task->status === 'completed') {
-            // If task is being unmarked as completed
-            $data['completed_at'] = null;
-            
-            // Update goal progress
-            $this->updateGoalProgress($task->goal_id);
         }
         
         $task->update($data);
+        
+        // Update goal progress regardless of status change
+        $this->updateGoalProgress($task->goal_id);
 
         return redirect()->route('goals.show', $task->goal_id)
             ->with('success', 'Task updated successfully.');
@@ -183,8 +192,13 @@ class TaskController extends Controller
     public function markAsCompleted(string $id)
     {
         $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($task->is_completed) {
+            return redirect()->back()->with('error', 'Task is already completed.');
+        }
+
         $task->status = 'completed';
-        $task->updated_at = now();
+        $task->completed_at = now();
         $task->save();
         
         // Create progress record
@@ -210,25 +224,52 @@ class TaskController extends Controller
      */
     private function updateGoalProgress(string $goalId)
     {
-        $goal = Goal::findOrFail($goalId);
-        $totalTasks = $goal->tasks()->count();
-        
-        if ($totalTasks > 0) {
-            $completedTasks = $goal->tasks()->where('status', 'completed')->count();
-            $progressPercent = round(($completedTasks / $totalTasks) * 100);
-            
-            $goal->progress_percent = $progressPercent;
-            
-            // Update status based on progress
-            if ($progressPercent == 0) {
-                $goal->status = 'not_started';
-            } elseif ($progressPercent == 100) {
-                $goal->status = 'completed';
-            } else {
-                $goal->status = 'in_progress';
-            }
-            
+        $goal = Goal::with('tasks')->findOrFail($goalId);
+        $tasks = $goal->tasks;
+
+        if ($tasks->isEmpty()) {
+            $goal->progress_percent = 0;
+            $goal->status = 'not_started';
             $goal->save();
+            return;
         }
+
+        $priorityWeights = [
+            'low' => 15,
+            'medium' => 50,
+            'high' => 100,
+        ];
+
+        $totalValue = 0;
+        $completedValue = 0;
+
+        foreach ($tasks as $task) {
+            // Default to 0 if priority is not in the map, though validation should prevent this.
+            $weight = $priorityWeights[$task->priority] ?? 0;
+            $totalValue += $weight;
+            if ($task->status === 'completed') {
+                $completedValue += $weight;
+            }
+        }
+
+        $progressPercent = 0;
+        // Avoid division by zero if all tasks have invalid/no priority
+        if ($totalValue > 0) {
+            $progressPercent = round(($completedValue / $totalValue) * 100);
+        }
+
+        $goal->progress_percent = $progressPercent;
+
+        // Update status based on progress
+        if ($progressPercent >= 100) {
+            $goal->status = 'completed';
+            $goal->progress_percent = 100; // Cap at 100
+        } elseif ($progressPercent > 0) {
+            $goal->status = 'in_progress';
+        } else {
+            $goal->status = 'not_started';
+        }
+
+        $goal->save();
     }
 }

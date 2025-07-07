@@ -293,25 +293,51 @@ class ProgressController extends Controller
      */
     private function updateGoalProgress(string $goalId)
     {
-        $goal = Goal::findOrFail($goalId);
-        $totalTasks = $goal->tasks()->count();
-        
-        if ($totalTasks > 0) {
-            $completedTasks = $goal->tasks()->where('status', 'completed')->count();
-            $progressPercent = round(($completedTasks / $totalTasks) * 100);
-            
-            $goal->progress_percent = $progressPercent;
-            
-            // Update status based on progress
-            if ($progressPercent == 0) {
-                $goal->status = 'not_started';
-            } elseif ($progressPercent == 100) {
-                $goal->status = 'completed';
-            } else {
-                $goal->status = 'in_progress';
-            }
-            
+        $goal = Goal::with('tasks')->findOrFail($goalId);
+        $tasks = $goal->tasks;
+
+        if ($tasks->isEmpty()) {
+            $goal->progress_percent = 0;
+            $goal->status = 'not_started';
             $goal->save();
+            return;
         }
+
+        $priorityWeights = [
+            'low' => 15,
+            'medium' => 50,
+            'high' => 100,
+        ];
+
+        $totalValue = 0;
+        $completedValue = 0;
+
+        foreach ($tasks as $task) {
+            // Default to 0 if priority is not in the map
+            $weight = $priorityWeights[$task->priority] ?? 0;
+            $totalValue += $weight;
+            if ($task->status === 'completed') {
+                $completedValue += $weight;
+            }
+        }
+
+        $progressPercent = 0;
+        if ($totalValue > 0) {
+            $progressPercent = round(($completedValue / $totalValue) * 100);
+        }
+
+        $goal->progress_percent = $progressPercent;
+
+        // Update status based on progress
+        if ($progressPercent >= 100) {
+            $goal->status = 'completed';
+            $goal->progress_percent = 100; // Cap at 100
+        } elseif ($progressPercent > 0) {
+            $goal->status = 'in_progress';
+        } else {
+            $goal->status = 'not_started';
+        }
+
+        $goal->save();
     }
 }

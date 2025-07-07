@@ -3,66 +3,80 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="mb-6">
-        <a href="{{ route('categories.index') }}" class="text-blue-500 hover:text-blue-700">&larr; Back to Categories</a>
+        <a href="{{ route('categories.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">
+            <i class="fas fa-arrow-left mr-2"></i> Back to All Categories
+        </a>
     </div>
     
-    <div class="bg-white rounded-lg shadow overflow-hidden mb-8">
-        <div class="h-2" style="background-color: {{ $category->color }};"></div>
-        <div class="p-6">
-            <div class="flex justify-between items-start">
+    <!-- Category Header -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+        <div class="h-4" style="background-color: {{ $category->color }};"></div>
+        <div class="p-8">
+            <div class="flex flex-col md:flex-row justify-between items-start">
                 <div>
-                    <h1 class="text-3xl font-bold mb-2">{{ $category->name }}</h1>
-                    <p class="text-gray-600 mb-4">{{ $category->description }}</p>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $category->name }}</h1>
+                    <p class="text-gray-600 text-lg">{{ $category->description }}</p>
                 </div>
-                <div class="flex space-x-2">
-                    <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md">Edit</a>
+                <div class="flex space-x-3 mt-4 md:mt-0">
+                    <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-pencil-alt mr-2"></i>Edit
+                    </a>
                     <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">Delete</button>
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="mb-6 flex justify-between items-center">
-        <h2 class="text-2xl font-bold">Goals in this Category</h2>
-        <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Add New Goal</a>
+    <!-- Goals Section -->
+    <div class="mb-8 flex justify-between items-center">
+        <h2 class="text-3xl font-bold text-gray-800">Goals in this Category</h2>
+        <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <i class="fas fa-plus mr-2"></i> Add New Goal
+        </a>
     </div>
     
     @if($category->goals->count() > 0)
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($category->goals as $goal)
-                <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">{{ $goal->title }}</h3>
-                        <p class="text-gray-600 mb-4">{{ Str::limit($goal->description, 100) }}</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3 truncate">{{ $goal->title }}</h3>
+                        <p class="text-gray-600 mb-4 h-16 overflow-hidden">{{ Str::limit($goal->description, 100) }}</p>
                         
                         <div class="mb-4">
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $goal->progress_percentage }}%;"></div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-gray-700">Progress</span>
+                                <span class="text-sm font-bold" style="color: {{ $category->color }};">{{ $goal->progress_percent }}%</span>
                             </div>
-                            <div class="flex justify-between text-sm text-gray-500 mt-1">
-                                <span>Progress: {{ $goal->progress_percentage }}%</span>
-                                <span>{{ $goal->status }}</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="h-2.5 rounded-full" style="width: {{ $goal->progress_percent }}%; background-color: {{ $category->color }};"></div>
                             </div>
                         </div>
                         
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">{{ $goal->tasks->count() }} tasks</span>
-                            <div class="flex space-x-2">
-                                <a href="{{ route('goals.show', $goal->id) }}" class="text-blue-500 hover:text-blue-700">View</a>
-                            </div>
+                        <div class="mt-6 flex justify-between items-center">
+                            <span class="text-sm text-gray-500"><i class="fas fa-check-circle mr-1"></i> {{ $goal->tasks->where('is_completed', true)->count() }}/{{ $goal->tasks->count() }} tasks</span>
+                            <a href="{{ route('goals.show', $goal->id) }}" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300">
+                                View Details <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     @else
-        <div class="bg-white rounded-lg shadow p-6 text-center">
-            <p class="text-gray-500 mb-4">No goals in this category yet.</p>
-            <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Create Your First Goal</a>
+        <div class="text-center p-12 bg-white rounded-xl shadow-lg">
+            <i class="fas fa-bullseye-pointer text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">No Goals Yet</h2>
+            <p class="text-gray-500 mb-6">This category is waiting for its first goal. What will you achieve?</p>
+            <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-plus mr-2"></i> Create the First Goal
+            </a>
         </div>
     @endif
 </div>
