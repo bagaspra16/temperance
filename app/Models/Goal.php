@@ -110,4 +110,33 @@ class Goal extends Model
     {
         return now()->startOfDay() > $this->end_date->startOfDay() && $this->status !== 'completed';
     }
+/**
+     * Calculate the total duration of the goal in days.
+     *
+     * @return int|string
+     */
+    public function getDaysDurationAttribute()
+    {
+        if (!$this->end_date || !$this->start_date) {
+            return 'N/A';
+        }
+
+        return $this->start_date->diffInDays($this->end_date);
+    }
+/**
+     * Calculate the progress percentage based on completed tasks.
+     *
+     * @return int
+     */
+    public function getProgressPercentageAttribute()
+    {
+        $totalTasks = $this->tasks->count();
+        if ($totalTasks === 0) {
+            return 0;
+        }
+
+        $completedTasks = $this->tasks->where('is_completed', true)->count();
+
+        return round(($completedTasks / $totalTasks) * 100);
+    }
 }

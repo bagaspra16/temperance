@@ -3,18 +3,19 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-2xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold">Create New Category</h1>
-            <a href="{{ route('categories.index') }}" class="text-blue-500 hover:text-blue-700">Back to Categories</a>
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">Create a New Category</h1>
+            <p class="text-gray-500">Organize your goals with a fresh category.</p>
         </div>
         
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white rounded-xl shadow-lg p-8">
             <form action="{{ route('categories.store') }}" method="POST">
                 @csrf
                 
                 @if ($errors->any())
-                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                        <ul>
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
+                        <p class="font-bold">Oops! Something went wrong.</p>
+                        <ul class="mt-2 list-disc list-inside">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -22,23 +23,28 @@
                     </div>
                 @endif
                 
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
+                <div class="mb-6">
+                    <label for="name" class="block text-gray-700 font-semibold mb-2">Category Name</label>
+                    <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow" placeholder="e.g., Fitness, Work, Personal Growth" required>
                 </div>
                 
-                <div class="mb-4">
-                    <label for="color" class="block text-gray-700 font-medium mb-2">Color</label>
-                    <input type="color" name="color" id="color" value="{{ old('color', '#3b82f6') }}" class="w-full h-10 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                <div class="mb-6">
+                    <label for="color" class="block text-gray-700 font-semibold mb-2">Color</label>
+                    <input type="color" name="color" id="color" value="{{ old('color', '#3b82f6') }}" class="w-full h-12 p-1 border border-gray-300 rounded-lg shadow-sm cursor-pointer">
                 </div>
                 
-                <div class="mb-4">
-                    <label for="description" class="block text-gray-700 font-medium mb-2">Description</label>
-                    <textarea name="description" id="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">{{ old('description') }}</textarea>
+                <div class="mb-8">
+                    <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
+                    <textarea name="description" id="description" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow" placeholder="What is this category about?">{{ old('description') }}</textarea>
                 </div>
                 
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Create Category</button>
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('categories.index') }}" class="text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i> Cancel
+                    </a>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        <i class="fas fa-plus-circle mr-2"></i> Create Category
+                    </button>
                 </div>
             </form>
         </div>

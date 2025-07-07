@@ -80,7 +80,7 @@ class Task extends Model
      *
      * @return bool
      */
-    public function getCompletedAttribute()
+    public function getIsCompletedAttribute()
     {
         return $this->status === 'completed';
     }

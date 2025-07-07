@@ -11,6 +11,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Font Awesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -151,26 +156,41 @@
             </div>
         </nav>
 
+<script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 8000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+
+                    @if(session('success'))
+                        Toast.fire({
+                            icon: 'success',
+                            title: '{{ session('success') }}'
+                        })
+                    @endif
+
+                    @if(session('error'))
+                        Toast.fire({
+                            icon: 'error',
+                            title: '{{ session('error') }}'
+                        })
+                    @endif
+                });
+            </script>
         <!-- Page Content -->
         <main>
-            @if(session('success'))
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                        <p>{{ session('success') }}</p>
-                    </div>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-                        <p>{{ session('error') }}</p>
-                    </div>
-                </div>
-            @endif
 
             @yield('content')
         </main>
     </div>
+    @stack('scripts')
 </body>
 </html>
