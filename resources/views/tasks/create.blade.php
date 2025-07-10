@@ -64,15 +64,6 @@
                                 <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
                             </select>
                         </div>
-
-                        <div class="md:col-span-2">
-                            <label for="status" class="block text-gray-700 font-medium mb-2">Status</label>
-                            <select name="status" id="status" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                            </select>
-                        </div>
                     </div>
                     
                     <div class="flex justify-end mt-8">

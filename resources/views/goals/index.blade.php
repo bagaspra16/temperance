@@ -56,10 +56,10 @@
                         <div class="border-t border-gray-200 pt-4 flex justify-end items-center space-x-3">
                             <a href="{{ route('goals.show', $goal->id) }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">View Details</a>
                             <a href="{{ route('goals.edit', $goal->id) }}" class="text-yellow-500 hover:text-yellow-700 font-semibold transition-colors duration-300">Edit</a>
-                            <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this goal and all its tasks?');">
+                            <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700 font-semibold transition-colors duration-300">Delete</button>
+                                <button type="button" onclick="showDeleteConfirmation('delete-goal-form-{{ $goal->id }}', '{{ addslashes($goal->title) }}', 'goal and all its tasks')" class="text-red-500 hover:text-red-700 font-semibold transition-colors duration-300">Delete</button>
                             </form>
                         </div>
                     </div>
