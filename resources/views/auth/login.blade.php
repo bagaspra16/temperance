@@ -13,51 +13,23 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                    },
-                    fontFamily: {
-                        sans: ['Figtree', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'custom': '0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)',
-                    }
-                }
-            }
-        }
-    </script>
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
-<body class="font-sans antialiased bg-gradient-to-br from-primary-50 to-primary-100 min-h-screen flex items-center justify-center p-4">
+<body class="font-sans antialiased bg-gray-800 bg-gradient-to-br min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
         <!-- Logo -->
         <div class="text-center mb-8">
-            <h1 class="text-5xl font-bold text-primary-600 mb-2">Temperance</h1>
-            <p class="text-gray-600 text-lg">Track your goals and progress</p>
+            <h1 class="text-5xl font-bold text-pink-600 mb-2">Temperance</h1>
+            <p class="text-gray-400 text-lg">Track your goals and progress</p>
         </div>
 
         <!-- Card -->
-        <div class="bg-white rounded-2xl shadow-custom overflow-hidden border border-gray-100">
+        <div class="bg-gray-700 rounded-2xl shadow-custom overflow-hidden border border-pink-600">
             <div class="p-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome back</h2>
-                <p class="text-gray-500 mb-6">Please sign in to continue your journey</p>
+                <h2 class="text-2xl font-bold text-pink-600 mb-2">Welcome back</h2>
+                <p class="text-gray-400 mb-6">Please sign in to continue your journey</p>
 
                 @if ($errors->any())
                     <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6">
@@ -92,7 +64,7 @@
                                 </svg>
                             </div>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus 
-                                class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-gray-50">
+                                class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-gray-200">
                         </div>
                     </div>
 
@@ -100,7 +72,7 @@
                     <div class="mb-5">
                         <div class="flex justify-between">
                             <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                            <a href="#" class="text-sm text-primary-600 hover:text-primary-800 font-medium">Forgot password?</a>
+                            <a href="#" class="text-sm text-gray-400 hover:text-primary-800 font-medium">Forgot password?</a>
                         </div>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -109,7 +81,7 @@
                                 </svg>
                             </div>
                             <input id="password" type="password" name="password" required 
-                                class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-gray-50">
+                                class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-gray-200">
                         </div>
                     </div>
 
@@ -117,19 +89,19 @@
                     <div class="mb-6">
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="remember" class="rounded-md border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                            <span class="ml-2 text-sm text-gray-400">Remember me</span>
                         </label>
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 ease-in-out transform hover:translate-y-[-2px] hover:shadow-lg">
+                    <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-700 hover:to-pink-800  text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 ease-in-out transform hover:translate-y-[-2px] hover:shadow-lg">
                         Sign in
                     </button>
                 </form>
                 
                 <!-- Registration Link -->
                 <div class="text-center">
-                    <p class="text-sm text-gray-600">
+                    <p class="text-sm text-gray-400">
                         Don't have an account? 
                         <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:text-primary-800 transition-colors duration-200">Sign up</a>
                     </p>
