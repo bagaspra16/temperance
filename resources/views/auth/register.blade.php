@@ -13,51 +13,24 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                    },
-                    fontFamily: {
-                        sans: ['Figtree', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'custom': '0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)',
-                    }
-                }
-            }
-        }
-    </script>
+    
     
     <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
-<body class="font-sans antialiased bg-gradient-to-br from-primary-50 to-primary-100 min-h-screen flex items-center justify-center p-4">
+<body class="font-sans antialiased bg-gray-800 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
         <!-- Logo -->
         <div class="text-center mb-8">
-            <h1 class="text-5xl font-bold text-primary-600 mb-2">Temperance</h1>
-            <p class="text-gray-600 text-lg">Track your goals and progress</p>
+            <h1 class="text-5xl font-bold text-pink-500 mb-2">Temperance</h1>
+            <p class="text-gray-400 text-lg">Track your goals and progress</p>
         </div>
 
         <!-- Card -->
-        <div class="bg-white rounded-2xl shadow-custom overflow-hidden border border-gray-100">
+        <div class="bg-gray-700 rounded-2xl shadow-custom overflow-hidden border border-pink-600">
             <div class="p-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">Join Temperance</h2>
-                <p class="text-gray-500 mb-6">Create your account to start tracking your goals</p>
+                <h2 class="text-2xl font-bold text-pink-500 mb-2">Join Temperance</h2>
+                <p class="text-gray-400 mb-6">Create your account to start tracking your goals</p>
 
                 @if ($errors->any())
                     <div class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6">
@@ -83,7 +56,7 @@
 
                     <!-- Name -->
                     <div class="mb-5">
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <label for="name" class="block text-sm font-medium text-gray-50 mb-2">Full Name</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -97,7 +70,7 @@
 
                     <!-- Email -->
                     <div class="mb-5">
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <label for="email" class="block text-sm font-medium text-gray-50 mb-2">Email Address</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -112,7 +85,7 @@
 
                     <!-- Password -->
                     <div class="mb-5">
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <label for="password" class="block text-sm font-medium text-gray-50 mb-2">Password</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -122,12 +95,12 @@
                             <input id="password" type="password" name="password" required 
                                 class="w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-gray-50">
                         </div>
-                        <p class="mt-1 text-xs text-gray-500">Minimum 8 characters</p>
+                        <p class="mt-1 text-xs text-gray-400">Minimum 8 characters</p>
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="mb-5">
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-50 mb-2">Confirm Password</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -144,33 +117,33 @@
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="terms" required class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
                             <span class="ml-2 text-sm text-gray-600">
-                                I agree to the <a href="#" class="text-primary-600 hover:text-primary-700">Terms of Service</a> and <a href="#" class="text-primary-600 hover:text-primary-700">Privacy Policy</a>
+                                I agree to the <a href="#" class="text-gray-400 hover:text-pink-500">Terms of Service</a> and <a href="#" class="text-gray-400 hover:text-pink-500">Privacy Policy</a>
                             </span>
                         </label>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="mt-8">
-                        <button type="submit" class="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white py-3 px-4 rounded-xl hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-[1.02]">
+                        <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-700 hover:to-pink-800 text-white py-3 px-4 rounded-xl hover:from-primary-600 hover:to-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-[1.02]">
                             Create Account
                         </button>
                     </div>
                 </form>
 
                 <div class="mt-6 text-center">
-                    <p class="text-sm text-gray-600">
-                        Already have an account? <a href="{{ route('login') }}" class="text-primary-600 hover:text-primary-700 font-medium">Login here</a>
+                    <p class="text-sm text-gray-400">
+                        Already have an account? <a href="{{ route('login') }}" class="text-gray-400 hover:text-pink-500 font-medium">Login here</a>
                     </p>
                 </div>
                 
                 <div class="mt-8 text-center text-xs text-gray-500">
                     <p>By creating an account, you agree to our</p>
                     <div class="mt-1 space-x-1">
-                        <a href="#" class="text-primary-600 hover:text-primary-700">Privacy Policy</a>
+                        <a href="#" class="text-gray-500 hover:text-pink-500">Privacy Policy</a>
                         <span>&middot;</span>
-                        <a href="#" class="text-primary-600 hover:text-primary-700">Terms of Service</a>
+                        <a href="#" class="text-gray-500 hover:text-pink-500">Terms of Service</a>
                         <span>&middot;</span>
-                        <a href="#" class="text-primary-600 hover:text-primary-700">Contact Us</a>
+                        <a href="#" class="text-gray-500 hover:text-pink-500">Contact Us</a>
                     </div>
                 </div>
             </div>
