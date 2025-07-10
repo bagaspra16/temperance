@@ -33,10 +33,10 @@
                             <div class="flex space-x-3">
                                 <a href="{{ route('categories.show', $category->id) }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">View</a>
                                 <a href="{{ route('categories.edit', $category->id) }}" class="text-yellow-600 hover:text-yellow-800 font-semibold transition-colors duration-300">Edit</a>
-                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category and all its goals? This action cannot be undone.');">
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline" id="delete-category-form-{{ $category->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800 font-semibold transition-colors duration-300">Delete</button>
+                                    <button type="button" onclick="showDeleteConfirmation('delete-category-form-{{ $category->id }}', '{{ addslashes($category->name) }}', 'category and all its goals')" class="text-red-600 hover:text-red-800 font-semibold transition-colors duration-300">Delete</button>
                                 </form>
                             </div>
                         </div>

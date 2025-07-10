@@ -146,9 +146,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('tasks.show', $task->id) }}" class="text-pink-500 hover:text-pink-400 mr-3">View</a>
                                     @if($task->status !== 'completed')
-                                        <form action="{{ route('tasks.complete', $task->id) }}" method="POST" class="inline">
+                                        <form action="{{ route('tasks.complete', $task->id) }}" method="POST" class="inline" id="complete-task-form-{{ $task->id }}">
                                             @csrf
-                                            <button type="submit" class="text-green-500 hover:text-green-400">Complete</button>
+                                            <button type="button" onclick="showCompleteConfirmation('{{ $task->id }}', '{{ addslashes($task->title) }}')" class="text-green-500 hover:text-green-400">Complete</button>
                                         </form>
                                     @endif
                                 </td>
@@ -163,3 +163,47 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+function showCompleteConfirmation(taskId, taskTitle) {
+    Swal.fire({
+        title: 'Are you sure?',
+        html: `This will mark the task "<strong>${taskTitle}</strong>" as complete.`,
+        iconHtml: '<div class="w-24 h-24 rounded-full border-4 border-pink-500 flex items-center justify-center mx-auto animate-bounce"><i class="fas fa-check-double text-5xl text-pink-500"></i></div>',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Complete It!',
+        cancelButtonText: 'Cancel',
+        background: 'linear-gradient(to top right, #1f2937, #374151)',
+        reverseButtons: true,
+        customClass: {
+            popup: 'rounded-2xl shadow-2xl border border-gray-700',
+            icon: 'no-border',
+            title: 'text-3xl font-bold text-pink-400 pt-8',
+            htmlContainer: 'text-lg text-gray-300 pb-4',
+            actions: 'w-full flex justify-center gap-x-4 px-4',
+            confirmButton: 'bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300',
+            cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300'
+        },
+        buttonsStyling: false,
+        showClass: {
+            popup: 'animate__animated animate__fadeIn animate__faster'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOut animate__faster'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('complete-task-form-' + taskId).submit();
+        }
+    });
+}
+</script>
+<style>
+    .swal2-icon.no-border {
+        border: 0;
+    }
+    .animate__animated {
+        --animate-duration: 0.4s;
+    }
+</style>
+@endpush

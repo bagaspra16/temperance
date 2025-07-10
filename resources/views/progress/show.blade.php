@@ -16,10 +16,10 @@
                     <h1 class="text-4xl font-bold text-gray-800 mb-2">Progress Record</h1>
                     <p class="text-gray-500"><i class="far fa-clock mr-2"></i>Recorded on {{ $progress->created_at->format('M d, Y \a\t h:i A') }}</p>
                 </div>
-                <form action="{{ route('progress.destroy', $progress->id) }}" method="POST" class="inline mt-4 md:mt-0" onsubmit="return confirm('Are you sure you want to delete this progress record?');">
+                <form action="{{ route('progress.destroy', $progress->id) }}" method="POST" class="inline mt-4 md:mt-0" id="delete-progress-form-{{ $progress->id }}">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
+                    <button type="button" onclick="showDeleteConfirmation('delete-progress-form-{{ $progress->id }}', 'this progress record', 'progress record')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-trash-alt mr-2"></i>Delete Record
                     </button>
                 </form>

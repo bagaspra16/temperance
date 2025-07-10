@@ -16,6 +16,8 @@
 
 <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -73,10 +75,11 @@
                             </button>
                             <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                     @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                    <button type="button" onclick="showLogoutConfirmation('logout-form')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -84,7 +87,7 @@
 
                     <!-- Hamburger -->
                     <div class="-mr-2 flex items-center sm:hidden" x-data="{ open: false }">
-                        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-pink-400 hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-pink-400 transition duration-150 ease-in-out">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                 <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -92,12 +95,12 @@
                         </button>
                         
                         <!-- Mobile menu -->
-                        <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden fixed inset-0 z-40" style="background-color: rgba(0,0,0,0.4);" @click.self="open = false">
-                            <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl overflow-y-auto z-50">
+                        <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden fixed inset-0 z-40" style="background-color: rgba(0,0,0,0.5);" @click.self="open = false">
+                            <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-gray-900 shadow-xl overflow-y-auto z-50">
                                 <div class="p-6 space-y-6">
                                     <div class="flex items-center justify-between mb-6">
-                                        <h2 class="text-xl font-semibold text-gray-900">Menu</h2>
-                                        <button @click="open = false" class="text-gray-400 hover:text-gray-500">
+                                        <h2 class="text-xl font-semibold text-pink-400">Menu</h2>
+                                        <button @click="open = false" class="text-gray-400 hover:text-pink-400">
                                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
@@ -105,44 +108,41 @@
                                     </div>
                                     
                                     <nav class="space-y-3">
-                                        <a href="{{ route('dashboard') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('dashboard') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}">
+                                        <a href="{{ route('dashboard') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('dashboard') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Dashboard
                                         </a>
-                                        <a href="{{ route('categories.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('categories.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}">
+                                        <a href="{{ route('categories.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('categories.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Categories
                                         </a>
-                                        <a href="{{ route('goals.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('goals.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}">
+                                        <a href="{{ route('goals.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('goals.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Goals
                                         </a>
-                                        <a href="{{ route('tasks.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('tasks.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}">
+                                        <a href="{{ route('tasks.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('tasks.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Tasks
                                         </a>
-                                        <a href="{{ route('progress.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('progress.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50' }}">
+                                        <a href="{{ route('progress.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('progress.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Progress
                                         </a>
                                     </nav>
                                     
-                                    <div class="pt-6 mt-6 border-t border-gray-200">
+                                    <div class="pt-6 mt-6 border-t border-gray-700">
                                         <div class="flex items-center mb-4">
-                                            <div class="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold mr-3">
+                                            <div class="h-10 w-10 rounded-full bg-pink-600 flex items-center justify-center text-white font-semibold mr-3">
                                                 {{ substr(Auth::user()->name, 0, 1) }}
                                             </div>
                                             <div>
-                                                <p class="font-medium text-gray-900">{{ Auth::user()->name }}</p>
-                                                <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
+                                                <p class="font-medium text-gray-200">{{ Auth::user()->name }}</p>
+                                                <p class="text-sm text-gray-400">{{ Auth::user()->email }}</p>
                                             </div>
                                         </div>
                                         
                                         <div class="space-y-3">
-                                            <a href="#" class="block py-2.5 px-4 rounded text-gray-700 hover:bg-gray-50 transition">
+                                            <a href="#" class="block py-2.5 px-4 rounded text-gray-300 hover:bg-gray-800 hover:text-white transition">
                                                 Profile
                                             </a>
-                                            <a href="#" class="block py-2.5 px-4 rounded text-gray-700 hover:bg-gray-50 transition">
-                                                Settings
-                                            </a>
-                                            <form method="POST" action="{{ route('logout') }}">
+                                            <form method="POST" action="{{ route('logout') }}" id="mobile-logout-form">
                                                 @csrf
-                                                <button type="submit" class="w-full text-left py-2.5 px-4 rounded text-gray-700 hover:bg-gray-50 transition">
+                                                <button type="button" onclick="showLogoutConfirmation('mobile-logout-form')" class="w-full text-left py-2.5 px-4 rounded text-gray-300 hover:bg-gray-800 hover:text-white transition">
                                                     Logout
                                                 </button>
                                             </form>
@@ -191,6 +191,73 @@
             @yield('content')
         </main>
     </div>
+<script>
+    function showDeleteConfirmation(formId, itemName, itemType = 'item') {
+        Swal.fire({
+            title: 'Are you sure?',
+            html: `You are about to delete this ${itemType}: "<strong>${itemName}</strong>".<br>This action cannot be undone.`,
+            iconHtml: '<div class="w-24 h-24 rounded-full border-4 border-pink-500 flex items-center justify-center mx-auto animate-pulse"><i class="fas fa-trash-alt text-5xl text-pink-500"></i></div>',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Delete It!',
+            cancelButtonText: 'Cancel',
+            background: 'linear-gradient(to top right, #374151, #1f2937)',
+            reverseButtons: true,
+            customClass: {
+                popup: 'rounded-2xl shadow-2xl border border-gray-700',
+                icon: 'no-border',
+                title: 'text-3xl font-bold text-pink-400 pt-8',
+                htmlContainer: 'text-lg text-gray-300 pb-4',
+                actions: 'w-full flex justify-center gap-x-4 px-4',
+                confirmButton: 'bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300',
+                cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300'
+            },
+            buttonsStyling: false,
+            showClass: {
+                popup: 'animate__animated animate__fadeIn animate__faster'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOut animate__faster'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
+    }
+
+    function showLogoutConfirmation(formId) {
+        Swal.fire({
+            title: 'Ready to leave?',
+            text: "You are about to logout. Are you sure?",
+            iconHtml: '<div class="w-24 h-24 rounded-full border-4 border-pink-500 flex items-center justify-center mx-auto animate-bounce"><i class="fas fa-sign-out-alt text-5xl text-pink-500"></i></div>',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Logout!',
+            cancelButtonText: 'Stay',
+            background: 'linear-gradient(to top right, #374151, #1f2937)',
+            reverseButtons: true,
+            customClass: {
+                popup: 'rounded-2xl shadow-2xl border border-gray-700',
+                icon: 'no-border',
+                title: 'text-3xl font-bold text-pink-400 pt-8',
+                htmlContainer: 'text-lg text-gray-300 pb-4',
+                actions: 'w-full flex justify-center gap-x-4 px-4',
+                confirmButton: 'bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300',
+                cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300'
+            },
+            buttonsStyling: false,
+            showClass: {
+                popup: 'animate__animated animate__fadeIn animate__faster'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOut animate__faster'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(formId).submit();
+            }
+        });
+    }
+</script>
     @stack('scripts')
 </body>
 </html>
