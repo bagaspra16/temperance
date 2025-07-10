@@ -62,6 +62,7 @@ class TaskController extends Controller
         }
 
         $task = new Task($request->all());
+        $task->status = 'pending';
         $task->user_id = Auth::id();
         $task->save();
 
