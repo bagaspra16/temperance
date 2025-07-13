@@ -9,9 +9,9 @@
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div class="p-8">
-                <h1 class="text-4xl font-bold text-gray-800 mb-2">Create a New Goal</h1>
+                <h1 class="text-4xl font-bold text-gray-100 mb-2">Create a New Goal</h1>
                 <p class="text-gray-600 mb-8">Let's set up your next big achievement.</p>
 
                 <form action="{{ route('goals.store') }}" method="POST">
