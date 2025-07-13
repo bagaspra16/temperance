@@ -376,7 +376,7 @@ function showDateDetails(dateKey, dateString) {
                                     <p class="text-xs sm:text-sm text-gray-300 mb-2 sm:mb-3">${task.goal_title || 'No Goal'}</p>
                                     <div class="flex items-center space-x-2 sm:space-x-3">
                                         <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${task.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}">
-                                            ${task.status.charAt(0).toUpperCase() + task.status.slice(1)}
+                                            ${task.status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                                         </span>
                                         <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${task.priority === 'high' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : (task.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' : 'bg-green-500/20 text-green-300 border border-green-500/30')}">
                                             ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
@@ -421,7 +421,7 @@ function showDateDetails(dateKey, dateString) {
                                     </div>
                                     <div class="flex items-center space-x-2 sm:space-x-3">
                                         <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${goal.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}">
-                                            ${goal.status.charAt(0).toUpperCase() + goal.status.slice(1)}
+                                            ${goal.status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                                         </span>
                                         <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${goal.priority === 'high' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : (goal.priority === 'medium' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' : 'bg-green-500/20 text-green-300 border border-green-500/30')}">
                                             ${goal.priority.charAt(0).toUpperCase() + goal.priority.slice(1)}
