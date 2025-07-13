@@ -30,7 +30,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </head>
-<body class="font-sans antialiased bg-black-100">
+<body class="font-sans size-18 rounded-full bg-gradient-to-b from-gray-800 via-gray-800 via-gray-900 to-pink-950">
     <div class="min-h-screen">
         <nav class="bg-black-100 border-b border-gray-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,20 +43,20 @@
 
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                            <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('dashboard') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Dashboard
                             </a>
-                            <a href="{{ route('categories.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('categories.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                            <a href="{{ route('categories.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('categories.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Categories
                             </a>
-                            <a href="{{ route('goals.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('goals.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                            <a href="{{ route('goals.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('goals.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Goals
                             </a>
 
-                            <a href="{{ route('tasks.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('tasks.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                            <a href="{{ route('tasks.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('tasks.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Tasks
                             </a>
-                            <a href="{{ route('progress.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('progress.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                            <a href="{{ route('progress.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('progress.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Progress
                             </a>
                         </div>
@@ -65,8 +65,8 @@
                     <!-- User Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                         <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 focus:outline-none">
-                                <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-pink-700 focus:outline-none">
+                                <div class="h-8 w-8 rounded-full bg-pink-500 flex items-center justify-center text-white font-semibold">
                                     {{ substr(Auth::user()->name, 0, 1) }}
                                 </div>
                                 <span>{{ Auth::user()->name }}</span>
@@ -74,11 +74,11 @@
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </button>
-                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600">Profile</a>
                                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                     @csrf
-                                    <button type="button" onclick="showLogoutConfirmation('logout-form')" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <button type="button" onclick="showLogoutConfirmation('logout-form')" class="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600">
                                         Logout
                                     </button>
                                 </form>

@@ -116,7 +116,7 @@
                     <div class="mb-6">
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="terms" required class="rounded border-gray-300 text-primary-600 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-600">
+                            <span class="ml-2 text-sm text-gray-500">
                                 I agree to the <a href="#" class="text-gray-400 hover:text-pink-500">Terms of Service</a> and <a href="#" class="text-gray-400 hover:text-pink-500">Privacy Policy</a>
                             </span>
                         </label>

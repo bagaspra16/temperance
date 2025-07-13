@@ -193,7 +193,7 @@
     </div>
 
     <!-- Recent Tasks Section -->
-    <div class="mt-8 bg-gray-800 rounded-lg shadow p-6">
+    <div class=" mt-8 mb-8 bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-600">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Recent Tasks</h2>
             <a href="{{ route('tasks.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
