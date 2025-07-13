@@ -4,9 +4,14 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-bold text-gray-800">Your Goals</h1>
-        <a href="{{ route('goals.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
-            <i class="fas fa-plus mr-2"></i> Add New Goal
-        </a>
+        <div class="flex space-x-4">
+            <a href="{{ route('goals.calendar') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-calendar-alt mr-2"></i> Calendar View
+            </a>
+            <a href="{{ route('goals.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <i class="fas fa-plus mr-2"></i> Add New Goal
+            </a>
+        </div>
     </div>
 
     @if(session('success'))

@@ -52,6 +52,7 @@
                             <a href="{{ route('goals.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('goals.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Goals
                             </a>
+
                             <a href="{{ route('tasks.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('tasks.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Tasks
                             </a>
@@ -117,6 +118,7 @@
                                         <a href="{{ route('goals.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('goals.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Goals
                                         </a>
+
                                         <a href="{{ route('tasks.index') }}" class="block py-2.5 px-4 rounded transition {{ request()->routeIs('tasks.*') ? 'bg-gray-800 text-pink-400' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
                                             Tasks
                                         </a>
