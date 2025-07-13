@@ -27,11 +27,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/calendar/details', [DashboardController::class, 'getDateDetails'])->name('dashboard.calendar.details');
     
     // Categories
     Route::resource('categories', CategoryController::class);
     
     // Goals
+    Route::get('/goals/calendar', [GoalController::class, 'calendar'])->name('goals.calendar');
+    Route::get('/goals/calendar/details', [GoalController::class, 'getDateDetails'])->name('goals.calendar.details');
     Route::resource('goals', GoalController::class);
     Route::patch('/goals/{id}/progress', [GoalController::class, 'updateProgress'])->name('goals.progress');
     
