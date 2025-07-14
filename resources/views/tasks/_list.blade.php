@@ -1,7 +1,7 @@
 @if($tasks->count() > 0)
     <div class="divide-y divide-gray-200">
         @foreach($tasks as $task)
-            <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+            <div class="p-6 hover:bg-transparent transition-colors duration-200">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <form action="{{ route('tasks.complete', $task->id) }}" method="POST" id="complete-task-form-{{ $task->id }}">
@@ -13,7 +13,7 @@
                             </button>
                         </form>
                         <div>
-                            <a href="{{ route('tasks.show', $task->id) }}" class="text-lg font-bold text-gray-800 hover:text-blue-600 {{ $task->is_completed ? 'line-through text-gray-500' : '' }}">{{ $task->title }}</a>
+                            <a href="{{ route('tasks.show', $task->id) }}" class="text-lg font-bold text-gray-200 hover:text-blue-600 {{ $task->is_completed ? 'line-through text-gray-500' : '' }}">{{ $task->title }}</a>
                             <div class="flex items-center space-x-4 text-sm text-gray-500 mt-1">
                                 <span>Goal: <a href="{{ route('goals.show', $task->goal->id) }}" class="font-medium text-blue-500 hover:underline">{{ $task->goal->title }}</a></span>
                                 <span class="hidden sm:inline">|</span>
