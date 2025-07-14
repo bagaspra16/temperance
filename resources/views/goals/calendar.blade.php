@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-900">
+<div class="min-h-screen">
     <div class="container mx-auto px-3 sm:px-4 py-4 sm:py-6 lg:py-8">
         <!-- Enhanced Header with Filters -->
         <div class="bg-gray-800/50 backdrop-blur-sm rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 border border-gray-600/50">

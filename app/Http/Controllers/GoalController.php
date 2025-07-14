@@ -23,7 +23,9 @@ class GoalController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(9);
         
-        return view('goals.index', compact('goals'));
+        $categories = Category::where('user_id', Auth::id())->get();
+
+        return view('goals.index', compact('goals', 'categories'));
     }
 
     /**

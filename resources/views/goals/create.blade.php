@@ -4,21 +4,18 @@
 <div class="container mx-auto px-4 py-8" x-data="{ progress: {{ old('progress_percent', 0) }}, status: '{{ old('status', 'not_started') }}' }">
     <div class="max-w-3xl mx-auto">
         <div class="flex items-center justify-between mb-6">
-            <a href="{{ route('goals.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">
-                <i class="fas fa-arrow-left mr-2"></i> Back to Goals
+            <a href="{{ route('goals.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back to Goals
             </a>
         </div>
-
-        <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+        <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-pink-500/10">
             <div class="p-8">
-                <h1 class="text-4xl font-bold text-gray-100 mb-2">Create a New Goal</h1>
-                <p class="text-gray-600 mb-8">Let's set up your next big achievement.</p>
-
+                <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2">Create a New Goal</h1>
+                <p class="text-gray-300 mb-8">Let's set up your next big achievement.</p>
                 <form action="{{ route('goals.store') }}" method="POST">
                     @csrf
-                    
                     @if ($errors->any())
-                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
+                        <div class="bg-pink-100 border-l-4 border-pink-500 text-pink-800 p-4 mb-6 rounded-xl" role="alert">
                             <p class="font-bold">Please fix the errors below:</p>
                             <ul class="mt-2 list-disc list-inside">
                                 @foreach ($errors->all() as $error)
@@ -27,21 +24,18 @@
                             </ul>
                         </div>
                     @endif
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2">
-                            <label for="title" class="block text-gray-700 font-medium mb-2">Goal Title</label>
-                            <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="e.g., Learn Laravel from scratch" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="md:col-span-3">
+                            <label for="title" class="block text-pink-200 font-medium mb-2">Goal Title</label>
+                            <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="e.g., Learn Laravel from scratch" class="w-full border-gray-50 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
                         </div>
-                        
-                        <div class="md:col-span-2">
-                            <label for="description" class="block text-gray-700 font-medium mb-2">Description</label>
-                            <textarea name="description" id="description" rows="4" placeholder="Describe what you want to accomplish." class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">{{ old('description') }}</textarea>
+                        <div class="md:col-span-3">
+                            <label for="description" class="block text-pink-200 font-medium mb-2">Description</label>
+                            <textarea name="description" id="description" rows="3" placeholder="Describe what you want to accomplish." class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">{{ old('description') }}</textarea>
                         </div>
-
                         <div>
-                            <label for="category_id" class="block text-gray-700 font-medium mb-2">Category</label>
-                            <select name="category_id" id="category_id" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
+                            <label for="category_id" class="block text-pink-200 font-medium mb-2">Category</label>
+                            <select name="category_id" id="category_id" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
                                 <option value="">Select a category</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ (old('category_id') == $category->id || request('category_id') == $category->id) ? 'selected' : '' }}>
@@ -50,44 +44,30 @@
                                 @endforeach
                             </select>
                         </div>
-
                         <div>
-                            <label for="priority" class="block text-gray-700 font-medium mb-2">Priority</label>
-                            <select name="priority" id="priority" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
+                            <label for="priority" class="block text-pink-200 font-medium mb-2">Priority</label>
+                            <select name="priority" id="priority" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
                                 <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low</option>
                                 <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
                                 <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
                             </select>
                         </div>
-                        
                         <div>
-                            <label for="start_date" class="block text-gray-700 font-medium mb-2">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') ?? date('Y-m-d') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                            <label for="start_date" class="block text-pink-200 font-medium mb-2">Start Date</label>
+                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') ?? date('Y-m-d') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
                         </div>
-                        
                         <div>
-                            <label for="end_date" class="block text-gray-700 font-medium mb-2">Target Date</label>
-                            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                            <label for="end_date" class="block text-pink-200 font-medium mb-2">Target Date</label>
+                            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
                         </div>
-                        
-                        <div class="md:col-span-2">
-                            <label for="progress_percent" class="block text-gray-700 font-medium mb-2">Initial Progress: <span x-text="progress + '%'" class="font-bold"></span></label>
-                            <input type="range" name="progress_percent" id="progress_percent" min="0" max="100" step="5" x-model="progress" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
-                        </div>
-                        
-                        <div class="md:col-span-2">
-                            <label for="status" class="block text-gray-700 font-medium mb-2">Initial Status</label>
-                            <select name="status" id="status" x-model="status" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" required>
-                                <option value="not_started">Not Started</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </div>
+                        <!-- Remove progress and status input fields -->
+                        <!-- Add hidden inputs for default values -->
+                        <input type="hidden" name="progress_percent" value="0">
+                        <input type="hidden" name="status" value="not_started">
                     </div>
-                    
                     <div class="flex justify-end mt-8">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
-                            <i class="fas fa-check mr-2"></i> Create Goal
+                        <button type="submit" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-8 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                            <i class="fas fa-check"></i> Create Goal
                         </button>
                     </div>
                 </form>
