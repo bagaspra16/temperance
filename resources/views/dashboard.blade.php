@@ -8,7 +8,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Stats Cards -->
-        <div class="bg-gray-800 rounded-lg shadow p-6 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
+        <div class="bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
             <div>
                 <h2 class="text-lg font-semibold">Total Goals</h2>
                 <p class="text-3xl font-bold">{{ $totalGoals }}</p>
@@ -16,7 +16,7 @@
             <i class="fas fa-bullseye text-4xl text-pink-500"></i>
         </div>
 
-        <div class="bg-gray-800 rounded-lg shadow p-6 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
+        <div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
             <div>
                 <h2 class="text-lg font-semibold">Completed Goals</h2>
                 <p class="text-3xl font-bold">{{ $completedGoals }}</p>
@@ -24,7 +24,7 @@
             <i class="fas fa-check-circle text-4xl text-green-500"></i>
         </div>
 
-        <div class="bg-gray-800 rounded-lg shadow p-6 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
+        <div class="bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
             <div>
                 <h2 class="text-lg font-semibold">Total Tasks</h2>
                 <p class="text-3xl font-bold">{{ $totalTasks }}</p>
@@ -32,7 +32,7 @@
             <i class="fas fa-tasks text-4xl text-blue-500"></i>
         </div>
 
-        <div class="bg-gray-800 rounded-lg shadow p-6 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
+        <div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600 flex items-center justify-between transform hover:scale-105 transition-transform duration-300">
             <div>
                 <h2 class="text-lg font-semibold">Completed Tasks</h2>
                 <p class="text-3xl font-bold">{{ $completedTasks }}</p>
@@ -44,7 +44,7 @@
     <!-- Calendar Section -->
     <div class="mt-8 mb-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-gray-600/50">
         <!-- Calendar Header -->
-        <div class="bg-gradient-to-r from-gray-700/90 to-gray-800/90 backdrop-blur-sm p-4 sm:p-6 border-b border-gray-600/50">
+        <div class="bg-gradient-to-l from-gray-700/90 to-gray-800/90 backdrop-blur-sm p-4 sm:p-6 border-b border-gray-600/50">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
                 <div class="flex items-center space-x-3 sm:space-x-5">
                     <div class="p-2 sm:p-3 lg:p-4 bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl sm:rounded-2xl shadow-lg">
@@ -66,7 +66,7 @@
         <!-- Calendar Grid -->
         <div class="bg-gray-800/50 backdrop-blur-sm">
             <!-- Weekday Headers -->
-            <div class="grid grid-cols-7 bg-gradient-to-r from-gray-700/90 to-gray-800/90 backdrop-blur-sm border-b border-gray-600/50">
+            <div class="grid grid-cols-7 bg-gradient-to-l from-gray-700/90 to-gray-800/90 backdrop-blur-sm border-b border-gray-600/50">
                 @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $dayName)
                     <div class="p-2 sm:p-3 lg:p-4 text-center">
                         <span class="text-xs sm:text-sm font-bold text-gray-300 uppercase tracking-wider">{{ $dayName }}</span>
@@ -133,7 +133,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Categories Section -->
-        <div class="bg-gray-800 rounded-lg shadow p-6">
+        <div class="bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Your Categories</h2>
                 <a href="{{ route('categories.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
@@ -157,7 +157,7 @@
         </div>
 
         <!-- Upcoming Goals Section -->
-        <div class="bg-gray-800 rounded-lg shadow p-6">
+        <div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Upcoming Goals</h2>
                 <a href="{{ route('goals.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
@@ -193,7 +193,7 @@
     </div>
 
     <!-- Recent Tasks Section -->
-    <div class=" mt-8 mb-8 bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-600">
+    <div class=" mt-8 mb-8 bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Recent Tasks</h2>
             <a href="{{ route('tasks.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
