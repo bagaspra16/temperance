@@ -3,19 +3,19 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="mb-6">
-        <a href="{{ route('categories.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">
+        <a href="{{ route('categories.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300">
             <i class="fas fa-arrow-left mr-2"></i> Back to All Categories
         </a>
     </div>
     
     <!-- Category Header -->
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
         <div class="h-4" style="background-color: {{ $category->color }};"></div>
         <div class="p-8">
             <div class="flex flex-col md:flex-row justify-between items-start">
                 <div>
-                    <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $category->name }}</h1>
-                    <p class="text-gray-600 text-lg">{{ $category->description }}</p>
+                    <h1 class="text-4xl font-bold text-pink-500 mb-2">{{ $category->name }}</h1>
+                    <p class="text-gray-400 text-lg">{{ $category->description }}</p>
                 </div>
                 <div class="flex space-x-3 mt-4 md:mt-0">
                     <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-5 rounded-lg shadow-md transform hover:scale-105 transition-transform duration-300">
@@ -35,8 +35,8 @@
     
     <!-- Goals Section -->
     <div class="mb-8 flex justify-between items-center">
-        <h2 class="text-3xl font-bold text-gray-800">Goals in this Category</h2>
-        <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+        <h2 class="text-3xl font-bold text-pink-500">Goals in this Category</h2>
+        <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="bg-gradient-to-r from-pink-600 to-pink-800 hover:bg-gradient-to-l from-pink-600 to-pink-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <i class="fas fa-plus mr-2"></i> Add New Goal
         </a>
     </div>
@@ -70,11 +70,11 @@
             @endforeach
         </div>
     @else
-        <div class="text-center p-12 bg-white rounded-xl shadow-lg">
+        <div class="text-center p-12 bg-gray-800 rounded-xl shadow-lg">
             <i class="fas fa-bullseye-pointer text-6xl text-gray-300 mb-4"></i>
-            <h2 class="text-2xl font-semibold text-gray-700 mb-2">No Goals Yet</h2>
+            <h2 class="text-2xl font-semibold text-pink-500 mb-2">No Goals Yet</h2>
             <p class="text-gray-500 mb-6">This category is waiting for its first goal. What will you achieve?</p>
-            <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <a href="{{ route('goals.create', ['category_id' => $category->id]) }}" class="inline-block bg-gradient-to-r from-pink-600 to-pink-800 hover:bg-gradient-to-l from-pink-600 to-pink-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
                 <i class="fas fa-plus mr-2"></i> Create the First Goal
             </a>
         </div>
