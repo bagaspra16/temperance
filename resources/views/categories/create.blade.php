@@ -25,24 +25,24 @@
                 
                 <div class="mb-6">
                     <label for="name" class="block text-gray-500 font-semibold mb-2">Category Name</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full px-4 py-3 border bg-transparent text-gray-100 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent transition-shadow" placeholder="e.g., Fitness, Work, Personal Growth" required>
+                    <input type="text" name="name" id="name" value="{{ old('name') }}" class="w-full px-4 py-3 border bg-transparent text-gray-100 border-gray-500 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent transition-shadow" placeholder="e.g., Fitness, Work, Personal Growth" required>
                 </div>
                 
                 <div class="mb-6">
                     <label for="color" class="block text-gray-500 font-semibold mb-2">Color</label>
-                    <input type="color" name="color" id="color" value="{{ old('color', '#3b82f6') }}" class="w-full h-12 p-1 border border-gray-300 rounded-lg shadow-sm cursor-pointer">
+                    <input type="color" name="color" id="color" value="{{ old('color', '#3b82f6') }}" class="w-full h-12 p-1 border border-gray-500 rounded-lg shadow-sm cursor-pointer">
                 </div>
                 
                 <div class="mb-8">
                     <label for="description" class="block text-gray-500 font-semibold mb-2">Description</label>
-                    <textarea name="description" id="description" rows="4" class="w-full px-4 py-3 text-gray-100 border border-gray-300 bg-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent transition-shadow" placeholder="What is this category about?">{{ old('description') }}</textarea>
+                    <textarea name="description" id="description" rows="4" class="w-full px-4 py-3 text-gray-100 border border-gray-500 bg-transparent rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-600 focus:border-transparent transition-shadow" placeholder="What is this category about?">{{ old('description') }}</textarea>
                 </div>
                 
                 <div class="flex justify-between items-center">
                     <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-gray-800 font-semibold transition-colors duration-300">
                         <i class="fas fa-arrow-left mr-2"></i> Cancel
                     </a>
-                    <button type="submit" class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                    <button type="submit" class="bg-gradient-to-tl from-pink-500 hover:bg-pink-700 hover:bg-gradient-to-br from-pink-500 to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
                         <i class="fas fa-plus-circle mr-2"></i> Create Category
                     </button>
                 </div>
