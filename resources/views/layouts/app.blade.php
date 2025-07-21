@@ -609,7 +609,7 @@
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
-                        timer: 8000,
+                        timer: 5000,
                         timerProgressBar: true,
                         didOpen: (toast) => {
                             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -718,30 +718,23 @@
 
     function showLogoutConfirmation(formId) {
         Swal.fire({
-            title: 'Ready to leave?',
-            text: "You are about to logout. Are you sure?",
-            iconHtml: '<div class="w-24 h-24 rounded-full border-4 border-pink-500 flex items-center justify-center mx-auto animate-bounce"><i class="fas fa-sign-out-alt text-5xl text-pink-500"></i></div>',
+            title: 'Logout from Temperance?',
+            html: `Are you sure you want to logout from the application?<br><span class='text-sm text-gray-400'>All changes will be saved automatically.</span>`,
+            icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Yes, Logout!',
-            cancelButtonText: 'Stay',
-            background: 'linear-gradient(to top right, #374151, #1f2937)',
-            reverseButtons: true,
+            cancelButtonText: 'Cancel',
+            background: 'linear-gradient(to top right, #1f2937, #374151)',
             customClass: {
                 popup: 'rounded-2xl shadow-2xl border border-gray-700',
-                icon: 'no-border',
-                title: 'text-3xl font-bold text-pink-400 pt-8',
+                title: 'text-2xl font-bold text-pink-400 pt-4',
                 htmlContainer: 'text-lg text-gray-300 pb-4',
                 actions: 'w-full flex justify-center gap-x-4 px-4',
-                confirmButton: 'bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300',
-                cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300'
+                confirmButton: 'bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
+                cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
             },
             buttonsStyling: false,
-            showClass: {
-                popup: 'animate__animated animate__fadeIn animate__faster'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__fadeOut animate__faster'
-            }
+            focusCancel: true
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById(formId).submit();

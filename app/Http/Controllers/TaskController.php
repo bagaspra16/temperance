@@ -216,6 +216,126 @@ class TaskController extends Controller
         return redirect()->back()
             ->with('success', 'Task marked as completed.');
     }
+
+    /**
+     * Start a task (change status to in_progress).
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function start(string $id)
+    {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if (!$task->canBeStarted()) {
+            return redirect()->back()->with('error', 'Task cannot be started. Status must be pending.');
+        }
+
+        $task->status = 'in_progress';
+        $task->start_time = now();
+        $task->save();
+
+        // Create progress record
+        $task->progressRecords()->create([
+            'note' => 'Task dimulai',
+            'progress_value' => 25,
+            'user_id' => Auth::id(),
+            'task_id' => $task->id
+        ]);
+
+        return redirect()->back()
+            ->with('success', '🎯 Task started successfully! Keep up the great work!');
+    }
+
+    /**
+     * Complete a task from in_progress status.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function complete(string $id)
+    {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if (!$task->canBeCompleted()) {
+            return redirect()->back()->with('error', 'Task cannot be completed. Status must be in_progress.');
+        }
+
+        $task->status = 'completed';
+        $task->completed_time = now();
+        $task->completed_at = now();
+        
+        // Calculate duration if start_time exists
+        if ($task->start_time) {
+            $duration = ceil($task->start_time->floatDiffInMinutes($task->completed_time));
+            $task->duration_minutes = (int) $duration;
+        }
+        
+        $task->save();
+
+        // Create progress record
+        $task->progressRecords()->create([
+            'note' => 'Task selesai dikerjakan',
+            'progress_value' => 100,
+            'user_id' => Auth::id(),
+            'task_id' => $task->id
+        ]);
+
+        // Update goal progress
+        $this->updateGoalProgress($task->goal_id);
+
+        $durationMessage = $task->duration_minutes ? " dengan durasi {$task->formatted_duration}" : "";
+        
+        return redirect()->back()
+            ->with('success', "🎉 Excellent! You've successfully completed this task{$durationMessage}!");
+    }
+
+    /**
+     * Force complete a task from pending status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function forceComplete(Request $request, string $id)
+    {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        if (!$task->canBeForceCompleted()) {
+            return redirect()->back()->with('error', 'Task cannot be completed directly. Status must be pending.');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'force_complete_reason' => 'required|string|min:10|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('show_force_complete_modal', true);
+        }
+
+        $task->status = 'completed';
+        $task->completed_time = now();
+        $task->completed_at = now();
+        $task->force_complete_reason = $request->force_complete_reason;
+        $task->duration_minutes = 0; // No duration for force complete
+        $task->save();
+
+        // Create progress record
+        $task->progressRecords()->create([
+            'note' => 'Task diselesaikan langsung: ' . $request->force_complete_reason,
+            'progress_value' => 100,
+            'user_id' => Auth::id(),
+            'task_id' => $task->id
+        ]);
+
+        // Update goal progress
+        $this->updateGoalProgress($task->goal_id);
+
+        return redirect()->back()
+            ->with('success', '✅ Task completed directly! Thank you for the explanation.');
+    }
     
     /**
      * Update the progress of the associated goal.

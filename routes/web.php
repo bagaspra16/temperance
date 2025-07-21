@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/calendar/details', [DashboardController::class, 'getDateDetails'])->name('dashboard.calendar.details');
+    Route::get('/dashboard/weekly-time-stats', [DashboardController::class, 'getWeeklyTimeStats'])->name('dashboard.weekly-time-stats');
     
     // Categories
     Route::resource('categories', CategoryController::class);
@@ -41,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     // Tasks
     Route::resource('tasks', TaskController::class);
     Route::post('/tasks/{id}/complete', [TaskController::class, 'markAsCompleted'])->name('tasks.complete');
+    Route::post('/tasks/{id}/start', [TaskController::class, 'start'])->name('tasks.start');
+    Route::post('/tasks/{id}/finish', [TaskController::class, 'complete'])->name('tasks.finish');
+    Route::post('/tasks/{id}/force-complete', [TaskController::class, 'forceComplete'])->name('tasks.force-complete');
     
     // Progress
     Route::resource('progress', ProgressController::class);

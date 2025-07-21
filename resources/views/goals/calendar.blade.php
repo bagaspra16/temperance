@@ -133,15 +133,42 @@
                         <div class="space-y-1 sm:space-y-2">
                             @foreach($taskEvents->take(2) as $event)
                                 <div class="group/event relative">
-                                    <div class="flex items-center p-1.5 sm:p-2 rounded-lg sm:rounded-xl text-xs hover:bg-gray-600/50 hover:shadow-md transition-all duration-200 transform hover:scale-105 backdrop-blur-sm"
-                                         style="border-left: 2px solid {{ $event['color'] }}; background: linear-gradient(90deg, {{ $event['color'] }}15 0%, transparent 100%);"
+                                    <div class="flex items-center p-2 sm:p-2.5 rounded-xl text-xs hover:bg-gray-600/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-gray-600/30"
+                                         style="background: linear-gradient(135deg, {{ $event['color'] }}20 0%, {{ $event['color'] }}10 50%, transparent 100%);"
                                          data-priority="{{ $event['priority'] }}" 
                                          data-status="{{ $event['status'] }}" 
                                          data-category="{{ $event['task']->goal->category->id ?? '' }}">
-                                        <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full mr-1.5 sm:mr-2 shadow-sm" style="background-color: {{ $event['color'] }};"></div>
-                                        <span class="font-semibold text-gray-200 truncate text-xs">{{ $event['title'] }}</span>
+                                        
+                                        <!-- Enhanced Task Icon -->
+                                        <div class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-lg mr-2 flex items-center justify-center transition-all duration-300 group-hover/event:scale-110
+                                            @if($event['status'] === 'completed')
+                                                bg-gradient-to-br from-green-400 to-green-600 shadow-sm shadow-green-500/30
+                                            @elseif($event['status'] === 'in_progress')
+                                                bg-gradient-to-br from-blue-400 to-blue-600 shadow-sm shadow-blue-500/30 animate-pulse
+                                            @else
+                                                bg-gradient-to-br from-yellow-400 to-orange-500 shadow-sm shadow-yellow-500/30
+                                            @endif">
+                                            
+                                            @if($event['status'] === 'completed')
+                                                <i class="fas fa-check text-xs text-white"></i>
+                                            @elseif($event['status'] === 'in_progress')
+                                                <i class="fas fa-play text-xs text-white ml-0.5"></i>
+                                            @else
+                                                <i class="fas fa-clock text-xs text-white"></i>
+                                            @endif
+                                        </div>
+                                        
+                                        <span class="font-semibold text-gray-200 truncate text-xs flex-1">{{ $event['title'] }}</span>
+                                        
+                                        <!-- Priority Indicator -->
                                         @if($event['priority'] === 'high')
-                                            <i class="fas fa-exclamation-triangle text-red-400 ml-1 text-xs animate-pulse"></i>
+                                            <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-500 border border-white shadow-sm flex items-center justify-center ml-1">
+                                                <i class="fas fa-exclamation-triangle text-xs text-white"></i>
+                                            </div>
+                                        @elseif($event['priority'] === 'medium')
+                                            <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-500 border border-white shadow-sm flex items-center justify-center ml-1">
+                                                <i class="fas fa-minus text-xs text-white"></i>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
@@ -149,12 +176,10 @@
 
                             <!-- More Tasks Indicator -->
                             @if($taskEvents->count() > 2)
-                                <div class="text-xs text-gray-400 text-center py-1 sm:py-1.5 bg-gray-700/50 rounded-lg font-medium backdrop-blur-sm border border-gray-600/30">
-                                    {{ $taskEvents->count() - 2 }} more...
+                                <div class="text-xs text-gray-400 text-center py-1 sm:py-1.5 bg-gray-700/50 rounded-lg font-medium backdrop-blur-sm border border-gray-600/30 hover:bg-gray-600/50 transition-colors duration-200">
+                                    <i class="fas fa-plus mr-1"></i>{{ $taskEvents->count() - 2 }} more...
                                 </div>
                             @endif
-                            
-
                         </div>
                     </div>
                 @endforeach
@@ -369,11 +394,27 @@ function showDateDetails(dateKey, dateString) {
                         taskElement.innerHTML = `
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <div class="flex items-center space-x-2 sm:space-x-3 mb-2">
-                                        <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${task.status === 'completed' ? 'bg-green-400' : 'bg-yellow-400'} shadow-sm"></div>
+                                    <div class="flex items-center space-x-3 sm:space-x-4 mb-3">
+                                        <!-- Enhanced Task Icon -->
+                                        <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110
+                                            ${task.status === 'completed' 
+                                                ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30' 
+                                                : task.status === 'in_progress' 
+                                                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/30 animate-pulse' 
+                                                    : 'bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-yellow-500/30'}">
+                                            
+                                            ${task.status === 'completed' 
+                                                ? '<i class="fas fa-check text-white text-sm"></i>' 
+                                                : task.status === 'in_progress' 
+                                                    ? '<i class="fas fa-play text-white text-sm ml-0.5"></i>' 
+                                                    : '<i class="fas fa-clock text-white text-sm"></i>'}
+                                        </div>
                                         <h4 class="font-semibold text-white text-sm sm:text-base lg:text-lg">${task.title}</h4>
                                     </div>
-                                    <p class="text-xs sm:text-sm text-gray-300 mb-2 sm:mb-3">${task.goal_title || 'No Goal'}</p>
+                                    <p class="text-xs sm:text-sm text-gray-300 mb-3 flex items-center">
+                                        <i class="fas fa-bullseye text-pink-400 mr-2"></i>
+                                        ${task.goal_title || 'No Goal'}
+                                    </p>
                                     <div class="flex items-center space-x-2 sm:space-x-3">
                                         <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${task.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'}">
                                             ${task.status.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
@@ -406,13 +447,23 @@ function showDateDetails(dateKey, dateString) {
                         goalElement.innerHTML = `
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
-                                    <div class="flex items-center space-x-2 sm:space-x-3 mb-2">
-                                        <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${goal.status === 'completed' ? 'bg-green-400' : 'bg-yellow-400'} shadow-sm"></div>
+                                    <div class="flex items-center space-x-3 sm:space-x-4 mb-3">
+                                        <!-- Enhanced Goal Icon -->
+                                        <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110
+                                            ${goal.status === 'completed' 
+                                                ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30' 
+                                                : 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/30'}">
+                                            
+                                            <i class="fas fa-bullseye text-white text-sm"></i>
+                                        </div>
                                         <h4 class="font-semibold text-white text-sm sm:text-base lg:text-lg">${goal.title}</h4>
                                     </div>
-                                    <div class="mb-2 sm:mb-3">
+                                    <div class="mb-3">
                                         <div class="flex justify-between items-center mb-2">
-                                            <span class="text-xs sm:text-sm text-gray-300">Progress</span>
+                                            <span class="text-xs sm:text-sm text-gray-300 flex items-center">
+                                                <i class="fas fa-chart-line text-blue-400 mr-2"></i>
+                                                Progress
+                                            </span>
                                             <span class="text-xs sm:text-sm font-semibold text-blue-300">${goal.progress_percent}%</span>
                                         </div>
                                         <div class="w-full bg-gray-500/30 rounded-full h-2 overflow-hidden">

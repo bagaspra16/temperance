@@ -54,11 +54,13 @@
                         </div>
                         <div class="border-t border-pink-900/20 pt-4 flex justify-end items-center space-x-3">
                             <a href="{{ route('goals.show', $goal->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300 flex items-center gap-2"><i class="fas fa-eye"></i> View Details</a>
-                            <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">Edit</a>
+                            <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
+                                <i class="fas fa-edit mr-2"></i>Edit</a>
                             <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="showDeleteConfirmation('delete-goal-form-{{ $goal->id }}', '{{ addslashes($goal->title) }}', 'goal and all its tasks')" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">Delete</button>
+                                <button type="button" onclick="showDeleteConfirmation('delete-goal-form-{{ $goal->id }}', '{{ addslashes($goal->title) }}', 'goal and all its tasks')" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
+                                    <i class="fas fa-trash mr-2"></i>Delete</button>
                             </form>
                         </div>
                     </div>
@@ -82,4 +84,31 @@
 @endsection
 
 @push('scripts')
+<script>
+function showDeleteConfirmation(formId, itemTitle, type) {
+    Swal.fire({
+        title: 'Delete ' + (type === 'goal' ? 'Goal' : 'Data') + '?',
+        html: `Are you sure you want to delete <b>"${itemTitle}"</b>?<br><span class='text-sm text-gray-400'>This action cannot be undone.</span>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete!',
+        cancelButtonText: 'Cancel',
+        background: 'linear-gradient(to top right, #1f2937, #374151)',
+        customClass: {
+            popup: 'rounded-2xl shadow-2xl border border-gray-700',
+            title: 'text-2xl font-bold text-red-400 pt-4',
+            htmlContainer: 'text-lg text-gray-300 pb-4',
+            actions: 'w-full flex justify-center gap-x-4 px-4',
+            confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
+            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
+        },
+        buttonsStyling: false,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(formId).submit();
+        }
+    });
+}
+</script>
 @endpush
