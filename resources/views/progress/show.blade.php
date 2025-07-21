@@ -103,3 +103,33 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function showDeleteConfirmation(formId, itemTitle, type) {
+    Swal.fire({
+        title: 'Delete ' + (type === 'progress' ? 'Progress' : 'Data') + '?',
+        html: `Are you sure you want to delete <b>"${itemTitle}"</b>?<br><span class='text-sm text-gray-400'>This action cannot be undone.</span>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Delete!',
+        cancelButtonText: 'Cancel',
+        background: 'linear-gradient(to top right, #1f2937, #374151)',
+        customClass: {
+            popup: 'rounded-2xl shadow-2xl border border-gray-700',
+            title: 'text-2xl font-bold text-red-400 pt-4',
+            htmlContainer: 'text-lg text-gray-300 pb-4',
+            actions: 'w-full flex justify-center gap-x-4 px-4',
+            confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
+            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
+        },
+        buttonsStyling: false,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(formId).submit();
+        }
+    });
+}
+</script>
+@endpush

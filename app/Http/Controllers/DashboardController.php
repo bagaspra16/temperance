@@ -213,4 +213,74 @@ class DashboardController extends Controller
             'goals' => $goals,
         ]);
     }
+
+    /**
+     * Get weekly time tracking statistics.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getWeeklyTimeStats()
+    {
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+        
+        $weeklyTasks = Task::where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->whereNotNull('duration_minutes')
+            ->where('duration_minutes', '>', 0)
+            ->whereBetween('completed_time', [$startOfWeek, $endOfWeek])
+            ->get();
+        
+        $totalMinutes = $weeklyTasks->sum('duration_minutes');
+        $totalHours = floor($totalMinutes / 60);
+        $remainingMinutes = $totalMinutes % 60;
+        
+        $dailyStats = [];
+        for ($i = 0; $i < 7; $i++) {
+            $date = $startOfWeek->copy()->addDays($i);
+            $dayTasks = $weeklyTasks->filter(function ($task) use ($date) {
+                return $task->completed_time->format('Y-m-d') === $date->format('Y-m-d');
+            });
+            
+            $dayMinutes = $dayTasks->sum('duration_minutes');
+            $dailyStats[] = [
+                'date' => $date->format('Y-m-d'),
+                'day' => $date->format('D'),
+                'minutes' => $dayMinutes,
+                'hours' => floor($dayMinutes / 60),
+                'formatted' => $dayMinutes > 0 ? $this->formatDuration($dayMinutes) : '0 minutes'
+            ];
+        }
+        
+        return response()->json([
+            'total_minutes' => $totalMinutes,
+            'total_hours' => $totalHours,
+            'remaining_minutes' => $remainingMinutes,
+            'formatted_total' => $this->formatDuration($totalMinutes),
+            'daily_stats' => $dailyStats,
+            'task_count' => $weeklyTasks->count()
+        ]);
+    }
+    
+    /**
+     * Format duration in minutes to human readable string.
+     *
+     * @param int $minutes
+     * @return string
+     */
+    private function formatDuration($minutes)
+    {
+        if ($minutes < 60) {
+            return $minutes . ' minute' . ($minutes > 1 ? 's' : '');
+        }
+        
+        $hours = floor($minutes / 60);
+        $remainingMinutes = $minutes % 60;
+        
+        if ($remainingMinutes === 0) {
+            return $hours . ' hour' . ($hours > 1 ? 's' : '');
+        }
+        
+        return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ' . $remainingMinutes . ' minute' . ($remainingMinutes > 1 ? 's' : '');
+    }
 }
