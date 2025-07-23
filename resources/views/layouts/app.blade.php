@@ -355,12 +355,12 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #ec4899, #be185d);
+            background: linear-gradient(45deg, #6b7280, #4b5563);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #be185d, #ec4899);
+            background: linear-gradient(45deg, #4b5563, #6b7280);
         }
 
         /* Mobile scrollbar optimization */
