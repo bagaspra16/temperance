@@ -43,11 +43,11 @@
                         <!-- Priority Indicator -->
                         @if($task->priority === 'high')
                             <div class="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-red-500 border-2 border-white shadow-lg flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
-                                <i class="fas fa-exclamation-triangle text-sm text-white"></i>
+                                <i class="fas fa-exclamation-triangle text-[8px] sm:text-[10px] text-white"></i>
                             </div>
                         @elseif($task->priority === 'medium')
                             <div class="absolute -bottom-2 -right-2 w-6 h-6 rounded-full bg-yellow-500 border-2 border-white shadow-lg flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
-                                <i class="fas fa-minus text-sm text-white"></i>
+                                <i class="fas fa-minus text-[8px] sm:text-[10px] text-white"></i>
                             </div>
                         @endif
                     </div>

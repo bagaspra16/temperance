@@ -133,12 +133,12 @@
                                         
                                         <!-- Priority Indicator -->
                                         @if($event['priority'] === 'high')
-                                            <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-500 border border-white shadow-sm flex items-center justify-center ml-1">
-                                                <i class="fas fa-exclamation-triangle text-xs text-white"></i>
+                                        <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-500 border border-white shadow-sm flex items-center justify-center ml-1">
+                                                <i class="fas fa-exclamation-triangle text-[5px] sm:text-[8px] text-white"></i>
                                             </div>
                                         @elseif($event['priority'] === 'medium')
                                             <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-500 border border-white shadow-sm flex items-center justify-center ml-1">
-                                                <i class="fas fa-minus text-xs text-white"></i>
+                                                <i class="fas fa-minus text-[5px] sm:text-[8px] text-white"></i>
                                             </div>
                                         @endif
                                     </div>
