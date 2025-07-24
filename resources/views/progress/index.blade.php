@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font-bold text-gray-800">Progress History</h1>
+        <h1 class="text-4xl font font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Progress History</h1>
         <p class="text-gray-500">A complete log of all your achievements.</p>
     </div>
 
@@ -14,27 +14,27 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-gray-800/50 rounded-2xl shadow-lg overflow-hidden">
         @if($progress->count() > 0)
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-600/70">
+                    <thead class="bg-gray-800/50">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Related Item</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Change Description</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Related Item</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Change Description</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Notes</th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Actions</span>
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-gray-800/50 divide-y divide-gray-600/60">
                         @foreach($progress as $record)
-                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                            <tr class="hover:bg-gradient-to-r from-gray-800/50 to-pink-700/70 backdrop-blur-sm transition-colors duration-200">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">{{ $record->created_at->format('M d, Y') }}</div>
-                                    <div class="text-xs text-gray-500">{{ $record->created_at->format('h:i A') }}</div>
+                                    <div class="text-sm font-medium text-gray-400">{{ $record->created_at->format('M d, Y') }}</div>
+                                    <div class="text-xs text-gray-400">{{ $record->created_at->format('h:i A') }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($record->progressable)
@@ -51,7 +51,7 @@
                                         <span class="text-sm text-gray-500 italic">Item not found</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     @if($record->percentage !== null)
                                         <i class="fas fa-chart-line mr-2 text-green-500"></i> Progress set to <span class="font-bold">{{ $record->percentage }}%</span>
                                     @else
@@ -69,7 +69,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 bg-gray-50 border-t">
+            <div class="p-4 bg-gray-900/50 divide-gray-600/60">
                 {{ $progress->links() }}
             </div>
         @else
