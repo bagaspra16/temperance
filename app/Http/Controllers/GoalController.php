@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Goal;
 use App\Models\Task;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -274,6 +275,18 @@ class GoalController extends Controller
     public function destroy(string $id)
     {
         $goal = Goal::where('user_id', Auth::id())->findOrFail($id);
+
+        $tasks = Task::where('goal_id', $goal->id)->get();
+
+        $progress = Progress::whereIn('task_id', $tasks->pluck('id'))->get();
+
+        foreach ($progress as $p) {
+            $p->delete();
+        }
+        foreach ($tasks as $t) {
+            $t->delete();
+        }
+    
         $goal->delete();
 
         return redirect()->route('goals.index')

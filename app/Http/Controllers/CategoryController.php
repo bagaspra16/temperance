@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Goal;
+use App\Models\Task;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -121,6 +124,23 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::where('user_id', Auth::id())->findOrFail($id);
+
+        $goals = Goal::where('category_id', $category->id)->get();
+        
+        $tasks = Task::whereIn('goal_id', $goals->pluck('id'))->get();
+
+        $progress = Progress::whereIn('task_id', $tasks->pluck('id'))->get();
+
+        foreach ($progress as $p) {
+            $p->delete();
+        }
+        foreach ($tasks as $t) {
+            $t->delete();
+        }
+        foreach ($goals as $g) {
+            $g->delete();
+        }
+
         $category->delete();
 
         return redirect()->route('categories.index')
