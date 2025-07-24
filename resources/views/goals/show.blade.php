@@ -78,7 +78,7 @@
                 </div>
             </div>
             <!-- Progress Update -->
-            <div class="bg-pink-50 border-2 border-pink-200 rounded-xl p-6 mb-8 relative">
+            <div class="bg-gray-900 border-2 border-gray-800 rounded-xl p-6 mb-8 relative">
                 <h3 class="text-xl font-bold text-pink-700 mb-4">Progress</h3>
                 <span class="absolute right-6 top-6 text-xs font-bold px-4 py-1 rounded-md shadow-sm
                     @if($goal->status == 'completed') bg-green-100 text-green-700
