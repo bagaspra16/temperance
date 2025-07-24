@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Goal;
 use App\Models\Task;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -174,7 +175,15 @@ class TaskController extends Controller
     public function destroy(string $id)
     {
         $task = Task::where('user_id', Auth::id())->findOrFail($id);
+
+        $progress = Progress::where('task_id', $task->id)->get();
+
         $goalId = $task->goal_id;
+
+        foreach ($progress as $p) {
+            $p->delete();
+        }
+
         $task->delete();
 
         // Update goal progress after task deletion
