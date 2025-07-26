@@ -33,8 +33,8 @@ class TaskController extends Controller
     public function create()
     {
         $goals = Goal::where('user_id', Auth::id())
-            ->where('status', '!=', 'completed')
             ->where('status', '!=', 'abandoned')
+            ->where('status', '!=', 'finished')
             ->get();
         
         return view('tasks.create', compact('goals'));
@@ -59,6 +59,14 @@ class TaskController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Check if the goal is finished
+        $goal = Goal::where('user_id', Auth::id())->find($request->goal_id);
+        if (!$goal || $goal->isFinished()) {
+            return redirect()->back()
+                ->withErrors(['goal_id' => 'Cannot add tasks to a finished goal.'])
                 ->withInput();
         }
 

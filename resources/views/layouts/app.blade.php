@@ -542,6 +542,9 @@
                             <a href="{{ route('progress.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('progress.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
                                 Progress
                             </a>
+                            <a href="{{ route('achievements.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('achievements.*') ? 'border-pink-500 text-pink-500' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-pink-500' }} text-sm font-medium leading-5 focus:outline-none focus:border-pink-600 transition duration-150 ease-in-out">
+                                Achievements
+                            </a>
                         </div>
 
 
@@ -678,6 +681,13 @@
                    class="flex flex-col items-center justify-center flex-1 py-2 {{ request()->routeIs('progress.*') ? 'text-pink-500' : 'text-gray-400 hover:text-white' }} transition-colors duration-200">
                     <i class="fas fa-chart-line text-xl mb-1"></i>
                     <span class="text-xs">Progress</span>
+                </a>
+
+                <!-- Achievements -->
+                <a href="{{ route('achievements.index') }}" 
+                   class="flex flex-col items-center justify-center flex-1 py-2 {{ request()->routeIs('achievements.*') ? 'text-pink-500' : 'text-gray-400 hover:text-white' }} transition-colors duration-200">
+                    <i class="fas fa-trophy text-xl mb-1"></i>
+                    <span class="text-xs">Achievements</span>
                 </a>
             </div>
         </div>

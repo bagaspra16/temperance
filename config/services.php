@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'ai' => [
+        'api_key' => env('AI_API_KEY'),
+        'api_host' => env('AI_API_HOST'),
+        'api_base_url' => env('AI_API_BASE_URL'),
+        'api_endpoint' => env('AI_API_ENDPOINT'),
+    ],
+
 ];

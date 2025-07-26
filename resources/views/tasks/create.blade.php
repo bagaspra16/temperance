@@ -83,7 +83,7 @@
                                 <i class="fas fa-bullseye text-2xl text-white"></i>
                             </div>
                             <h2 class="text-3xl font-bold text-white mb-2">Which goal is this for?</h2>
-                            <p class="text-gray-300">Connect this task to one of your goals</p>
+                            <p class="text-gray-300">Connect this task to one of your goals (you can add tasks to completed goals too!)</p>
                         </div>
                         <div class="max-w-3xl mx-auto">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -96,6 +96,11 @@
                                         <div class="flex-1">
                                             <h3 class="text-white font-medium text-sm">{{ $goal->title }}</h3>
                                             <p class="text-gray-400 text-xs">{{ $goal->category->name }}</p>
+                                            @if($goal->isFinished())
+                                                <p class="text-red-400 text-xs mt-1"><i class="fas fa-lock"></i> Goal Finished</p>
+                                            @elseif($goal->isCompleted())
+                                                <p class="text-blue-400 text-xs mt-1"><i class="fas fa-check-circle"></i> Goal Completed (100%)</p>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -234,6 +239,13 @@
                                 </ul>
                             </div>
                         @endif
+                        
+                        @if($errors->has('goal_id'))
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-xl" role="alert">
+                                <p class="font-bold">Goal Error:</p>
+                                <p>{{ $errors->first('goal_id') }}</p>
+                            </div>
+                        @endif
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">
                                 <label for="title" class="block text-pink-200 font-medium mb-2">Task Title</label>
@@ -284,15 +296,7 @@
     </div>
 </div>
 
-<!-- Hidden form for wizard submission -->
-<form id="wizardForm" action="{{ route('tasks.store') }}" method="POST" class="hidden">
-    @csrf
-    <input type="hidden" name="title" x-model="formData.title">
-    <input type="hidden" name="description" x-model="formData.description">
-    <input type="hidden" name="goal_id" x-model="formData.goal_id">
-    <input type="hidden" name="priority" x-model="formData.priority">
-    <input type="hidden" name="due_date" x-model="formData.due_date">
-</form>
+
 @endsection
 
 @push('scripts')
@@ -335,15 +339,38 @@ function taskWizard() {
         },
         
         submitForm() {
-            // Update hidden form values
-            document.querySelector('input[name="title"]').value = this.formData.title;
-            document.querySelector('input[name="description"]').value = this.formData.description;
-            document.querySelector('input[name="goal_id"]').value = this.formData.goal_id;
-            document.querySelector('input[name="priority"]').value = this.formData.priority;
-            document.querySelector('input[name="due_date"]').value = this.formData.due_date;
+            // Create a temporary form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('tasks.store') }}';
             
-            // Submit the form
-            document.getElementById('wizardForm').submit();
+            // Add CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Add form data
+            const formData = {
+                title: this.formData.title,
+                description: this.formData.description,
+                goal_id: this.formData.goal_id,
+                priority: this.formData.priority,
+                due_date: this.formData.due_date
+            };
+            
+            Object.keys(formData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formData[key];
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
         }
     }
 }
@@ -374,5 +401,4 @@ function showDeleteConfirmation(formId, itemTitle, type) {
     });
 }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 @endpush

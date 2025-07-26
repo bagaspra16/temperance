@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Goal;
 use App\Models\Task;
 use App\Models\Progress;
+use App\Models\Achievement;
+use App\Services\AIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -223,6 +225,13 @@ class GoalController extends Controller
     public function edit(string $id)
     {
         $goal = Goal::where('user_id', Auth::id())->findOrFail($id);
+        
+        // Prevent editing finished goals
+        if ($goal->isFinished()) {
+            return redirect()->route('goals.show', $goal->id)
+                ->with('error', '⚠️ Finished goals cannot be edited. You can only delete them.');
+        }
+        
         $categories = Category::where('user_id', Auth::id())->get();
         
         return view('goals.edit', compact('goal', 'categories'));
@@ -237,13 +246,21 @@ class GoalController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $goal = Goal::where('user_id', Auth::id())->findOrFail($id);
+        
+        // Prevent updating finished goals
+        if ($goal->isFinished()) {
+            return redirect()->route('goals.show', $goal->id)
+                ->with('error', '⚠️ Finished goals cannot be updated. You can only delete them.');
+        }
+        
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:not_started,in_progress,complete,abandoned',
+            'status' => 'required|in:not_started,in_progress,complete,finished,abandoned',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -253,11 +270,16 @@ class GoalController extends Controller
                 ->withInput();
         }
 
-        $goal = Goal::where('user_id', Auth::id())->findOrFail($id);
         $goal->update($request->all());
 
         // If status is complete, set progress to 100%
         if ($request->status === 'complete' && $goal->progress_percent < 100) {
+            $goal->progress_percent = 100;
+            $goal->save();
+        }
+
+        // If status is finished, ensure progress is 100%
+        if ($request->status === 'finished' && $goal->progress_percent < 100) {
             $goal->progress_percent = 100;
             $goal->save();
         }
@@ -280,17 +302,82 @@ class GoalController extends Controller
 
         $progress = Progress::whereIn('task_id', $tasks->pluck('id'))->get();
 
+        $achievements = Achievement::where('goal_id', $goal->id)->get();
+
         foreach ($progress as $p) {
             $p->delete();
         }
         foreach ($tasks as $t) {
             $t->delete();
         }
-    
+        foreach ($achievements as $a) {
+            $a->delete();
+        }
+        
         $goal->delete();
 
         return redirect()->route('goals.index')
             ->with('success', 'Goal deleted successfully.');
+    }
+
+    /**
+     * Mark goal as finished.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function finish(string $id)
+    {
+        $goal = Goal::with('user')->where('user_id', Auth::id())->findOrFail($id);
+        
+        // Check if goal is completed (100% progress)
+        if ($goal->progress_percent < 100) {
+            return redirect()->route('goals.show', $goal->id)
+                ->with('error', '⚠️ Goal must be 100% completed before it can be marked as finished. Current progress: ' . $goal->progress_percent . '%');
+        }
+        
+        // Update status to finished
+        $goal->status = 'finished';
+        $goal->save();
+
+        // Create achievement certificate with user name
+        $this->createAchievementCertificate($goal);
+        
+        return redirect()->route('goals.show', $goal->id)
+            ->with('success', '🎉 Congratulations! Goal "' . $goal->title . '" has been marked as finished. A special achievement certificate has been created for you!');
+    }
+
+    /**
+     * Create achievement certificate for finished goal.
+     *
+     * @param Goal $goal
+     * @return void
+     */
+    private function createAchievementCertificate($goal)
+    {
+        try {
+            // Get user name from the goal's user relationship
+            $userName = $goal->user->name ?? 'Achiever';
+            
+            // Generate AI messages with user name
+            $certificateMessage = AIService::generateCertificateMessage($goal->title, $userName);
+            $affirmationMessage = AIService::generateAffirmationMessage($goal->title, $userName);
+
+            // Create achievement record
+            Achievement::create([
+                'user_id' => $goal->user_id,
+                'goal_id' => $goal->id,
+                'title' => 'Goal Completion: ' . $goal->title,
+                'description' => 'Successfully completed the goal "' . $goal->title . '" with 100% progress.',
+                'certificate_message' => $certificateMessage,
+                'affirmation_message' => $affirmationMessage,
+                'certificate_number' => Achievement::generateCertificateNumber(),
+                'achievement_date' => now(),
+                'status' => 'active',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to create achievement certificate: ' . $e->getMessage());
+        }
     }
     
     /**
