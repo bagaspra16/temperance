@@ -29,7 +29,7 @@
                     <p class="text-gray-300 mt-2 max-w-2xl">{{ $goal->description }}</p>
                 </div>
                 <div class="flex space-x-3">
-                    <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
+                    <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
                     <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                         @csrf
                         @method('DELETE')

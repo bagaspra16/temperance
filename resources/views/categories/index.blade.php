@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font-bold text-pink-500">Your Categories</h1>
+        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Your Categories</h1>
         <a href="{{ route('categories.create') }}" class=" bg-gradient-to-tl from-pink-500 to-pink-700 hover:bg-gradient-to-br from-pink-500 to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <i class="fas fa-plus mr-2"></i> Add New Category
         </a>
@@ -30,12 +30,12 @@
                         <p class="text-gray-400 mb-6 h-12 overflow-hidden">{{ $category->description ?? 'No description provided.' }}</p>
                         <div class="flex justify-end items-center">
                             <div class="flex space-x-3">
-                                <a href="{{ route('categories.show', $category->id) }}" class="bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-eye"></i> View</a>
-                                <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-600 hover:bg-yellow-800 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-edit mr.2"></i> Edit</a>
+                                <a href="{{ route('categories.show', $category->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-eye"></i> View</a>
+                                <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-edit mr.2"></i> Edit</a>
                                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline" id="delete-category-form-{{ $category->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="showDeleteConfirmation('delete-category-form-{{ $category->id }}', '{{ addslashes($category->name) }}', 'category')" class="bg-red-600 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"> <i class="fas fa-trash mr.2"></i> Delete</button>
+                                    <button type="button" onclick="showDeleteConfirmation('delete-category-form-{{ $category->id }}', '{{ addslashes($category->name) }}', 'category')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"> <i class="fas fa-trash mr.2"></i> Delete</button>
                                 </form>
                             </div>
                         </div>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8 text-pink-500">
+<div class="container mx-auto px-4 py-8 text-gray-200">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Dashboard</h1>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

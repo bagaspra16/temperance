@@ -550,8 +550,8 @@
                     <!-- User Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                         <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-pink-700 focus:outline-none">
-                                <div class="h-8 w-8 rounded-full bg-pink-500 flex items-center justify-center text-white font-semibold">
+                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-500 hover:text-pink-700 focus:outline-none">
+                                <div class="h-8 w-8 rounded-full bg-pink-500 flex items-center justify-center text-gray-100 font-semibold">
                                     {{ substr(Auth::user()->name, 0, 1) }}
                                 </div>
                                 <span>{{ Auth::user()->name }}</span>
@@ -559,11 +559,11 @@
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </button>
-                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600">Profile</a>
+                            <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg py-1 z-50">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600 rounded transition duration-300 ease-in-out">Profile</a>
                                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                                     @csrf
-                                    <button type="button" onclick="showLogoutConfirmation('logout-form')" class="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600">
+                                    <button type="button" onclick="showLogoutConfirmation('logout-form')" class="block w-full text-left px-4 py-2 text-sm text-gray-100 hover:text-gray-800 hover:bg-pink-600 rounded transition duration-300 ease-in-out">
                                         Logout
                                     </button>
                                 </form>
