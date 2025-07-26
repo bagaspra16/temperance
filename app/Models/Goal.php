@@ -62,6 +62,7 @@ class Goal extends Model
             'in_progress' => 'In Progress',
             'completed' => 'Completed',
             'complete' => 'Complete',
+            'finished' => 'Finished',
             'abandoned' => 'Abandoned',
         ];
         
@@ -82,6 +83,14 @@ class Goal extends Model
     public function progressRecords()
     {
         return $this->hasMany(Progress::class);
+    }
+
+    /**
+     * Get the achievements for the goal.
+     */
+    public function achievements()
+    {
+        return $this->hasMany(Achievement::class);
     }
 
     /**
@@ -138,5 +147,36 @@ class Goal extends Model
         $completedTasks = $this->tasks->where('is_completed', true)->count();
 
         return round(($completedTasks / $totalTasks) * 100);
+    }
+
+    /**
+     * Check if tasks can be added to this goal.
+     *
+     * @return bool
+     */
+    public function canAddTasks()
+    {
+        // User can add tasks unless the goal is finished
+        return $this->status !== 'finished';
+    }
+
+    /**
+     * Check if goal is finished.
+     *
+     * @return bool
+     */
+    public function isFinished()
+    {
+        return $this->status === 'finished';
+    }
+
+    /**
+     * Check if goal is completed (100% progress).
+     *
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        return $this->progress_percent >= 100;
     }
 }

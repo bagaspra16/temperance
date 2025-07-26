@@ -222,13 +222,7 @@
     </div>
 </div>
 
-<!-- Hidden form for wizard submission -->
-<form id="wizardForm" action="{{ route('categories.store') }}" method="POST" class="hidden">
-    @csrf
-    <input type="hidden" name="name" x-model="formData.name">
-    <input type="hidden" name="description" x-model="formData.description">
-    <input type="hidden" name="color" x-model="formData.color">
-</form>
+
 @endsection
 
 @push('scripts')
@@ -265,13 +259,36 @@ function categoryWizard() {
         },
         
         submitForm() {
-            // Update hidden form values
-            document.querySelector('input[name="name"]').value = this.formData.name;
-            document.querySelector('textarea[name="description"]').value = this.formData.description;
-            document.querySelector('input[name="color"]').value = this.formData.color;
+            // Create a temporary form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('categories.store') }}';
             
-            // Submit the form
-            document.getElementById('wizardForm').submit();
+            // Add CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Add form data
+            const formData = {
+                name: this.formData.name,
+                description: this.formData.description,
+                color: this.formData.color
+            };
+            
+            Object.keys(formData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formData[key];
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
         }
     }
 }
@@ -302,5 +319,4 @@ function showDeleteConfirmation(formId, itemTitle, type) {
     });
 }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 @endpush

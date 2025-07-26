@@ -12,6 +12,12 @@
             <div class="p-8">
                 <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2">Edit Goal</h1>
                 <p class="text-gray-300 mb-8">Refine your objective and keep moving forward.</p>
+                
+                @if(session('error'))
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-xl" role="alert">
+                        <p class="font-bold">{{ session('error') }}</p>
+                    </div>
+                @endif
                 <form action="{{ route('goals.update', $goal->id) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -25,7 +31,7 @@
                             </ul>
                         </div>
                     @endif
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="md:col-span-3">
                             <label for="title" class="block text-pink-200 font-medium mb-2">Goal Title</label>
                             <input type="text" name="title" id="title" value="{{ old('title', $goal->title) }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
@@ -60,6 +66,16 @@
                         <div>
                             <label for="end_date" class="block text-pink-200 font-medium mb-2">Target Date</label>
                             <input type="date" name="end_date" id="end_date" value="{{ old('end_date', $goal->end_date ? $goal->end_date->format('Y-m-d') : '') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label for="status" class="block text-pink-200 font-medium mb-2">Status</label>
+                            <select name="status" id="status" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
+                                <option value="not_started" {{ old('status', $goal->status) == 'not_started' ? 'selected' : '' }}>Not Started</option>
+                                <option value="in_progress" {{ old('status', $goal->status) == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="complete" {{ old('status', $goal->status) == 'complete' ? 'selected' : '' }}>Complete</option>
+                                <option value="finished" {{ old('status', $goal->status) == 'finished' ? 'selected' : '' }}>Finished</option>
+                                <option value="abandoned" {{ old('status', $goal->status) == 'abandoned' ? 'selected' : '' }}>Abandoned</option>
+                            </select>
                         </div>
                     </div>
                     <div class="flex justify-end mt-8">

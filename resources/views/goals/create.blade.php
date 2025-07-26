@@ -289,18 +289,7 @@
     </div>
 </div>
 
-<!-- Hidden form for wizard submission -->
-<form id="wizardForm" action="{{ route('goals.store') }}" method="POST" class="hidden">
-    @csrf
-    <input type="hidden" name="title" x-model="formData.title">
-    <input type="hidden" name="description" x-model="formData.description">
-    <input type="hidden" name="category_id" x-model="formData.category_id">
-    <input type="hidden" name="priority" x-model="formData.priority">
-    <input type="hidden" name="start_date" x-model="formData.start_date">
-    <input type="hidden" name="end_date" x-model="formData.end_date">
-    <input type="hidden" name="progress_percent" value="0">
-    <input type="hidden" name="status" value="not_started">
-</form>
+
 @endsection
 
 @push('scripts')
@@ -344,16 +333,41 @@ function goalWizard() {
         },
         
         submitForm() {
-            // Update hidden form values
-            document.querySelector('input[name="title"]').value = this.formData.title;
-            document.querySelector('input[name="description"]').value = this.formData.description;
-            document.querySelector('input[name="category_id"]').value = this.formData.category_id;
-            document.querySelector('input[name="priority"]').value = this.formData.priority;
-            document.querySelector('input[name="start_date"]').value = this.formData.start_date;
-            document.querySelector('input[name="end_date"]').value = this.formData.end_date;
+            // Create a temporary form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('goals.store') }}';
             
-            // Submit the form
-            document.getElementById('wizardForm').submit();
+            // Add CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Add form data
+            const formData = {
+                title: this.formData.title,
+                description: this.formData.description,
+                category_id: this.formData.category_id,
+                priority: this.formData.priority,
+                start_date: this.formData.start_date,
+                end_date: this.formData.end_date,
+                progress_percent: '0',
+                status: 'not_started'
+            };
+            
+            Object.keys(formData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formData[key];
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            form.submit();
         }
     }
 }
@@ -384,5 +398,4 @@ function showDeleteConfirmation(formId, itemTitle, type) {
     });
 }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 @endpush
