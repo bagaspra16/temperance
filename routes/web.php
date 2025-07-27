@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\AchievementController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to dashboard
@@ -38,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/goals/calendar/details', [GoalController::class, 'getDateDetails'])->name('goals.calendar.details');
     Route::resource('goals', GoalController::class);
     Route::patch('/goals/{id}/progress', [GoalController::class, 'updateProgress'])->name('goals.progress');
+    Route::post('/goals/{id}/finish', [GoalController::class, 'finish'])->name('goals.finish');
     
     // Tasks
     Route::resource('tasks', TaskController::class);
@@ -48,4 +50,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Progress
     Route::resource('progress', ProgressController::class);
+    
+    // Achievements
+    Route::resource('achievements', AchievementController::class)->only(['index', 'show']);
+    Route::get('/achievements/{id}/download', [AchievementController::class, 'downloadCertificate'])->name('achievements.download');
+    Route::post('/achievements/{id}/generate', [AchievementController::class, 'generateCertificate'])->name('achievements.generate');
 });

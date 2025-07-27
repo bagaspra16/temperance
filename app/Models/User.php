@@ -81,4 +81,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Progress::class);
     }
+
+    /**
+     * Get the achievements for the user.
+     */
+    public function achievements()
+    {
+        return $this->hasMany(Achievement::class);
+    }
 }

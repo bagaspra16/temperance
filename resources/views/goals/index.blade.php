@@ -21,6 +21,13 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-xl shadow" role="alert">
+            <p class="font-bold">Error</p>
+            <p>{{ session('error') }}</p>
+        </div>
+    @endif
+
     @if($goals->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($goals as $goal)
@@ -53,9 +60,11 @@
                             <span><i class="fas fa-tasks mr-1"></i> {{ $goal->tasks_count }} tasks</span>
                         </div>
                         <div class="border-t border-pink-900/20 pt-4 flex justify-end items-center space-x-3">
-                            <a href="{{ route('goals.show', $goal->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300 flex items-center gap-2"><i class="fas fa-eye"></i> View Details</a>
-                            <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
-                                <i class="fas fa-edit mr-2"></i>Edit</a>
+                            <a href="{{ route('goals.show', $goal->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300 flex items-center gap-2"><i class="fas fa-eye"></i> View Details</a>
+                            @if(!$goal->isFinished())
+                                <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
+                                    <i class="fas fa-edit mr-2"></i>Edit</a>
+                            @endif
                             <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                                 @csrf
                                 @method('DELETE')

@@ -19,6 +19,12 @@
             <i class="fas fa-arrow-left"></i> Back to All Goals
         </a>
     </div>
+    @if(session('error'))
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-xl" role="alert">
+            <p class="font-bold">{{ session('error') }}</p>
+        </div>
+    @endif
+    
     <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden mb-8 border border-pink-500/10">
         <div class="p-8">
             <!-- Header -->
@@ -29,7 +35,24 @@
                     <p class="text-gray-300 mt-2 max-w-2xl">{{ $goal->description }}</p>
                 </div>
                 <div class="flex space-x-3">
-                    <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
+                    @if($goal->isCompleted() && !$goal->isFinished())
+                        <button type="button" onclick="showFinishGoalConfirmation('{{ $goal->id }}', '{{ addslashes($goal->title) }}')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                            <i class="fas fa-check-circle"></i> Finish Goal
+                        </button>
+                        <form id="finish-goal-form-{{ $goal->id }}" action="{{ route('goals.finish', $goal->id) }}" method="POST" class="hidden">
+                            @csrf
+                        </form>
+                    @endif
+                    @if($goal->isFinished())
+                        @if($goal->achievements->count() > 0)
+                            <a href="{{ route('achievements.show', $goal->achievements->first()->id) }}" class="bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                                <i class="fas fa-certificate"></i> View Certificate
+                            </a>
+                        @endif
+                    @endif
+                    @if(!$goal->isFinished())
+                        <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
+                    @endif
                     <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                         @csrf
                         @method('DELETE')
@@ -42,8 +65,9 @@
                 <div class="bg-gray-900 p-4 rounded-xl border border-pink-500/10">
                     <p class="text-sm text-pink-200">Status</p>
                     <p class="text-lg font-bold text-pink-400" :class="{
-                        'text-pink-400': status === 'completed',
-                        'text-pink-300': status === 'in_progress',
+                        'text-green-400': status === 'finished',
+                        'text-blue-400': status === 'completed',
+                        'text-yellow-400': status === 'in_progress',
                         'text-gray-400': status === 'not_started'
                     }" x-text="status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())">{{ $goal->formatted_status }}</p>
                 </div>
@@ -81,8 +105,9 @@
             <div class="bg-gray-900 border-2 border-gray-800 rounded-xl p-6 mb-8 relative">
                 <h3 class="text-xl font-bold text-pink-700 mb-4">Progress</h3>
                 <span class="absolute right-6 top-6 text-xs font-bold px-4 py-1 rounded-md shadow-sm
-                    @if($goal->status == 'completed') bg-green-100 text-green-700
-                    @elseif($goal->status == 'in_progress') bg-blue-100 text-blue-700
+                    @if($goal->status == 'finished') bg-green-100 text-green-700
+                    @elseif($goal->status == 'completed') bg-blue-100 text-blue-700
+                    @elseif($goal->status == 'in_progress') bg-yellow-100 text-yellow-700
                     @else bg-gray-200 text-gray-700 @endif">
                     {{ ucfirst(str_replace('_', ' ', $goal->status)) }}
                 </span>
@@ -111,9 +136,15 @@
         <div x-show="tab === 'tasks'">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold text-pink-500">Tasks</h2>
-                <a href="{{ route('tasks.create', ['goal_id' => $goal->id]) }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Add Task
-                </a>
+                @if($goal->canAddTasks())
+                    <a href="{{ route('tasks.create', ['goal_id' => $goal->id]) }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                        <i class="fas fa-plus"></i> Add Task
+                    </a>
+                @else
+                    <div class="bg-gray-600 text-gray-300 px-4 py-2 rounded-xl flex items-center gap-2">
+                        <i class="fas fa-lock"></i> Goal Finished - No New Tasks
+                    </div>
+                @endif
             </div>
             @if($goal->tasks->count() > 0)
                 @include('tasks._list', ['tasks' => $goal->tasks])
@@ -197,6 +228,47 @@ function showDeleteConfirmation(formId, itemTitle, type) {
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById(formId).submit();
+        }
+    });
+}
+
+function showFinishGoalConfirmation(goalId, goalTitle) {
+    Swal.fire({
+        title: 'Finish Goal?',
+        html: `
+            <div class="text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-trophy text-2xl text-white"></i>
+                </div>
+                <p class="text-lg text-gray-300 mb-4">Are you sure you want to finish this goal?</p>
+                <div class="bg-gray-700 rounded-lg p-4 mb-4">
+                    <p class="text-white font-semibold">"${goalTitle}"</p>
+                </div>
+                <div class="text-sm text-gray-400 space-y-2">
+                    <p><i class="fas fa-info-circle text-blue-400"></i> This goal will be marked as <strong>Finished</strong></p>
+                    <p><i class="fas fa-lock text-red-400"></i> You won't be able to add new tasks to this goal</p>
+                    <p><i class="fas fa-check-circle text-green-400"></i> All existing tasks will remain accessible</p>
+                </div>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Finish Goal!',
+        cancelButtonText: 'Cancel',
+        background: 'linear-gradient(to top right, #1f2937, #374151)',
+        customClass: {
+            popup: 'rounded-2xl shadow-2xl border border-gray-700',
+            title: 'text-2xl font-bold text-green-400 pt-4',
+            htmlContainer: 'text-lg text-gray-300 pb-4',
+            actions: 'w-full flex justify-center gap-x-4 px-4',
+            confirmButton: 'bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
+            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
+        },
+        buttonsStyling: false,
+        focusCancel: true,
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('finish-goal-form-' + goalId).submit();
         }
     });
 }
