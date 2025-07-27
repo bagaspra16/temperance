@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Your Categories</h1>
-        <a href="{{ route('categories.create') }}" class=" bg-gradient-to-tl from-pink-500 to-pink-700 hover:bg-gradient-to-br from-pink-500 to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+        <a href="{{ route('categories.create') }}" class="bg-gradient-to-tl from-pink-500 to-pink-700 hover:bg-gradient-to-br from-pink-500 to-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
             <i class="fas fa-plus mr-2"></i> Add New Category
         </a>
     </div>
@@ -30,8 +30,8 @@
                         <p class="text-gray-400 mb-6 h-12 overflow-hidden">{{ $category->description ?? 'No description provided.' }}</p>
                         <div class="flex justify-end items-center">
                             <div class="flex space-x-3">
-                                <a href="{{ route('categories.show', $category->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-eye"></i> View</a>
-                                <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"><i class="fas fa-edit mr.2"></i> Edit</a>
+                                <a href="{{ route('categories.show', $category->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')"><i class="fas fa-eye"></i> View</a>
+                                <a href="{{ route('categories.edit', $category->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300" onclick="showLoading('Memuat halaman edit...', 'Mohon tunggu sebentar')"><i class="fas fa-edit mr.2"></i> Edit</a>
                                 <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline" id="delete-category-form-{{ $category->id }}">
                                     @csrf
                                     @method('DELETE')
@@ -48,7 +48,7 @@
             <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
             <h2 class="text-2xl font-semibold text-gray-700 mb-2">No Categories Found</h2>
             <p class="text-gray-500 mb-6">Get started by creating your first category to organize your goals.</p>
-            <a href="{{ route('categories.create') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+            <a href="{{ route('categories.create') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-plus mr-2"></i> Create Your First Category
             </a>
         </div>
@@ -79,6 +79,7 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menghapus kategori...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });

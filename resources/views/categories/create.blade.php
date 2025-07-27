@@ -5,7 +5,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Header dengan toggle -->
         <div class="flex items-center justify-between mb-6">
-            <a href="{{ route('categories.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
+            <a href="{{ route('categories.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-arrow-left"></i> Back to Categories
             </a>
             <div class="flex items-center gap-4">
@@ -176,7 +176,7 @@
                 <div class="p-8">
                     <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2">Create a New Category</h1>
                     <p class="text-gray-300 mb-8">Organize your goals with a fresh category.</p>
-                    <form action="{{ route('categories.store') }}" method="POST">
+                    <form action="{{ route('categories.store') }}" method="POST" onsubmit="showLoading('Membuat kategori...', 'Mohon tunggu sebentar')">
                         @csrf
                         
                         @if ($errors->any())
@@ -208,7 +208,7 @@
                         </div>
                         
                         <div class="flex justify-between items-center mt-8">
-                            <a href="{{ route('categories.index') }}" class="text-gray-400 hover:text-white font-semibold transition-colors duration-300">
+                            <a href="{{ route('categories.index') }}" class="text-gray-400 hover:text-white font-semibold transition-colors duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                                 <i class="fas fa-arrow-left mr-2"></i> Cancel
                             </a>
                             <button type="submit" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-8 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
@@ -259,6 +259,8 @@ function categoryWizard() {
         },
         
         submitForm() {
+            showLoading('Membuat kategori...', 'Mohon tunggu sebentar');
+            
             // Create a temporary form and submit it
             const form = document.createElement('form');
             form.method = 'POST';
@@ -314,6 +316,7 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menghapus kategori...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });

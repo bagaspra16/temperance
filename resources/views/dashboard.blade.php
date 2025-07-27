@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mt-4 sm:mt-0">
-                    <a href="{{ route('goals.calendar', ['year' => $currentDate->year, 'month' => $currentDate->month]) }}" class="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-5 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 text-center flex items-center">
+                    <a href="{{ route('goals.calendar', ['year' => $currentDate->year, 'month' => $currentDate->month]) }}" class="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-5 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 text-center flex items-center" onclick="showLoading('Memuat calendar view...', 'Mohon tunggu sebentar')">
                         <i class="fas fa-external-link-alt mr-2"></i> Show more in Calendar
                     </a>
                 </div>
@@ -163,7 +163,7 @@
         <div class="bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Your Categories</h2>
-                <a href="{{ route('categories.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
+                <a href="{{ route('categories.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">Add New</a>
             </div>
 
             @if($categories->count() > 0)
@@ -174,7 +174,7 @@
                                 <h3 class="font-medium">{{ $category->name }}</h3>
                                 <p class="text-sm text-gray-500">{{ $category->goals->count() }} goals</p>
                             </div>
-                            <a href="{{ route('categories.show', $category->id) }}" class="text-pink-500 hover:text-pink-400">View</a>
+                            <a href="{{ route('categories.show', $category->id) }}" class="text-pink-500 hover:text-pink-400" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">View</a>
                         </div>
                     @endforeach
                 </div>
@@ -187,7 +187,7 @@
         <div class="bg-gradient-to-r from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Upcoming Goals</h2>
-                <a href="{{ route('goals.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
+                <a href="{{ route('goals.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">Add New</a>
             </div>
 
             @if($upcomingGoals->count() > 0)
@@ -208,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="mt-2">
-                                <a href="{{ route('goals.show', $goal->id) }}" class="text-sm text-pink-500 hover:text-pink-400">View Details</a>
+                                <a href="{{ route('goals.show', $goal->id) }}" class="text-sm text-pink-500 hover:text-pink-400" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">View Details</a>
                             </div>
                         </div>
                     @endforeach
@@ -223,7 +223,7 @@
     <div class=" mt-8 mb-8 bg-gradient-to-l from-gray-800 to-gray-900 rounded-lg sm:rounded-xl p-3 sm:p-4 hover:shadow-lg border border-gray-600">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Recent Tasks</h2>
-            <a href="{{ route('tasks.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm">Add New</a>
+            <a href="{{ route('tasks.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-md text-sm" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">Add New</a>
         </div>
 
         @if($recentTasks->count() > 0)
@@ -263,7 +263,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('tasks.show', $task->id) }}" class="text-pink-500 hover:text-pink-400 mr-3">View</a>                                    
+                                    <a href="{{ route('tasks.show', $task->id) }}" class="text-pink-500 hover:text-pink-400 mr-3" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">View</a>                                    
                                 </td>
                             </tr>
                         @endforeach
@@ -342,6 +342,9 @@
 function showDateDetails(dateKey, dateString) {
     console.log('showDateDetails called for:', dateKey, dateString);
     
+    // Show loading screen
+    showLoading('Memuat detail tanggal...', 'Mohon tunggu sebentar');
+    
     // Get the modal
     const modal = document.getElementById('dateModal');
     if (!modal) {
@@ -363,6 +366,9 @@ function showDateDetails(dateKey, dateString) {
         .then(response => response.json())
         .then(data => {
             console.log('Received data:', data);
+            
+            // Hide loading screen
+            hideLoading();
             
             // Update counts
             const taskCount = document.getElementById('taskCount');
@@ -413,7 +419,7 @@ function showDateDetails(dateKey, dateString) {
                                         </span>
                                     </div>
                                 </div>
-                                <a href="/tasks/${task.id}" class="text-gray-400 hover:text-pink-400 ml-2 sm:ml-4 p-1.5 sm:p-2 hover:bg-gray-500/30 rounded-lg transition-all duration-300 transform hover:scale-110">
+                                <a href="/tasks/${task.id}" class="text-gray-400 hover:text-pink-400 ml-2 sm:ml-4 p-1.5 sm:p-2 hover:bg-gray-500/30 rounded-lg transition-all duration-300 transform hover:scale-110" onclick="showLoading('Memuat detail task...', 'Mohon tunggu sebentar')">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
                             </div>
@@ -468,7 +474,7 @@ function showDateDetails(dateKey, dateString) {
                                         </span>
                                     </div>
                                 </div>
-                                <a href="/goals/${goal.id}" class="text-gray-400 hover:text-blue-400 ml-2 sm:ml-4 p-1.5 sm:p-2 hover:bg-gray-500/30 rounded-lg transition-all duration-300 transform hover:scale-110">
+                                <a href="/goals/${goal.id}" class="text-gray-400 hover:text-blue-400 ml-2 sm:ml-4 p-1.5 sm:p-2 hover:bg-gray-500/30 rounded-lg transition-all duration-300 transform hover:scale-110" onclick="showLoading('Memuat detail goal...', 'Mohon tunggu sebentar')">
                                     <i class="fas fa-external-link-alt"></i>
                                 </a>
                             </div>
@@ -504,6 +510,7 @@ function showDateDetails(dateKey, dateString) {
         })
         .catch(error => {
             console.error('Error fetching date details:', error);
+            hideLoading();
             alert('Error loading date details. Please try again.');
         });
 }

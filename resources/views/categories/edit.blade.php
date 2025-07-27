@@ -9,7 +9,7 @@
         </div>
         
         <div class="bg-gray-800 rounded-xl shadow-lg p-8">
-            <form action="{{ route('categories.update', $category->id) }}" method="POST">
+            <form action="{{ route('categories.update', $category->id) }}" method="POST" onsubmit="showLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar')">
                 @csrf
                 @method('PUT')
                 
@@ -40,7 +40,7 @@
                 </div>
                 
                 <div class="flex justify-between items-center">
-                    <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-pink-600 font-semibold transition-colors duration-300">
+                    <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-pink-600 font-semibold transition-colors duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                         <i class="fas fa-arrow-left mr-2"></i> Cancel
                     </a>
                     <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
@@ -76,6 +76,7 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menghapus kategori...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });

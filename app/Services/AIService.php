@@ -29,20 +29,22 @@ class AIService
             $name = $userName ?: 'Achiever';
             $prompt = "Generate a congratulatory certificate message for {$name} who has successfully completed a goal titled '{$goalTitle}'. The message should be inspiring, motivational, and celebrate their achievement. Keep it between 2-3 sentences. Make it personal and encouraging. Use their name '{$name}' in the message.";
 
-            $response = Http::withHeaders([
-                'X-RapidAPI-Key' => $apiKey,
-                'X-RapidAPI-Host' => $apiHost,
-                'Content-Type' => 'application/json',
-            ])->post($apiBaseUrl . $apiEndpoint, [
-                'messages' => [
-                    [
-                        'role' => 'user',
-                        'content' => $prompt
-                    ]
-                ],
-                'temperature' => 0.8,
-                'max_tokens' => 150,
-            ]);
+            $timeout = config('services.ai.timeout', 10);
+            $response = Http::timeout($timeout)
+                ->withHeaders([
+                    'X-RapidAPI-Key' => $apiKey,
+                    'X-RapidAPI-Host' => $apiHost,
+                    'Content-Type' => 'application/json',
+                ])->post($apiBaseUrl . $apiEndpoint, [
+                    'messages' => [
+                        [
+                            'role' => 'user',
+                            'content' => $prompt
+                        ]
+                    ],
+                    'temperature' => 0.8,
+                    'max_tokens' => 150,
+                ]);
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -93,20 +95,22 @@ class AIService
             $name = $userName ?: 'You';
             $prompt = "Generate a powerful affirmation message for {$name} who has completed the goal '{$goalTitle}'. This should be a positive, empowering statement that reinforces their capability and success. Make it encouraging and motivational. Keep it to 1-2 sentences. Use their name '{$name}' in the message.";
 
-            $response = Http::withHeaders([
-                'X-RapidAPI-Key' => $apiKey,
-                'X-RapidAPI-Host' => $apiHost,
-                'Content-Type' => 'application/json',
-            ])->post($apiBaseUrl . $apiEndpoint, [
-                'messages' => [
-                    [
-                        'role' => 'user',
-                        'content' => $prompt
-                    ]
-                ],
-                'temperature' => 0.9,
-                'max_tokens' => 100,
-            ]);
+            $timeout = config('services.ai.timeout', 10);
+            $response = Http::timeout($timeout)
+                ->withHeaders([
+                    'X-RapidAPI-Key' => $apiKey,
+                    'X-RapidAPI-Host' => $apiHost,
+                    'Content-Type' => 'application/json',
+                ])->post($apiBaseUrl . $apiEndpoint, [
+                    'messages' => [
+                        [
+                            'role' => 'user',
+                            'content' => $prompt
+                        ]
+                    ],
+                    'temperature' => 0.8,
+                    'max_tokens' => 100,
+                ]);
 
             if ($response->successful()) {
                 $data = $response->json();

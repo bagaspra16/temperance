@@ -5,7 +5,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Header dengan toggle -->
         <div class="flex items-center justify-between mb-6">
-            <a href="{{ route('goals.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
+            <a href="{{ route('goals.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-arrow-left"></i> Back to Goals
             </a>
             <div class="flex items-center gap-4">
@@ -98,6 +98,7 @@
                                 </div>
                                 @endforeach
                             </div>
+                            
                             <div class="mt-6 flex justify-between items-center">
                                 <button @click="prevStep()" class="text-gray-400 hover:text-white transition-colors duration-300">
                                     <i class="fas fa-arrow-left mr-2"></i> Back
@@ -113,71 +114,63 @@
                     <!-- Step 4: Priority -->
                     <div x-show="currentStep === 4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform translate-x-4" x-transition:enter-end="opacity-100 transform translate-x-0">
                         <div class="text-center mb-8">
-                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-500 to-yellow-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-exclamation-triangle text-2xl text-white"></i>
+                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-flag text-2xl text-white"></i>
                             </div>
-                            <h2 class="text-3xl font-bold text-white mb-2">How important is this?</h2>
-                            <p class="text-gray-300">Set the priority level for your goal</p>
+                            <h2 class="text-3xl font-bold text-white mb-2">Set priority level</h2>
+                            <p class="text-gray-300">How important is this goal to you?</p>
                         </div>
                         <div class="max-w-2xl mx-auto">
                             <div class="space-y-4">
                                 <div @click="selectPriority('low')" 
                                      :class="formData.priority === 'low' ? 'ring-2 ring-green-500 bg-green-500/10' : 'hover:bg-gray-700'"
-                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-leaf text-white"></i>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-white font-bold text-lg">Low Priority</h3>
-                                                <p class="text-gray-300">Take your time, no rush</p>
-                                            </div>
+                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-4 cursor-pointer transition-all duration-300 transform hover:scale-105">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                            <i class="fas fa-flag text-white text-sm"></i>
                                         </div>
-                                        <i x-show="formData.priority === 'low'" class="fas fa-check text-green-500 text-xl"></i>
+                                        <div>
+                                            <h3 class="text-white font-semibold">Low Priority</h3>
+                                            <p class="text-gray-400 text-sm">Nice to have, but not urgent</p>
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <div @click="selectPriority('medium')" 
                                      :class="formData.priority === 'medium' ? 'ring-2 ring-yellow-500 bg-yellow-500/10' : 'hover:bg-gray-700'"
-                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-clock text-white"></i>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-white font-bold text-lg">Medium Priority</h3>
-                                                <p class="text-gray-300">Important but not urgent</p>
-                                            </div>
+                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-4 cursor-pointer transition-all duration-300 transform hover:scale-105">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center">
+                                            <i class="fas fa-flag text-white text-sm"></i>
                                         </div>
-                                        <i x-show="formData.priority === 'medium'" class="fas fa-check text-yellow-500 text-xl"></i>
+                                        <div>
+                                            <h3 class="text-white font-semibold">Medium Priority</h3>
+                                            <p class="text-gray-400 text-sm">Important and should be done soon</p>
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <div @click="selectPriority('high')" 
                                      :class="formData.priority === 'high' ? 'ring-2 ring-red-500 bg-red-500/10' : 'hover:bg-gray-700'"
-                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-6 cursor-pointer transition-all duration-300 transform hover:scale-105">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
-                                                <i class="fas fa-fire text-white"></i>
-                                            </div>
-                                            <div>
-                                                <h3 class="text-white font-bold text-lg">High Priority</h3>
-                                                <p class="text-gray-300">Urgent and important</p>
-                                            </div>
+                                     class="bg-gray-700 border-2 border-gray-600 rounded-xl p-4 cursor-pointer transition-all duration-300 transform hover:scale-105">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
+                                            <i class="fas fa-flag text-white text-sm"></i>
                                         </div>
-                                        <i x-show="formData.priority === 'high'" class="fas fa-check text-red-500 text-xl"></i>
+                                        <div>
+                                            <h3 class="text-white font-semibold">High Priority</h3>
+                                            <p class="text-gray-400 text-sm">Critical and needs immediate attention</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="mt-6 flex justify-between items-center">
                                 <button @click="prevStep()" class="text-gray-400 hover:text-white transition-colors duration-300">
                                     <i class="fas fa-arrow-left mr-2"></i> Back
                                 </button>
                                 <button @click="nextStep()" :disabled="!formData.priority" 
-                                        class="bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300">
+                                        class="bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300">
                                     Continue <i class="fas fa-arrow-right ml-2"></i>
                                 </button>
                             </div>
@@ -191,27 +184,29 @@
                                 <i class="fas fa-calendar-alt text-2xl text-white"></i>
                             </div>
                             <h2 class="text-3xl font-bold text-white mb-2">Set your timeline</h2>
-                            <p class="text-gray-300">When do you want to start and finish?</p>
+                            <p class="text-gray-300">When do you want to achieve this goal?</p>
                         </div>
                         <div class="max-w-2xl mx-auto">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
                                 <div>
-                                    <label class="block text-purple-200 font-medium mb-2">Start Date</label>
+                                    <label class="block text-gray-300 font-medium mb-2">Start Date</label>
                                     <input type="date" x-model="formData.start_date" 
-                                           class="w-full bg-gray-700 border-2 border-gray-600 text-white text-lg px-4 py-3 rounded-xl shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all duration-300">
+                                           class="w-full bg-gray-700 border-2 border-gray-600 text-white px-4 py-3 rounded-xl shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all duration-300">
                                 </div>
+                                
                                 <div>
-                                    <label class="block text-purple-200 font-medium mb-2">Target Date</label>
+                                    <label class="block text-gray-300 font-medium mb-2">End Date (Optional)</label>
                                     <input type="date" x-model="formData.end_date" 
-                                           class="w-full bg-gray-700 border-2 border-gray-600 text-white text-lg px-4 py-3 rounded-xl shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all duration-300">
+                                           class="w-full bg-gray-700 border-2 border-gray-600 text-white px-4 py-3 rounded-xl shadow-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition-all duration-300">
                                 </div>
                             </div>
+                            
                             <div class="mt-6 flex justify-between items-center">
                                 <button @click="prevStep()" class="text-gray-400 hover:text-white transition-colors duration-300">
                                     <i class="fas fa-arrow-left mr-2"></i> Back
                                 </button>
                                 <button @click="submitForm()" class="bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300">
-                                    <i class="fas fa-rocket mr-2"></i> Create Goal
+                                    <i class="fas fa-plus-circle mr-2"></i> Create Goal
                                 </button>
                             </div>
                         </div>
@@ -225,12 +220,13 @@
             <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-pink-500/10">
                 <div class="p-8">
                     <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2">Create a New Goal</h1>
-                    <p class="text-gray-300 mb-8">Let's set up your next big achievement.</p>
-                    <form action="{{ route('goals.store') }}" method="POST">
+                    <p class="text-gray-300 mb-8">Set a new goal and start your journey to success.</p>
+                    <form action="{{ route('goals.store') }}" method="POST" onsubmit="showLoading('Membuat goal...', 'Mohon tunggu sebentar')">
                         @csrf
+                        
                         @if ($errors->any())
-                            <div class="bg-pink-100 border-l-4 border-pink-500 text-pink-800 p-4 mb-6 rounded-xl" role="alert">
-                                <p class="font-bold">Please fix the errors below:</p>
+                            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md" role="alert">
+                                <p class="font-bold">Oops! Something went wrong.</p>
                                 <ul class="mt-2 list-disc list-inside">
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
@@ -238,48 +234,55 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div class="md:col-span-3">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
                                 <label for="title" class="block text-pink-200 font-medium mb-2">Goal Title</label>
-                                <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="e.g., Learn Laravel from scratch" class="w-full border-gray-50 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
+                                <input type="text" name="title" id="title" value="{{ old('title') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" placeholder="e.g., Learn Laravel from scratch" required>
                             </div>
-                            <div class="md:col-span-3">
+                            
+                            <div class="md:col-span-2">
                                 <label for="description" class="block text-pink-200 font-medium mb-2">Description</label>
-                                <textarea name="description" id="description" rows="3" placeholder="Describe what you want to accomplish." class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" rows="4" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" placeholder="What exactly do you want to achieve?">{{ old('description') }}</textarea>
                             </div>
+                            
                             <div>
                                 <label for="category_id" class="block text-pink-200 font-medium mb-2">Category</label>
                                 <select name="category_id" id="category_id" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
                                     <option value="">Select a category</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ (old('category_id') == $category->id || request('category_id') == $category->id) ? 'selected' : '' }}>
-                                            {{ $category->name }}
-                                        </option>
+                                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            
                             <div>
                                 <label for="priority" class="block text-pink-200 font-medium mb-2">Priority</label>
                                 <select name="priority" id="priority" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50" required>
+                                    <option value="">Select priority</option>
                                     <option value="low" {{ old('priority') == 'low' ? 'selected' : '' }}>Low</option>
                                     <option value="medium" {{ old('priority') == 'medium' ? 'selected' : '' }}>Medium</option>
                                     <option value="high" {{ old('priority') == 'high' ? 'selected' : '' }}>High</option>
                                 </select>
                             </div>
+                            
                             <div>
                                 <label for="start_date" class="block text-pink-200 font-medium mb-2">Start Date</label>
-                                <input type="date" name="start_date" id="start_date" value="{{ old('start_date') ?? date('Y-m-d') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
+                                <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
                             </div>
+                            
                             <div>
-                                <label for="end_date" class="block text-pink-200 font-medium mb-2">Target Date</label>
+                                <label for="end_date" class="block text-pink-200 font-medium mb-2">End Date (Optional)</label>
                                 <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" class="w-full border-gray-300 bg-transparent text-white text-lg px-4 py-3 rounded-md shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-500 focus:ring-opacity-50">
                             </div>
-                            <input type="hidden" name="progress_percent" value="0">
-                            <input type="hidden" name="status" value="not_started">
                         </div>
-                        <div class="flex justify-end mt-8">
+                        
+                        <div class="flex justify-between items-center mt-8">
+                            <a href="{{ route('goals.index') }}" class="text-gray-400 hover:text-white font-semibold transition-colors duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
+                                <i class="fas fa-arrow-left mr-2"></i> Cancel
+                            </a>
                             <button type="submit" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-8 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
-                                <i class="fas fa-check"></i> Create Goal
+                                <i class="fas fa-plus-circle"></i> Create Goal
                             </button>
                         </div>
                     </form>
@@ -288,8 +291,6 @@
         </div>
     </div>
 </div>
-
-
 @endsection
 
 @push('scripts')
@@ -304,7 +305,7 @@ function goalWizard() {
             description: '',
             category_id: '',
             priority: '',
-            start_date: '{{ date('Y-m-d') }}',
+            start_date: '',
             end_date: ''
         },
         
@@ -333,6 +334,8 @@ function goalWizard() {
         },
         
         submitForm() {
+            showLoading('Membuat goal...', 'Mohon tunggu sebentar');
+            
             // Create a temporary form and submit it
             const form = document.createElement('form');
             form.method = 'POST';
@@ -347,55 +350,20 @@ function goalWizard() {
             form.appendChild(csrfInput);
             
             // Add form data
-            const formData = {
-                title: this.formData.title,
-                description: this.formData.description,
-                category_id: this.formData.category_id,
-                priority: this.formData.priority,
-                start_date: this.formData.start_date,
-                end_date: this.formData.end_date,
-                progress_percent: '0',
-                status: 'not_started'
-            };
-            
-            Object.keys(formData).forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = formData[key];
-                form.appendChild(input);
+            Object.keys(this.formData).forEach(key => {
+                if (this.formData[key]) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = this.formData[key];
+                    form.appendChild(input);
+                }
             });
             
             document.body.appendChild(form);
             form.submit();
         }
     }
-}
-
-function showDeleteConfirmation(formId, itemTitle, type) {
-    Swal.fire({
-        title: 'Delete ' + (type === 'goal' ? 'Goal' : 'Data') + '?',
-        html: `Are you sure you want to delete <b>"${itemTitle}"</b>?<br><span class='text-sm text-gray-400'>This action cannot be undone.</span>`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Delete!',
-        cancelButtonText: 'Cancel',
-        background: 'linear-gradient(to top right, #1f2937, #374151)',
-        customClass: {
-            popup: 'rounded-2xl shadow-2xl border border-gray-700',
-            title: 'text-2xl font-bold text-red-400 pt-4',
-            htmlContainer: 'text-lg text-gray-300 pb-4',
-            actions: 'w-full flex justify-center gap-x-4 px-4',
-            confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
-            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
-        },
-        buttonsStyling: false,
-        focusCancel: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById(formId).submit();
-        }
-    });
 }
 </script>
 @endpush

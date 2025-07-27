@@ -86,7 +86,7 @@
 
                         <div class="flex space-x-2">
                             <a href="{{ route('achievements.show', $achievement->id) }}" 
-                               class="flex-1 bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white text-center py-2 px-4 rounded-lg font-medium transition-all duration-300">
+                               class="flex-1 bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white text-center py-2 px-4 rounded-lg font-medium transition-all duration-300" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
                                 <i class="fas fa-eye mr-2"></i> View
                             </a>
                             <button onclick="openDownloadModal('{{ route('achievements.download', $achievement->id) }}')" 
@@ -113,7 +113,7 @@
             <p class="text-gray-300 mb-6 max-w-md mx-auto">
                 Complete your goals to earn achievement certificates! Each finished goal will automatically generate a personalized certificate with AI-generated congratulatory messages.
             </p>
-            <a href="{{ route('goals.index') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
+            <a href="{{ route('goals.index') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2" onclick="showLoading('Memuat halaman goals...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-bullseye"></i> Start Setting Goals
             </a>
         </div>
@@ -135,6 +135,7 @@
 @push('scripts')
 <script>
 function openDownloadModal(url) {
+    showLoading('Mengunduh sertifikat...', 'Mohon tunggu sebentar');
     window.location.href = url;
 }
 </script>

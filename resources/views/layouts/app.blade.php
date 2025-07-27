@@ -31,6 +31,77 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
     <style>
+        /* Loading Screen Styles */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(236, 72, 153, 0.3);
+            border-top: 4px solid #ec4899;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #ec4899;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile optimizations for loading */
+        @media (max-width: 768px) {
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border-width: 3px;
+            }
+            
+            .loading-text {
+                font-size: 16px;
+            }
+            
+            .loading-subtext {
+                font-size: 12px;
+            }
+        }
+
         /* Animated Background Styles */
         body {
             margin: 0;
@@ -497,6 +568,15 @@
     </style>
 </head>
 <body class="font-sans">
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Memproses...</div>
+            <div class="loading-subtext">Mohon tunggu sebentar</div>
+        </div>
+    </div>
+
     <!-- Animated Background -->
     <div class="animated-background">
         <div class="glow-effect"></div>
@@ -634,6 +714,104 @@
                         })
                     @endif
                 });
+
+                // Loading Screen Functions
+                function showLoading(message = 'Memproses...', subMessage = 'Mohon tunggu sebentar') {
+                    const overlay = document.getElementById('loadingOverlay');
+                    const loadingText = overlay.querySelector('.loading-text');
+                    const loadingSubtext = overlay.querySelector('.loading-subtext');
+                    
+                    loadingText.textContent = message;
+                    loadingSubtext.textContent = subMessage;
+                    overlay.classList.add('show');
+                }
+
+                function hideLoading() {
+                    const overlay = document.getElementById('loadingOverlay');
+                    overlay.classList.remove('show');
+                }
+
+                // Auto-hide loading after page load
+                window.addEventListener('load', function() {
+                    setTimeout(hideLoading, 500);
+                });
+
+                // Show loading for navigation links
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Desktop navigation links
+                    const navLinks = document.querySelectorAll('nav a[href]');
+                    navLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            if (this.href && !this.href.includes('#')) {
+                                showLoading('Memuat halaman...', 'Mohon tunggu sebentar');
+                            }
+                        });
+                    });
+
+                    // Mobile bottom navigation links
+                    const bottomNavLinks = document.querySelectorAll('.bottom-nav a[href]');
+                    bottomNavLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            if (this.href && !this.href.includes('#')) {
+                                showLoading('Memuat halaman...', 'Mohon tunggu sebentar');
+                            }
+                        });
+                    });
+
+                    // Form submissions
+                    const forms = document.querySelectorAll('form');
+                    forms.forEach(form => {
+                        form.addEventListener('submit', function(e) {
+                            const submitButton = form.querySelector('button[type="submit"]');
+                            if (submitButton) {
+                                const buttonText = submitButton.textContent.trim();
+                                if (buttonText.includes('Create') || buttonText.includes('Buat') || buttonText.includes('Tambah')) {
+                                    showLoading('Membuat data...', 'Mohon tunggu sebentar');
+                                } else if (buttonText.includes('Update') || buttonText.includes('Update') || buttonText.includes('Simpan')) {
+                                    showLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar');
+                                } else if (buttonText.includes('Delete') || buttonText.includes('Hapus')) {
+                                    showLoading('Menghapus data...', 'Mohon tunggu sebentar');
+                                } else {
+                                    showLoading('Memproses...', 'Mohon tunggu sebentar');
+                                }
+                            } else {
+                                showLoading('Memproses...', 'Mohon tunggu sebentar');
+                            }
+                        });
+                    });
+
+                    // AJAX requests
+                    const originalFetch = window.fetch;
+                    window.fetch = function(...args) {
+                        showLoading('Memproses...', 'Mohon tunggu sebentar');
+                        return originalFetch.apply(this, args)
+                            .finally(() => {
+                                setTimeout(hideLoading, 500);
+                            });
+                    };
+
+                    // XMLHttpRequest
+                    const originalXHROpen = XMLHttpRequest.prototype.open;
+                    const originalXHRSend = XMLHttpRequest.prototype.send;
+                    
+                    XMLHttpRequest.prototype.open = function() {
+                        this._loadingShown = false;
+                        return originalXHROpen.apply(this, arguments);
+                    };
+                    
+                    XMLHttpRequest.prototype.send = function() {
+                        if (!this._loadingShown) {
+                            showLoading('Memproses...', 'Mohon tunggu sebentar');
+                            this._loadingShown = true;
+                        }
+                        
+                        this.addEventListener('loadend', function() {
+                            setTimeout(hideLoading, 500);
+                        });
+                        
+                        return originalXHRSend.apply(this, arguments);
+                    };
+                });
             </script>
         <!-- Page Content -->
         <main>
@@ -721,6 +899,7 @@
             }
         }).then((result) => {
             if (result.isConfirmed) {
+                showLoading('Menghapus data...', 'Mohon tunggu sebentar');
                 document.getElementById(formId).submit();
             }
         });
@@ -747,10 +926,15 @@
             focusCancel: true
         }).then((result) => {
             if (result.isConfirmed) {
+                showLoading('Logging out...', 'Mohon tunggu sebentar');
                 document.getElementById(formId).submit();
             }
         });
     }
+
+    // Global loading functions
+    window.showLoading = showLoading;
+    window.hideLoading = hideLoading;
 </script>
     @stack('scripts')
 </body>
