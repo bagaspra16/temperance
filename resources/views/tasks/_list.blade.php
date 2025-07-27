@@ -45,7 +45,7 @@
                         
                         <div class="flex-1">
                             <div class="flex items-center space-x-3">
-                                <a href="{{ route('tasks.show', $task->id) }}" class="text-lg font-bold text-gray-200 hover:text-pink-400 transition-colors duration-300 {{ $task->is_completed ? 'line-through text-gray-500' : '' }} group">
+                                <a href="{{ route('tasks.show', $task->id) }}" class="text-lg font-bold text-gray-200 hover:text-pink-400 transition-colors duration-300 {{ $task->is_completed ? 'line-through text-gray-500' : '' }} group" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
                                     <span class="relative">
                                         {{ $task->title }}
                                     </span>
@@ -57,7 +57,7 @@
                             <div class="flex items-center space-x-4 text-sm text-gray-400 mt-2">
                                 <span class="flex items-center space-x-1">
                                     <i class="fas fa-bullseye text-pink-400"></i>
-                                    <span>Goal: <a href="{{ route('goals.show', $task->goal->id) }}" class="font-medium text-pink-400 hover:underline hover:text-pink-300 transition-colors duration-200">{{ $task->goal->title }}</a></span>
+                                    <span>Goal: <a href="{{ route('goals.show', $task->goal->id) }}" class="font-medium text-pink-400 hover:underline hover:text-pink-300 transition-colors duration-200" onclick="showLoading('Memuat detail goal...', 'Mohon tunggu sebentar')">{{ $task->goal->title }}</a></span>
                                 </span>
                                 <span class="hidden sm:inline text-gray-600">|</span>
                                 <span class="hidden sm:inline flex items-center space-x-1">
@@ -106,7 +106,7 @@
                             @endif
                         @endif
                         @if(!$task->is_completed)
-                            <a href="{{ route('tasks.edit', $task->id) }}" class="p-2 rounded-lg bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 hover:text-yellow-500 transition-all duration-300 transform hover:scale-110 hover:shadow-lg" title="Edit Task">
+                            <a href="{{ route('tasks.edit', $task->id) }}" class="p-2 rounded-lg bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 hover:text-yellow-500 transition-all duration-300 transform hover:scale-110 hover:shadow-lg" title="Edit Task" onclick="showLoading('Memuat halaman edit...', 'Mohon tunggu sebentar')">
                                 <i class="fas fa-pencil-alt text-sm"></i>
                             </a>
                             <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="inline" id="delete-task-form-{{ $task->id }}">
@@ -132,7 +132,7 @@
         <i class="fas fa-check-square text-6xl text-gray-600 mb-4"></i>
         <h2 class="text-2xl font-semibold text-gray-300 mb-2">No Tasks Yet</h2>
         <p class="text-gray-400 mb-6">Create tasks to break down your goals into manageable steps.</p>
-        <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+        <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
             Create Your First Task
         </a>
     </div>
@@ -144,7 +144,7 @@
         <h3 class="text-2xl font-bold text-gray-100 mb-4">Complete Task Directly</h3>
         <p class="text-gray-400 mb-6">Please provide a reason why you're completing this task directly from pending status:</p>
         
-        <form id="forceCompleteForm" method="POST">
+        <form id="forceCompleteForm" method="POST" onsubmit="showLoading('Menyelesaikan task...', 'Mohon tunggu sebentar')">
             @csrf
             <div class="mb-6">
                 <textarea 
@@ -212,6 +212,7 @@ function showCompleteConfirmation(taskId, taskTitle) {
         buttonsStyling: false
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menyelesaikan task...', 'Mohon tunggu sebentar');
             document.getElementById('finish-task-form-' + taskId).submit();
         }
     });
@@ -237,6 +238,7 @@ function showStartConfirmation(taskId, taskTitle) {
         buttonsStyling: false
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Memulai task...', 'Mohon tunggu sebentar');
             document.getElementById('start-task-form-' + taskId).submit();
         }
     });

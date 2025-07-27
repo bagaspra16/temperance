@@ -15,7 +15,7 @@
     }
 }">
     <div class="mb-6">
-        <a href="{{ route('goals.index') }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
+        <a href="{{ route('goals.index') }}" onclick="showLoading('Memuat halaman goals...', 'Mohon tunggu sebentar')" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
             <i class="fas fa-arrow-left"></i> Back to All Goals
         </a>
     </div>
@@ -45,13 +45,13 @@
                     @endif
                     @if($goal->isFinished())
                         @if($goal->achievements->count() > 0)
-                            <a href="{{ route('achievements.show', $goal->achievements->first()->id) }}" class="bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                            <a href="{{ route('achievements.show', $goal->achievements->first()->id) }}" onclick="showLoading('Memuat sertifikat...', 'Mohon tunggu sebentar')" class="bg-gradient-to-r from-yellow-500 to-yellow-700 hover:from-yellow-600 hover:to-yellow-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
                                 <i class="fas fa-certificate"></i> View Certificate
                             </a>
                         @endif
                     @endif
                     @if(!$goal->isFinished())
-                        <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
+                        <a href="{{ route('goals.edit', $goal->id) }}" onclick="showLoading('Memuat halaman edit...', 'Mohon tunggu sebentar')" class="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300">Edit</a>
                     @endif
                     <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                         @csrf
@@ -137,7 +137,7 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl font-bold text-pink-500">Tasks</h2>
                 @if($goal->canAddTasks())
-                    <a href="{{ route('tasks.create', ['goal_id' => $goal->id]) }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+                    <a href="{{ route('tasks.create', ['goal_id' => $goal->id]) }}" onclick="showLoading('Memuat halaman tambah task...', 'Mohon tunggu sebentar')" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2 px-5 rounded-xl shadow-md transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
                         <i class="fas fa-plus"></i> Add Task
                     </a>
                 @else
@@ -227,6 +227,8 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            // Show loading screen before submitting
+            showLoading('Menghapus goal...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });
@@ -248,6 +250,7 @@ function showFinishGoalConfirmation(goalId, goalTitle) {
                     <p><i class="fas fa-info-circle text-blue-400"></i> This goal will be marked as <strong>Finished</strong></p>
                     <p><i class="fas fa-lock text-red-400"></i> You won't be able to add new tasks to this goal</p>
                     <p><i class="fas fa-check-circle text-green-400"></i> All existing tasks will remain accessible</p>
+                    <p><i class="fas fa-certificate text-yellow-400"></i> An achievement certificate will be created</p>
                 </div>
             </div>
         `,
@@ -268,6 +271,8 @@ function showFinishGoalConfirmation(goalId, goalTitle) {
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
+            // Show loading screen before submitting
+            showLoading('Menyelesaikan goal...', 'Membuat sertifikat achievement...');
             document.getElementById('finish-goal-form-' + goalId).submit();
         }
     });

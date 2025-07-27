@@ -40,6 +40,11 @@ return [
         'api_host' => env('AI_API_HOST'),
         'api_base_url' => env('AI_API_BASE_URL'),
         'api_endpoint' => env('AI_API_ENDPOINT'),
+        'timeout' => env('AI_SERVICE_TIMEOUT', 10),
+    ],
+
+    'http' => [
+        'timeout' => env('HTTP_TIMEOUT', 30),
     ],
 
 ];

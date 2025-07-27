@@ -23,3 +23,19 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# PHP Configuration for Timeout Prevention
+<IfModule mod_php.c>
+    php_value max_execution_time 60
+    php_value max_input_time 60
+    php_value memory_limit 256M
+</IfModule>
+
+# Alternative PHP Configuration for FastCGI
+<IfModule mod_fastcgi.c>
+    <IfModule mod_fcgid.c>
+        FcgidIOTimeout 60
+        FcgidProcessLifeTime 60
+        FcgidMaxRequestLen 10485760
+    </IfModule>
+</IfModule>

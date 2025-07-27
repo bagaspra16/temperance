@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">All Tasks</h1>
-        <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+        <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
             <i class="fas fa-plus mr-2"></i> Add New Task
         </a>
     </div>
@@ -24,7 +24,7 @@
                 <img src="{{ asset('img/no-tasks.svg') }}" alt="No Tasks" class="mx-auto h-40 mb-8">
                 <h2 class="text-3xl font-bold text-gray-100 mb-2">All Tasks Clear!</h2>
                 <p class="text-gray-400 mb-8 max-w-md mx-auto">You have no pending tasks. Create a new task to get started or enjoy the peace of mind!</p>
-                <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-block">
+                <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-block" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                     <i class="fas fa-plus mr-2"></i> Create a New Task
                 </a>
             </div>
@@ -56,6 +56,7 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menghapus task...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });

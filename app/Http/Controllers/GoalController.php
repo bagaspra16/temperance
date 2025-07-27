@@ -328,23 +328,29 @@ class GoalController extends Controller
      */
     public function finish(string $id)
     {
-        $goal = Goal::with('user')->where('user_id', Auth::id())->findOrFail($id);
-        
-        // Check if goal is completed (100% progress)
-        if ($goal->progress_percent < 100) {
-            return redirect()->route('goals.show', $goal->id)
-                ->with('error', '⚠️ Goal must be 100% completed before it can be marked as finished. Current progress: ' . $goal->progress_percent . '%');
-        }
-        
-        // Update status to finished
-        $goal->status = 'finished';
-        $goal->save();
+        try {
+            $goal = Goal::with('user')->where('user_id', Auth::id())->findOrFail($id);
+            
+            // Check if goal is completed (100% progress)
+            if ($goal->progress_percent < 100) {
+                return redirect()->route('goals.show', $goal->id)
+                    ->with('error', '⚠️ Goal must be 100% completed before it can be marked as finished. Current progress: ' . $goal->progress_percent . '%');
+            }
+            
+            // Update status to finished
+            $goal->status = 'finished';
+            $goal->save();
 
-        // Create achievement certificate with user name
-        $this->createAchievementCertificate($goal);
-        
-        return redirect()->route('goals.show', $goal->id)
-            ->with('success', '🎉 Congratulations! Goal "' . $goal->title . '" has been marked as finished. A special achievement certificate has been created for you!');
+            // Create achievement certificate with user name (with timeout protection)
+            $this->createAchievementCertificate($goal);
+            
+            return redirect()->route('goals.show', $goal->id)
+                ->with('success', '🎉 Congratulations! Goal "' . $goal->title . '" has been marked as finished. A special achievement certificate has been created for you!');
+        } catch (\Exception $e) {
+            \Log::error('Error finishing goal: ' . $e->getMessage());
+            return redirect()->route('goals.show', $id)
+                ->with('error', '⚠️ An error occurred while finishing the goal. Please try again.');
+        }
     }
 
     /**
@@ -359,9 +365,20 @@ class GoalController extends Controller
             // Get user name from the goal's user relationship
             $userName = $goal->user->name ?? 'Achiever';
             
-            // Generate AI messages with user name
-            $certificateMessage = AIService::generateCertificateMessage($goal->title, $userName);
-            $affirmationMessage = AIService::generateAffirmationMessage($goal->title, $userName);
+            // Generate AI messages with user name (with timeout protection)
+            $certificateMessage = null;
+            $affirmationMessage = null;
+            
+            // Try to generate AI messages with a timeout
+            try {
+                $certificateMessage = AIService::generateCertificateMessage($goal->title, $userName);
+                $affirmationMessage = AIService::generateAffirmationMessage($goal->title, $userName);
+            } catch (\Exception $aiError) {
+                \Log::warning('AI Service failed, using fallback messages: ' . $aiError->getMessage());
+                // Use fallback messages if AI service fails
+                $certificateMessage = "Congratulations {$userName}! You have successfully completed your goal '{$goal->title}'. Your dedication and perseverance have paid off, and you should be proud of this achievement.";
+                $affirmationMessage = "I am capable of achieving my goals, and I have proven this by completing '{$goal->title}' successfully.";
+            }
 
             // Create achievement record
             Achievement::create([
@@ -377,6 +394,7 @@ class GoalController extends Controller
             ]);
         } catch (\Exception $e) {
             \Log::error('Failed to create achievement certificate: ' . $e->getMessage());
+            // Don't throw the exception, just log it so the goal can still be marked as finished
         }
     }
     

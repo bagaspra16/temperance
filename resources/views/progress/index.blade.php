@@ -38,7 +38,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($record->progressable)
-                                        <a href="{{ $record->progressable->path() }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300">
+                                        <a href="{{ $record->progressable->path() }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
                                             @if($record->progressable_type === 'App\Models\Goal')
                                                 <i class="fas fa-bullseye mr-2 text-gray-400"></i>
                                             @else
@@ -62,7 +62,7 @@
                                     {{ $record->note ?? '-' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('progress.show', $record->id) }}" class="text-blue-600 hover:text-blue-900 font-semibold">Details <i class="fas fa-arrow-right ml-1"></i></a>
+                                    <a href="{{ route('progress.show', $record->id) }}" class="text-blue-600 hover:text-blue-900 font-semibold" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">Details <i class="fas fa-arrow-right ml-1"></i></a>
                                 </td>
                             </tr>
                         @endforeach

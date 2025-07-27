@@ -5,10 +5,10 @@
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Your Goals</h1>
         <div class="flex space-x-4">
-            <a href="{{ route('goals.calendar') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+            <a href="{{ route('goals.calendar') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2" onclick="showLoading('Memuat calendar view...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-calendar-alt"></i> Calendar View
             </a>
-            <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2">
+            <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 flex items-center gap-2" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-plus"></i> Add New Goal
             </a>
         </div>
@@ -60,9 +60,9 @@
                             <span><i class="fas fa-tasks mr-1"></i> {{ $goal->tasks_count }} tasks</span>
                         </div>
                         <div class="border-t border-pink-900/20 pt-4 flex justify-end items-center space-x-3">
-                            <a href="{{ route('goals.show', $goal->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300 flex items-center gap-2"><i class="fas fa-eye"></i> View Details</a>
+                            <a href="{{ route('goals.show', $goal->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300 flex items-center gap-2" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')"><i class="fas fa-eye"></i> View Details</a>
                             @if(!$goal->isFinished())
-                                <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
+                                <a href="{{ route('goals.edit', $goal->id) }}" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300" onclick="showLoading('Memuat halaman edit...', 'Mohon tunggu sebentar')">
                                     <i class="fas fa-edit mr-2"></i>Edit</a>
                             @endif
                             <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
@@ -84,7 +84,7 @@
             <img src="{{ asset('img/no-goals.svg') }}" alt="No Goals" class="mx-auto h-40 mb-8">
             <h2 class="text-3xl font-bold text-pink-500 mb-2">Start Your Journey</h2>
             <p class="text-gray-300 mb-8 max-w-md mx-auto">You haven't set any goals yet. Click the button below to create your first one and start tracking your progress.</p>
-            <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 inline-block">
+            <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 inline-block" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
                 <i class="fas fa-plus mr-2"></i> Create Your First Goal
             </a>
         </div>
@@ -115,6 +115,7 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
+            showLoading('Menghapus goal...', 'Mohon tunggu sebentar');
             document.getElementById(formId).submit();
         }
     });
