@@ -9,7 +9,7 @@
                 <i class="fas fa-arrow-left"></i> Back to Categories
             </a>
             <div class="flex items-center gap-4">
-                <button @click="toggleMode()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 flex items-center gap-2">
+                <button @click="toggleMode()" class="bg-gray-700 hover:bg-gradient-to-r from-pink-500 to-pink-700 text-white px-4 py-2 rounded-lg transition-colors duration-300 flex items-center gap-2">
                     <i class="fas fa-magic"></i>
                     <span x-text="isWizardMode ? 'Switch to Form' : 'Switch to Wizard'"></span>
                 </button>
@@ -66,7 +66,7 @@
                             <textarea x-model="formData.description" rows="4" placeholder="What is this category about? What types of goals belong here?" 
                                       class="w-full bg-gray-700 border-2 border-gray-600 text-white text-lg px-6 py-4 rounded-xl shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300 resize-none"></textarea>
                             <div class="mt-4 flex justify-between items-center">
-                                <button @click="prevStep()" class="text-gray-400 hover:text-white transition-colors duration-300">
+                                <button @click="prevStep()" class="text-gray-400 hover:text-pink-600 transition-colors duration-300">
                                     <i class="fas fa-arrow-left mr-2"></i> Back
                                 </button>
                                 <button @click="nextStep()" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300">
@@ -157,7 +157,7 @@
                             </div>
                             
                             <div class="mt-6 flex justify-between items-center">
-                                <button @click="prevStep()" class="text-gray-400 hover:text-white transition-colors duration-300">
+                                <button @click="prevStep()" class="text-gray-400 hover:text-pink-600 transition-colors duration-300">
                                     <i class="fas fa-arrow-left mr-2"></i> Back
                                 </button>
                                 <button @click="submitForm()" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white font-bold py-3 px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300">

@@ -3,18 +3,18 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="mb-6">
-        <a href="{{ route('progress.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold transition-colors duration-300">
+        <a href="{{ route('progress.index') }}" class="text-blue-600 hover:text-pink-600 font-semibold transition-colors duration-300">
             <i class="fas fa-arrow-left mr-2"></i> Back to Progress History
         </a>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-gray-800/70 rounded-2xl shadow-lg overflow-hidden">
         <div class="p-8">
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-start mb-8 pb-6 border-b">
                 <div>
-                    <h1 class="text-4xl font-bold text-gray-800 mb-2">Progress Record</h1>
-                    <p class="text-gray-500"><i class="far fa-clock mr-2"></i>Recorded on {{ $progress->created_at->format('M d, Y \a\t h:i A') }}</p>
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow mb-2">Progress Record</h1>
+                    <p class="text-gray-400"><i class="far fa-clock mr-2"></i>Recorded on {{ $progress->created_at->format('M d, Y \a\t h:i A') }}</p>
                 </div>
                 <form action="{{ route('progress.destroy', $progress->id) }}" method="POST" class="inline mt-4 md:mt-0" id="delete-progress-form-{{ $progress->id }}">
                     @csrf
@@ -27,8 +27,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Left Column: Record Details -->
-                <div class="bg-gray-50 rounded-xl p-6 border">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Record Details</h2>
+                <div class="bg-gray-800/80 rounded-xl p-6 border">
+                    <h2 class="text-2xl font-bold text-pink-500 mb-6">Record Details</h2>
                     <dl class="space-y-6">
                         @if($progress->percentage !== null)
                         <div>
@@ -51,15 +51,15 @@
                         @if($progress->note)
                         <div>
                             <dt class="text-sm font-medium text-gray-500 flex items-center"><i class="far fa-sticky-note mr-2 text-yellow-500"></i>Notes</dt>
-                            <dd class="mt-2 text-gray-800 bg-white p-4 rounded-md border-l-4 border-yellow-400 italic">"{{ $progress->note }}"</dd>
+                            <dd class="mt-2 text-gray-400 bg-gray-700 p-4 rounded-md border-l-4 border-yellow-400 italic">"{{ $progress->note }}"</dd>
                         </div>
                         @endif
                     </dl>
                 </div>
 
                 <!-- Right Column: Related Item -->
-                <div class="bg-gray-50 rounded-xl p-6 border">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Related Item</h2>
+                <div class="bg-gray-800/80 rounded-xl p-6 border">
+                    <h2 class="text-2xl font-bold text-pink-500 mb-6">Related Item</h2>
                     @if($progress->progressable)
                         @if($progress->progressable_type === 'App\Models\Goal')
                             @php $goal = $progress->progressable; @endphp

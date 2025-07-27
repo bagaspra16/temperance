@@ -68,7 +68,7 @@
                             <form action="{{ route('goals.destroy', $goal->id) }}" method="POST" class="inline" id="delete-goal-form-{{ $goal->id }}">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="showDeleteConfirmation('delete-goal-form-{{ $goal->id }}', '{{ addslashes($goal->title) }}', 'goal and all its tasks')" class="bg-red-500 hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
+                                <button type="button" onclick="showDeleteConfirmation('delete-goal-form-{{ $goal->id }}', '{{ addslashes($goal->title) }}', 'goal and all its tasks')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1.5 px-4 rounded-lg shadow transition-colors duration-300">
                                     <i class="fas fa-trash mr-2"></i>Delete</button>
                             </form>
                         </div>
