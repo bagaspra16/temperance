@@ -7,6 +7,7 @@ use App\Http\Controllers\GoalController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\JournalController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to dashboard
@@ -55,4 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('achievements', AchievementController::class)->only(['index', 'show']);
     Route::get('/achievements/{id}/download', [AchievementController::class, 'downloadCertificate'])->name('achievements.download');
     Route::post('/achievements/{id}/generate', [AchievementController::class, 'generateCertificate'])->name('achievements.generate');
+    
+    // Journals
+    Route::get('/journals/calendar', [JournalController::class, 'calendar'])->name('journals.calendar');
+    Route::get('/journals/insights', [JournalController::class, 'insights'])->name('journals.insights');
+    Route::resource('journals', JournalController::class);
 });

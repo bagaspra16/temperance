@@ -133,14 +133,14 @@
                         <div class="space-y-1 sm:space-y-2">
                             @foreach($taskEvents->take(2) as $event)
                                 <div class="group/event relative">
-                                    <div class="flex items-center p-2 sm:p-2.5 rounded-xl text-xs hover:bg-gray-600/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-gray-600/30"
+                                    <div class="flex items-center p-1 sm:p-2 md:p-2.5 rounded-lg sm:rounded-xl text-xs hover:bg-gray-600/50 hover:shadow-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm border border-gray-600/30"
                                          style="background: linear-gradient(135deg, {{ $event['color'] }}20 0%, {{ $event['color'] }}10 50%, transparent 100%);"
                                          data-priority="{{ $event['priority'] }}" 
                                          data-status="{{ $event['status'] }}" 
                                          data-category="{{ $event['task']->goal->category->id ?? '' }}">
                                         
                                         <!-- Enhanced Task Icon -->
-                                        <div class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-lg mr-2 flex items-center justify-center transition-all duration-300 group-hover/event:scale-110
+                                        <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full sm:rounded-lg mr-1 sm:mr-2 flex items-center justify-center transition-all duration-300 group-hover/event:scale-110
                                             @if($event['status'] === 'completed')
                                                 bg-gradient-to-br from-green-400 to-green-600 shadow-sm shadow-green-500/30
                                             @elseif($event['status'] === 'in_progress')
@@ -158,16 +158,17 @@
                                             @endif
                                         </div>
                                         
-                                        <span class="font-semibold text-gray-200 truncate text-xs flex-1">{{ $event['title'] }}</span>
+                                        <!-- Task title - hidden on mobile, shown on desktop -->
+                                        <span class="font-semibold text-gray-200 truncate text-xs flex-1 hidden sm:block">{{ $event['title'] }}</span>
                                         
                                         <!-- Priority Indicator -->
                                         @if($event['priority'] === 'high')
-                                            <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-500 border border-white shadow-sm flex items-center justify-center ml-1">
-                                                <i class="fas fa-exclamation-triangle text-[5px] sm:text-[8px] text-white"></i>
+                                            <div class="flex-shrink-0 w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-red-500 border border-white shadow-sm flex items-center justify-center ml-1">
+                                                <i class="fas fa-exclamation-triangle text-[4px] sm:text-[5px] md:text-[8px] text-white"></i>
                                             </div>
                                         @elseif($event['priority'] === 'medium')
-                                            <div class="flex-shrink-0 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-500 border border-white shadow-sm flex items-center justify-center ml-1">
-                                                <i class="fas fa-minus text-[5px] sm:text-[8px] text-white"></i>
+                                            <div class="flex-shrink-0 w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full bg-yellow-500 border border-white shadow-sm flex items-center justify-center ml-1">
+                                                <i class="fas fa-minus text-[4px] sm:text-[5px] md:text-[8px] text-white"></i>
                                             </div>
                                         @endif
                                     </div>
@@ -176,8 +177,8 @@
 
                             <!-- More Tasks Indicator -->
                             @if($taskEvents->count() > 2)
-                                <div class="text-xs text-gray-400 text-center py-1 sm:py-1.5 bg-gray-700/50 rounded-lg font-medium backdrop-blur-sm border border-gray-600/30 hover:bg-gray-600/50 transition-colors duration-200">
-                                    <i class="fas fa-plus mr-1"></i>{{ $taskEvents->count() - 2 }} more...
+                                <div class="text-xs text-gray-400 text-center py-0.5 sm:py-1 md:py-1.5 bg-gray-700/50 rounded-lg font-medium backdrop-blur-sm border border-gray-600/30 hover:bg-gray-600/50 transition-colors duration-200">
+                                    <i class="fas fa-plus mr-1"></i><span class="hidden sm:inline">{{ $taskEvents->count() - 2 }} more...</span><span class="sm:hidden">{{ $taskEvents->count() - 2 }}</span>
                                 </div>
                             @endif
                         </div>
@@ -187,57 +188,57 @@
         </div>
 
         <!-- Date Detail Modal -->
-        <div id="dateModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-2 sm:p-4 overflow-hidden backdrop-blur-sm">
-            <div class="bg-gray-800/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] sm:max-h-[85vh] flex flex-col border border-gray-600/50 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+        <div id="dateModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-2 sm:p-4 lg:p-6 overflow-hidden backdrop-blur-sm">
+            <div class="bg-gray-800/95 backdrop-blur-md rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] lg:max-h-[85vh] flex flex-col border border-gray-600/50 transform transition-all duration-300 scale-95 opacity-0 calendar-modal-content" id="modalContent">
                 <!-- Modal Header -->
-                <div class="bg-gradient-to-r from-gray-800/90 to-gray-700/90 backdrop-blur-sm p-4 sm:p-6 rounded-t-2xl sm:rounded-t-3xl border-b border-gray-600/50 flex-shrink-0">
+                <div class="bg-gradient-to-r from-gray-800/90 to-gray-700/90 backdrop-blur-sm p-3 sm:p-4 lg:p-6 rounded-t-xl sm:rounded-t-2xl lg:rounded-t-3xl border-b border-gray-600/50 flex-shrink-0">
                     <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-3 sm:space-x-4">
-                            <div class="p-2 sm:p-3 bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg sm:rounded-xl shadow-lg">
-                                <i class="fas fa-calendar-day text-white text-lg sm:text-xl"></i>
+                        <div class="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+                            <div class="p-1.5 sm:p-2 lg:p-3 bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg sm:rounded-xl shadow-lg">
+                                <i class="fas fa-calendar-day text-white text-sm sm:text-lg lg:text-xl"></i>
                             </div>
                             <div>
-                                <h2 id="modalDate" class="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent"></h2>
+                                <h2 id="modalDate" class="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent"></h2>
                                 <p class="text-gray-400 text-xs sm:text-sm">View your daily activities</p>
                             </div>
                         </div>
-                        <button onclick="closeDateModal()" class="text-gray-400 hover:text-white text-xl sm:text-2xl p-2 hover:bg-gray-700 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:scale-110">
+                        <button onclick="closeDateModal()" class="text-gray-400 hover:text-white text-lg sm:text-xl lg:text-2xl p-1.5 sm:p-2 hover:bg-gray-700 rounded-lg sm:rounded-xl transition-all duration-300 transform hover:scale-110">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
                 
                 <!-- Modal Content -->
-                <div class="flex-1 p-4 sm:p-6">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 h-full">
+                <div class="flex-1 p-3 sm:p-4 lg:p-6 calendar-modal-mobile">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 h-full">
                         <!-- Tasks Section -->
-                        <div class="bg-gray-700/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-600/30 flex flex-col">
-                            <div class="flex items-center justify-between p-4 sm:p-6 border-b border-gray-600/30 flex-shrink-0">
-                                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center">
-                                    <div class="p-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg mr-2 sm:mr-3 shadow-lg">
-                                        <i class="fas fa-tasks text-white"></i>
+                        <div class="bg-gray-700/50 backdrop-blur-sm rounded-lg sm:rounded-xl lg:rounded-2xl border border-gray-600/30 flex flex-col">
+                            <div class="flex items-center justify-between p-3 sm:p-4 lg:p-6 border-b border-gray-600/30 flex-shrink-0">
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white flex items-center">
+                                    <div class="p-1.5 sm:p-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg mr-2 sm:mr-3 shadow-lg">
+                                        <i class="fas fa-tasks text-white text-sm sm:text-base"></i>
                                     </div>
                                     Tasks
                                 </h3>
                                 <span id="taskCount" class="bg-green-500/20 text-green-300 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border border-green-500/30">0</span>
                             </div>
-                            <div id="tasksList" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scrollbar">
+                            <div id="tasksList" class="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-2 sm:space-y-3 lg:space-y-4 modal-scrollbar">
                                 <!-- Tasks will be populated here -->
                             </div>
                         </div>
                         
                         <!-- Goals Section -->
-                        <div class="bg-gray-700/50 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-600/30 flex flex-col">
-                            <div class="flex items-center justify-between p-4 sm:p-6 border-b border-gray-600/30 flex-shrink-0">
-                                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center">
-                                    <div class="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg mr-2 sm:mr-3 shadow-lg">
-                                        <i class="fas fa-bullseye text-white"></i>
+                        <div class="bg-gray-700/50 backdrop-blur-sm rounded-lg sm:rounded-xl lg:rounded-2xl border border-gray-600/30 flex flex-col">
+                            <div class="flex items-center justify-between p-3 sm:p-4 lg:p-6 border-b border-gray-600/30 flex-shrink-0">
+                                <h3 class="text-base sm:text-lg lg:text-xl font-bold text-white flex items-center">
+                                    <div class="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg mr-2 sm:mr-3 shadow-lg">
+                                        <i class="fas fa-bullseye text-white text-sm sm:text-base"></i>
                                     </div>
                                     Goals
                                 </h3>
                                 <span id="goalCount" class="bg-blue-500/20 text-blue-300 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold border border-blue-500/30">0</span>
                             </div>
-                            <div id="goalsList" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scrollbar">
+                            <div id="goalsList" class="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 space-y-2 sm:space-y-3 lg:space-y-4 modal-scrollbar">
                                 <!-- Goals will be populated here -->
                             </div>
                         </div>
@@ -506,10 +507,26 @@ function showDateDetails(dateKey, dateString) {
                 const goalsList = document.getElementById('goalsList');
                 
                 if (tasksList) {
-                    tasksList.style.maxHeight = window.innerWidth < 640 ? '300px' : '400px';
+                    if (window.innerWidth < 480) {
+                        tasksList.style.maxHeight = '180px';
+                    } else if (window.innerWidth < 640) {
+                        tasksList.style.maxHeight = '220px';
+                    } else if (window.innerWidth < 1024) {
+                        tasksList.style.maxHeight = '300px';
+                    } else {
+                        tasksList.style.maxHeight = '350px';
+                    }
                 }
                 if (goalsList) {
-                    goalsList.style.maxHeight = window.innerWidth < 640 ? '300px' : '400px';
+                    if (window.innerWidth < 480) {
+                        goalsList.style.maxHeight = '180px';
+                    } else if (window.innerWidth < 640) {
+                        goalsList.style.maxHeight = '220px';
+                    } else if (window.innerWidth < 1024) {
+                        goalsList.style.maxHeight = '300px';
+                    } else {
+                        goalsList.style.maxHeight = '350px';
+                    }
                 }
             }, 10);
         })
@@ -713,6 +730,7 @@ document.getElementById('dateModal').addEventListener('touchmove', function(e) {
         e.preventDefault();
     }
 }, { passive: false });
+
 </script>
 
 <style>
@@ -813,34 +831,34 @@ body.modal-open {
 }
 
 /* Custom scrollbar for modal content */
-.custom-scrollbar {
+.modal-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: #6B7280 #374151;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
+.modal-scrollbar::-webkit-scrollbar {
+    width: 6px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
+.modal-scrollbar::-webkit-scrollbar-track {
     background: rgba(55, 65, 81, 0.3);
-    border-radius: 10px;
-    margin: 4px;
+    border-radius: 8px;
+    margin: 2px;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+.modal-scrollbar::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #6B7280 0%, #9CA3AF 100%);
-    border-radius: 10px;
-    border: 2px solid rgba(55, 65, 81, 0.3);
+    border-radius: 8px;
+    border: 1px solid rgba(55, 65, 81, 0.3);
     transition: all 0.3s ease;
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #9CA3AF 0%, #D1D5DB 100%);
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
-.custom-scrollbar::-webkit-scrollbar-corner {
+.modal-scrollbar::-webkit-scrollbar-corner {
     background: transparent;
 }
 
@@ -852,33 +870,502 @@ body.modal-open {
 
 /* Modal grid layout */
 #dateModal .grid {
-    min-height: 400px;
+    min-height: 300px;
 }
 
 @media (max-width: 640px) {
     #dateModal .grid {
-        min-height: 300px;
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    #dateModal .grid {
+        min-height: 200px;
     }
 }
 
 /* Ensure scrollable areas have proper height */
 #tasksList, #goalsList {
-    min-height: 150px;
-    max-height: 400px;
+    min-height: 120px;
+    max-height: 300px;
 }
 
 @media (max-width: 640px) {
     #tasksList, #goalsList {
-        min-height: 120px;
-        max-height: 300px;
+        min-height: 100px;
+        max-height: 250px;
     }
 }
 
-/* Smooth scrolling for custom scrollbar */
-.custom-scrollbar {
+@media (max-width: 480px) {
+    #tasksList, #goalsList {
+        min-height: 80px;
+        max-height: 200px;
+    }
+}
+
+/* Smooth scrolling for modal scrollbar */
+.modal-scrollbar {
     scroll-behavior: smooth;
 }
 
+/* Mobile responsive modal optimizations */
+@media (max-width: 640px) {
+    #dateModal {
+        padding: 0.5rem;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    #modalContent {
+        max-width: 100%;
+        max-height: 95vh;
+        margin: 0;
+    }
+    
+    .calendar-modal-mobile {
+        padding: 0.75rem;
+    }
+    
+    .calendar-modal-mobile .grid {
+        gap: 0.75rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        padding: 0.75rem;
+    }
+    
+    /* Mobile modal content optimizations */
+    .calendar-modal-mobile .grid {
+        gap: 0.75rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        padding: 0.75rem;
+    }
+    
+    /* Mobile modal header optimizations */
+    .calendar-modal-mobile .p-4 {
+        padding: 0.75rem;
+    }
+    
+    .calendar-modal-mobile .p-6 {
+        padding: 1rem;
+    }
+}
 
+@media (max-width: 480px) {
+    #dateModal {
+        padding: 0.25rem;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* Ensure modal content is properly sized */
+    #modalContent {
+        max-height: 98vh;
+        max-height: calc(var(--vh, 1vh) * 98);
+        width: 95vw;
+        margin: 0 auto;
+        border-radius: 0.75rem;
+    }
+    
+    #dateModal .bg-gray-800\/95 {
+        border-radius: 0.75rem;
+    }
+    
+    #modalContent {
+        max-height: 98vh;
+    }
+    
+    .calendar-modal-mobile .grid {
+        gap: 0.25rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        border-radius: 0.5rem;
+    }
+    
+    .calendar-modal-mobile .p-4 {
+        padding: 0.5rem;
+    }
+    
+    .calendar-modal-mobile .p-6 {
+        padding: 0.75rem;
+    }
+    
+    /* Mobile modal content optimizations for smaller screens */
+    .calendar-modal-mobile .grid {
+        gap: 0.25rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        border-radius: 0.5rem;
+    }
+    
+    /* Ensure modal header is properly sized */
+    .calendar-modal-mobile .p-4 {
+        padding: 0.5rem;
+    }
+}
+
+/* Enhanced Mobile Modal Optimizations */
+@media (max-width: 640px) {
+    .calendar-modal-mobile .grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        min-height: 200px;
+    }
+    
+    .calendar-modal-mobile h3 {
+        font-size: 0.875rem;
+    }
+    
+    .calendar-modal-mobile .text-xs {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-modal-mobile .grid {
+        gap: 0.5rem;
+    }
+    
+    .calendar-modal-mobile .bg-gray-700\/50 {
+        min-height: 150px;
+    }
+    
+    .calendar-modal-mobile h3 {
+        font-size: 0.8125rem;
+    }
+    
+    .calendar-modal-mobile .text-xs {
+        font-size: 0.6875rem;
+    }
+}
+
+/* Modal Animation Improvements */
+.calendar-modal-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure modal backdrop is properly positioned */
+#dateModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Modal content positioning */
+.calendar-modal-content {
+    transform-origin: center;
+    margin: auto;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+@media (max-width: 640px) {
+    .calendar-modal-content {
+        max-width: 95vw;
+        max-height: 95vh;
+        margin: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-modal-content {
+        max-width: 98vw;
+        max-height: 98vh;
+        margin: 0.125rem;
+    }
+}
+
+/* Mobile Calendar Grid Optimizations */
+@media (max-width: 640px) {
+    .calendar-day {
+        min-height: 50px !important;
+        padding: 0.5rem !important;
+    }
+    
+    .calendar-day .group\/event {
+        margin-bottom: 0.25rem;
+    }
+    
+    .calendar-day .group\/event:last-child {
+        margin-bottom: 0;
+    }
+    
+    /* Ensure icons are visible on mobile */
+    .calendar-day .flex-shrink-0 {
+        min-width: 0.75rem;
+        min-height: 0.75rem;
+    }
+    
+    /* Hide text elements on mobile */
+    .calendar-day .hidden.sm\:block {
+        display: none !important;
+    }
+    
+    /* Show only icons on mobile */
+    .calendar-day .flex.items-center {
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* Ensure proper icon sizing and centering */
+    .calendar-day .flex-shrink-0.w-3.h-3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Priority indicators on mobile */
+    .calendar-day .flex-shrink-0.w-2.h-2 {
+        width: 0.625rem;
+        height: 0.625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* More compact padding for mobile */
+    .calendar-day .p-1 {
+        padding: 0.25rem;
+    }
+    
+    /* Smaller border radius for mobile */
+    .calendar-day .rounded-lg {
+        border-radius: 0.375rem;
+    }
+    
+    /* Ensure rounded styling for mobile icons */
+    .calendar-day .rounded-full {
+        border-radius: 9999px;
+    }
+    
+    /* Optimize spacing between elements */
+    .calendar-day .mr-1 {
+        margin-right: 0.125rem;
+    }
+    
+    .calendar-day .ml-1 {
+        margin-left: 0.125rem;
+    }
+    
+    /* Ensure proper spacing for more indicator */
+    .calendar-day .py-0\.5 {
+        padding-top: 0.125rem;
+        padding-bottom: 0.125rem;
+    }
+    
+    /* Enhanced rounded styling for mobile */
+    .calendar-day .flex-shrink-0.rounded-full {
+        border-radius: 9999px !important;
+    }
+    
+    /* Enhanced shadow for mobile icons */
+    .calendar-day .shadow-sm {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Enhanced gradient for mobile icons */
+    .calendar-day .bg-gradient-to-br {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+    }
+    
+    /* Ensure proper icon sizing for rounded design */
+    .calendar-day .flex-shrink-0.w-3.h-3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+    }
+    
+    /* Enhanced hover effects for mobile */
+    .calendar-day .group\/event:hover .flex-shrink-0 {
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
+    }
+    
+    /* Smooth transitions for all icon elements */
+    .calendar-day .flex-shrink-0 {
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-day {
+        min-height: 45px !important;
+        padding: 0.375rem !important;
+    }
+    
+    .calendar-day .flex-shrink-0 {
+        min-width: 0.625rem;
+        min-height: 0.625rem;
+    }
+    
+    /* Even smaller priority indicators */
+    .calendar-day .flex-shrink-0.w-2.h-2 {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+    
+    /* Ensure proper icon sizing and centering for smaller screens */
+    .calendar-day .flex-shrink-0.w-3.h-3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* More compact padding for smaller screens */
+    .calendar-day .p-1 {
+        padding: 0.125rem;
+    }
+    
+    /* Smaller border radius for smaller screens */
+    .calendar-day .rounded-lg {
+        border-radius: 0.25rem;
+    }
+    
+    /* Ensure rounded styling for smaller screen icons */
+    .calendar-day .rounded-full {
+        border-radius: 9999px;
+    }
+    
+    /* Enhanced rounded styling for smaller screens */
+    .calendar-day .flex-shrink-0.rounded-full {
+        border-radius: 9999px !important;
+    }
+    
+    /* Enhanced shadow for smaller screen icons */
+    .calendar-day .shadow-sm {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Enhanced gradient for smaller screen icons */
+    .calendar-day .bg-gradient-to-br {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+    }
+    
+    /* Ensure proper icon sizing for rounded design on smaller screens */
+    .calendar-day .flex-shrink-0.w-3.h-3 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+    }
+    
+    /* Enhanced hover effects for smaller screens */
+    .calendar-day .group\/event:hover .flex-shrink-0 {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+    
+    /* Smooth transitions for all icon elements on smaller screens */
+    .calendar-day .flex-shrink-0 {
+        transition: all 0.3s ease;
+    }
+    
+    /* Optimize spacing between elements for smaller screens */
+    .calendar-day .mr-1 {
+        margin-right: 0.0625rem;
+    }
+    
+    .calendar-day .ml-1 {
+        margin-left: 0.0625rem;
+    }
+    
+    /* Ensure proper spacing for more indicator on smaller screens */
+    .calendar-day .py-0\.5 {
+        padding-top: 0.0625rem;
+        padding-bottom: 0.0625rem;
+    }
+    
+    /* Smaller font size for icons */
+    .calendar-day .text-xs {
+        font-size: 0.625rem;
+    }
+}
 </style>
+
+<script>
+// Mobile handling for calendar modal
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('dateModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDateModal();
+            }
+        });
+        modal.addEventListener('wheel', function(e) {
+            if (e.target === this) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        modal.addEventListener('touchmove', function(e) {
+            if (e.target === this) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Mobile-specific modal handling
+        const modalContent = document.getElementById('modalContent');
+        if (modalContent) {
+            modalContent.addEventListener('touchmove', function(e) {
+                e.stopPropagation();
+            }, { passive: false });
+        }
+        
+        // Prevent body scroll when modal is open on mobile
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    const modal = document.getElementById('dateModal');
+                    if (modal && !modal.classList.contains('hidden')) {
+                        document.body.classList.add('modal-open');
+                    } else {
+                        document.body.classList.remove('modal-open');
+                    }
+                }
+            });
+        });
+        
+        observer.observe(modal, { attributes: true });
+    }
+    
+    // Handle mobile viewport height issues
+    function setMobileViewportHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setMobileViewportHeight();
+    window.addEventListener('resize', setMobileViewportHeight);
+    window.addEventListener('orientationchange', setMobileViewportHeight);
+    
+    // Handle mobile modal positioning
+    function handleMobileModal() {
+        const modal = document.getElementById('dateModal');
+        if (modal) {
+            // Always center the modal regardless of screen size
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.paddingTop = '0';
+        }
+    }
+    
+    handleMobileModal();
+    window.addEventListener('resize', handleMobileModal);
+});
+</script>
 @endsection 

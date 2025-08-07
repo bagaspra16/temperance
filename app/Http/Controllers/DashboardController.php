@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $categories = Category::where('user_id', $user->id)->get();
         
         $upcomingGoals = Goal::where('user_id', $user->id)
-            ->where('status', '!=', 'completed')
+            ->whereIn('status', ['in_progress', 'not_started'])
             ->orderBy('end_date', 'asc')
             ->take(5)
             ->get();
