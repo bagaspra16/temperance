@@ -11,7 +11,7 @@
     <div class="bg-gray-800/70 rounded-2xl shadow-lg overflow-hidden">
         <div class="p-8">
             <!-- Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start mb-8 pb-6 border-b">
+            <div class="flex flex-col md:flex-row justify-between items-start mb-8 pb-6 border-b border-gray-500">
                 <div>
                     <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow mb-2">Progress Record</h1>
                     <p class="text-gray-400"><i class="far fa-clock mr-2"></i>Recorded on {{ $progress->created_at->format('M d, Y \a\t h:i A') }}</p>
@@ -27,7 +27,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Left Column: Record Details -->
-                <div class="bg-gray-800/80 rounded-xl p-6 border">
+                <div class="bg-gray-800/80 rounded-xl p-6 border border-gray-500">
                     <h2 class="text-2xl font-bold text-pink-500 mb-6">Record Details</h2>
                     <dl class="space-y-6">
                         @if($progress->percentage !== null)
@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Right Column: Related Item -->
-                <div class="bg-gray-800/80 rounded-xl p-6 border">
+                <div class="bg-gray-800/80 rounded-xl p-6 border border-gray-500">
                     <h2 class="text-2xl font-bold text-pink-500 mb-6">Related Item</h2>
                     @if($progress->progressable)
                         @if($progress->progressable_type === 'App\Models\Goal')

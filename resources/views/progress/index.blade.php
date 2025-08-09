@@ -64,12 +64,14 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <a href="{{ route('progress.show', $record->id) }}" class="text-blue-600 hover:text-blue-900 font-semibold" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">Details <i class="fas fa-arrow-right ml-1"></i></a>
                                 </td>
+                                <!-- <tr class="@if ($loop->last) border-b border-gray-500 @endif"></tr> -->
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                
             </div>
-            <div class="p-4 bg-gray-900/50 divide-gray-600/60">
+            <div class="p-4 bg-gray-800/50 divide-gray-600/70 border-t border-gray-600">
                 {{ $progress->links() }}
             </div>
         @else
