@@ -44,10 +44,10 @@
     @if($category->goals->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($category->goals as $goal)
-                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-3 truncate">{{ $goal->title }}</h3>
-                        <p class="text-gray-600 mb-4 h-16 overflow-hidden">{{ Str::limit($goal->description, 100) }}</p>
+                        <h3 class="text-2xl font-bold text-gray-100 mb-3 truncate">{{ $goal->title }}</h3>
+                        <p class="text-gray-400 mb-4 h-16 overflow-hidden">{{ Str::limit($goal->description, 100) }}</p>
                         
                         <div class="mb-4">
                             <div class="flex justify-between items-center mb-1">
