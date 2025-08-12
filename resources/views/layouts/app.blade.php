@@ -1798,7 +1798,7 @@
             <!-- Logo -->
             <div class="flex items-center justify-center h-16 border-b border-gray-700 flex-shrink-0">
                 <a href="{{ route('dashboard') }}" class="flex items-center justify-center w-12 h-12 transition-all duration-300 transform hover:scale-110">
-                    <img src="{{ asset('readme-logo.png') }}" alt="Logo" class="w-10 h-10">
+                    <img src="{{ asset('readme-logo-temperance.png') }}" alt="Logo" class="w-10 h-10">
                 </a>
             </div>
 

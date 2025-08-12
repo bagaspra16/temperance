@@ -33,7 +33,7 @@
                 <div class="ml-4 flex-1">
                     <h3 class="text-xl font-bold text-white mb-2">Today's Reflection</h3>
                     <p class="text-blue-100 mb-4">Take a moment to write today's journal. Daily reflection helps you understand your emotions and personal growth.</p>
-                    <a href="{{ route('journals.create') }}" class="inline-flex items-center bg-blue-500 text-gray-100 font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200" onclick="showLoading('Loading page...', 'Please wait a moment')">
+                    <a href="{{ route('journals.create') }}" class="inline-flex items-center bg-blue-500/70 text-gray-100 font-semibold py-2 px-4 rounded-lg hover:bg-blue-700/70 transition-colors duration-200" onclick="showLoading('Loading page...', 'Please wait a moment')">
                         <i class="fas fa-pen mr-2"></i> Start Writing
                     </a>
                 </div>
