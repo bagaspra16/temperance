@@ -26,7 +26,7 @@
                     </thead>
                     <tbody class="bg-gray-800/50 divide-y divide-gray-600/60">
                         @foreach($progress as $record)
-                            <tr class="hover:bg-gradient-to-r from-gray-800/50 to-pink-700/70 backdrop-blur-sm transition-colors duration-200">
+                            <tr class="hover:bg-gray-800/40 backdrop-blur-sm transition-colors duration-200">
                                 <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                     <div class="text-xs sm:text-sm font-medium text-gray-400">{{ $record->created_at->format('M d, Y') }}</div>
                                     <div class="text-xs text-gray-400">{{ $record->created_at->format('h:i A') }}</div>
@@ -71,10 +71,12 @@
                 {{ $progress->links() }}
             </div>
         @else
-            <div class="text-center p-8 sm:p-16">
-                <i class="fas fa-history text-4xl sm:text-6xl text-gray-300 mb-4"></i>
-                <h2 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">No Progress History</h2>
-                <p class="text-gray-500 text-sm sm:text-base">Updates to your goals and tasks will be recorded here automatically.</p>
+            <div class="text-center p-8 sm:p-16 bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm">
+                <div class="w-24 h-24 bg-gradient-to-br from-pink-500/20 to-pink-700/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-pink-500/30">
+                    <i class="fas fa-history text-3xl text-pink-400"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-2">No Progress History</h2>
+                <p class="text-gray-300 text-sm sm:text-base">Updates to your goals and tasks will be recorded here automatically.</p>
             </div>
         @endif
     </div>

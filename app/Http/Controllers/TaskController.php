@@ -254,7 +254,7 @@ class TaskController extends Controller
 
         // Create progress record
         $task->progressRecords()->create([
-            'note' => 'Task dimulai',
+            'note' => 'Task started',
             'progress_value' => 25,
             'user_id' => Auth::id(),
             'task_id' => $task->id
@@ -292,7 +292,7 @@ class TaskController extends Controller
 
         // Create progress record
         $task->progressRecords()->create([
-            'note' => 'Task selesai dikerjakan',
+            'note' => 'Task completed',
             'progress_value' => 100,
             'user_id' => Auth::id(),
             'task_id' => $task->id
@@ -341,7 +341,7 @@ class TaskController extends Controller
 
         // Create progress record
         $task->progressRecords()->create([
-            'note' => 'Task diselesaikan langsung: ' . $request->force_complete_reason,
+            'note' => 'Task force-completed: ' . $request->force_complete_reason,
             'progress_value' => 100,
             'user_id' => Auth::id(),
             'task_id' => $task->id

@@ -64,9 +64,15 @@
                     <!-- Certificate Content -->
                     <div class="p-4 sm:p-6">
                         <div class="mb-3 sm:mb-4">
-                            <span class="text-xs font-semibold px-2 sm:px-3 py-1 rounded-full mb-3 inline-block" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
-                                {{ $achievement->goal->category->name }}
-                            </span>
+                            @if($achievement->goal && $achievement->goal->category)
+                                <span class="text-xs font-semibold px-2 sm:px-3 py-1 rounded-full mb-3 inline-block" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
+                                    {{ $achievement->goal->category->name }}
+                                </span>
+                            @else
+                                <span class="text-xs font-semibold px-2 sm:px-3 py-1 rounded-full mb-3 inline-block bg-gray-500/20 text-gray-400">
+                                    Uncategorized
+                                </span>
+                            @endif
                         </div>
 
                         <div class="mb-3 sm:mb-4">

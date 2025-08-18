@@ -52,7 +52,7 @@
     </div>
 
     <!-- Month Navigation -->
-    <div class="bg-gray-800 rounded-xl p-3 sm:p-4 md:p-6 mb-6 sm:mb-8 shadow-lg">
+    <div class="bg-gray-900/40 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-6 mb-6 sm:mb-8 shadow-lg border border-gray-700/40">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
             <a href="{{ route('journals.calendar', ['year' => $month == 1 ? $year - 1 : $year, 'month' => $month == 1 ? 12 : $month - 1]) }}" 
                class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 sm:py-3 px-3 sm:px-6 rounded-lg transition-colors duration-200 text-xs sm:text-sm"
@@ -73,9 +73,9 @@
     </div>
 
     <!-- Calendar Grid -->
-    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-gray-900/40 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-gray-700/40">
         <!-- Calendar Header -->
-        <div class="grid grid-cols-7 bg-gray-750 border-b border-gray-700">
+        <div class="grid grid-cols-7 bg-gradient-to-l from-gray-900/30 to-gray-900/40 border-b border-gray-700/40">
             @php
                 $daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             @endphp
@@ -105,14 +105,14 @@
                     });
                 @endphp
                 
-                <div class="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] border-r border-b border-gray-700 p-1 sm:p-2 {{ $isCurrentMonth ? 'bg-gray-800' : 'bg-gray-900' }} {{ $isToday ? 'bg-gradient-to-br from-pink-900/80 to-pink-800/80 border-pink-500/50' : '' }} hover:bg-gray-700/70 transition-all duration-300 group {{ $dayJournals->count() > 0 ? 'cursor-pointer' : '' }} relative calendar-day"
+                <div class="min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] border-r border-b border-gray-700/40 p-1 sm:p-2 {{ $isCurrentMonth ? 'bg-gray-800/40' : 'bg-gray-900/40' }} {{ $isToday ? 'bg-gradient-to-br from-pink-900/40 to-pink-800/40 border-pink-500/30' : '' }} hover:bg-gray-700/40 transition-all duration-300 group {{ $dayJournals->count() > 0 ? 'cursor-pointer' : '' }} relative calendar-day"
                      @if($dayJournals->count() > 0)
                      onclick="showDayJournals('{{ $currentDate->format('Y-m-d') }}', '{{ $currentDate->format('l, F j, Y') }}')"
                      @endif>
                     
                     <!-- Journal count indicator -->
                     @if($dayJournals->count() > 0)
-                        <div class="absolute top-1 right-1 bg-pink-600 text-white text-[8px] sm:text-xs font-bold px-1 py-0.5 rounded-full z-10 group-hover:bg-pink-500 transition-colors duration-200 journal-indicator"
+                        <div class="absolute top-1 right-1 bg-pink-600/80 text-white text-[8px] sm:text-xs font-bold px-1 py-0.5 rounded-full z-10 transition-all duration-200 journal-indicator border border-pink-500/30"
                              title="{{ $dayJournals->count() }} journal{{ $dayJournals->count() > 1 ? 's' : '' }} on {{ $currentDate->format('M j') }}">
                             {{ $dayJournals->count() }}
                         </div>
@@ -124,7 +124,7 @@
                             {{ $currentDate->format('j') }}
                         </span>
                         @if($isToday)
-                            <span class="text-[10px] sm:text-xs text-pink-300 font-bold bg-pink-900/50 px-1 py-0.5 rounded-full border border-pink-500/30">TODAY</span>
+                            <span class="text-[10px] sm:text-xs text-pink-300 font-bold bg-pink-900/30 px-1 py-0.5 rounded-full border border-pink-500/20">TODAY</span>
                         @endif
                     </div>
                     
@@ -416,9 +416,9 @@
 
 
 <!-- Day Journals Modal -->
-<div id="dayJournalsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden overflow-hidden">
+<div id="dayJournalsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 z-[9999] hidden overflow-hidden">
     <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
-        <div class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-2xl lg:max-w-3xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col">
+        <div id="journalModalPanel" class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-2xl lg:max-w-3xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col">
             <!-- Header -->
             <div class="p-3 sm:p-4 lg:p-6 border-b border-gray-700 flex-shrink-0">
                 <div class="flex justify-between items-start">
@@ -443,11 +443,32 @@
 <script>
 function showDayJournals(date, formattedDate) {
     document.getElementById('modalDate').textContent = formattedDate;
-    document.getElementById('dayJournalsModal').classList.remove('hidden');
+    const backdrop = document.getElementById('dayJournalsModal');
+    const panel = document.getElementById('journalModalPanel');
+    backdrop.classList.remove('hidden');
+    // Inline styles to ensure transition works above Tailwind
+    backdrop.style.display = 'block';
+    backdrop.style.opacity = '0';
+    backdrop.style.transition = 'opacity 250ms ease';
+    requestAnimationFrame(() => {
+        backdrop.style.opacity = '1';
+    });
     
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
+    
+    // Animate panel in
+    if (panel) {
+        panel.style.opacity = '0';
+        panel.style.transform = 'scale(0.96) translateY(12px)';
+        panel.style.transition = 'opacity 320ms ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 360ms ease';
+        panel.style.boxShadow = '0 20px 40px rgba(0,0,0,0.35)';
+        requestAnimationFrame(() => {
+            panel.style.opacity = '1';
+            panel.style.transform = 'scale(1) translateY(0)';
+        });
+    }
     
     // Show loading state
     const content = document.getElementById('modalContent');
@@ -564,10 +585,26 @@ function showDayJournals(date, formattedDate) {
 }
 
 function closeDayModal() {
-    document.getElementById('dayJournalsModal').classList.add('hidden');
-    // Restore body scroll when modal is closed
-    document.body.style.overflow = '';
-    document.body.classList.remove('modal-open');
+    const backdrop = document.getElementById('dayJournalsModal');
+    const panel = document.getElementById('journalModalPanel');
+    if (panel) {
+        panel.style.opacity = '0';
+        panel.style.transform = 'scale(0.96) translateY(12px)';
+    }
+    if (backdrop) {
+        backdrop.style.opacity = '0';
+    }
+    setTimeout(() => {
+        if (backdrop) {
+            backdrop.classList.add('hidden');
+            backdrop.style.display = '';
+            backdrop.style.opacity = '';
+            backdrop.style.transition = '';
+        }
+        // Restore body scroll when modal is closed
+        document.body.style.overflow = '';
+        document.body.classList.remove('modal-open');
+    }, 300);
 }
 
 function createJournalWithPrompt(prompt) {

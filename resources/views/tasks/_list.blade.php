@@ -1,12 +1,12 @@
 @if($tasks->count() > 0)
-    <div class="divide-y divide-gray-700">
+    <div class="divide-y divide-gray-600/70">
         @foreach($tasks as $task)
-            <div class="p-6 hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg rounded-xl">
+            <div class="p-6 hover:bg-gray-800/40 backdrop-blur-sm transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg rounded-xl">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <!-- Enhanced Task Status Icon -->
                         <div class="relative group">
-                            <div class="flex-shrink-0 h-12 w-12 rounded-2xl border-3 flex items-center justify-center transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-3 
+                            <div class="flex-shrink-0 h-12 w-12 rounded-2xl border-2 flex items-center justify-center transition-all duration-500 transform group-hover:scale-110 group-hover:rotate-3 
                                 @if($task->is_completed)
                                     bg-gradient-to-br from-green-400 to-green-600 border-green-300 text-white shadow-lg shadow-green-500/30
                                 @elseif($task->status === 'in_progress')
@@ -34,11 +34,15 @@
                             <!-- Priority Indicator -->
                             @if($task->priority === 'high')
                                 <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-red-500 border-2 border-white shadow-lg flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
-                                    <i class="fas fa-exclamation-triangle text-[5px] sm:text-[8px] text-white"></i>
+                                    <i class="fas fa-exclamation-triangle text-xs text-white"></i>
                                 </div>
                             @elseif($task->priority === 'medium')
                                 <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-yellow-500 border-2 border-white shadow-lg flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
-                                    <i class="fas fa-minus text-[5px] sm:text-[8px] text-white"></i>
+                                    <i class="fas fa-minus text-xs text-white"></i>
+                                </div>
+                            @elseif($task->priority === 'low')
+                                <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-green-500 border-2 border-white shadow-lg flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                                    <i class="fas fa-arrow-down text-xs text-white"></i>
                                 </div>
                             @endif
                         </div>
@@ -107,13 +111,13 @@
                         @endif
                         @if(!$task->is_completed)
                             <a href="{{ route('tasks.edit', $task->id) }}" class="p-2 rounded-lg bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 hover:text-yellow-500 transition-all duration-300 transform hover:scale-110 hover:shadow-lg" title="Edit Task" onclick="showLoading('Memuat halaman edit...', 'Mohon tunggu sebentar')">
-                                <i class="fas fa-pencil-alt text-sm"></i>
+                                <i class="fas fa-edit text-sm"></i>
                             </a>
                             <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="inline" id="delete-task-form-{{ $task->id }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" onclick="showDeleteConfirmation('delete-task-form-{{ $task->id }}', '{{ addslashes($task->title) }}', 'task')" class="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-500 hover:text-red-400 transition-all duration-300 transform hover:scale-110 hover:shadow-lg" title="Delete Task">
-                                    <i class="fas fa-trash-alt text-sm"></i>
+                                    <i class="fas fa-trash text-sm"></i>
                                 </button>
                             </form>
                         @endif
@@ -128,11 +132,13 @@
         </div>
     @endif
 @else
-    <div class="text-center p-12">
-        <i class="fas fa-check-square text-6xl text-gray-600 mb-4"></i>
-        <h2 class="text-2xl font-semibold text-gray-300 mb-2">No Tasks Yet</h2>
-        <p class="text-gray-400 mb-6">Create tasks to break down your goals into manageable steps.</p>
-        <a href="{{ route('tasks.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
+    <div class="text-center p-12 bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm">
+        <div class="w-24 h-24 bg-gradient-to-br from-pink-500/20 to-pink-700/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-pink-500/30">
+            <i class="fas fa-check-square text-3xl text-pink-400"></i>
+        </div>
+        <h2 class="text-2xl font-semibold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-2">No Tasks Yet</h2>
+        <p class="text-gray-300 mb-6">Create tasks to break down your goals into manageable steps.</p>
+        <a href="{{ route('tasks.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
             Create Your First Task
         </a>
     </div>
