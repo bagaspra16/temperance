@@ -111,17 +111,19 @@
         </div>
     @else
         <!-- Empty State -->
-        <div class="bg-gray-800 rounded-3xl shadow-xl p-6 sm:p-8 lg:p-12 text-center border border-pink-500/10">
-            <div class="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-pink-500 to-pink-700 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <i class="fas fa-trophy text-white text-2xl sm:text-3xl"></i>
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-600/70">
+            <div class="bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm p-6 sm:p-8 lg:p-12 text-center">
+                <div class="w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-br from-pink-500 to-pink-700 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                    <i class="fas fa-trophy text-white text-2xl sm:text-3xl"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-3 sm:mb-4">No Achievements Yet</h2>
+                <p class="text-gray-300 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
+                    Complete your goals to earn achievement certificates! Each finished goal will automatically generate a personalized certificate with AI-generated congratulatory messages.
+                </p>
+                <a href="{{ route('goals.index') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Memuat halaman goals...', 'Mohon tunggu sebentar')">
+                    <i class="fas fa-bullseye"></i> <span class="hidden sm:inline">Start Setting Goals</span><span class="sm:hidden">Set Goals</span>
+                </a>
             </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">No Achievements Yet</h3>
-            <p class="text-gray-300 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base">
-                Complete your goals to earn achievement certificates! Each finished goal will automatically generate a personalized certificate with AI-generated congratulatory messages.
-            </p>
-            <a href="{{ route('goals.index') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-8 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Memuat halaman goals...', 'Mohon tunggu sebentar')">
-                <i class="fas fa-bullseye"></i> <span class="hidden sm:inline">Start Setting Goals</span><span class="sm:hidden">Set Goals</span>
-            </a>
         </div>
     @endif
 </div>

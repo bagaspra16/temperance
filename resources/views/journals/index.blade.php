@@ -3,7 +3,10 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Daily Journals</h1>
+        <div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Daily Journals</h1>
+            <p class="text-gray-400 text-sm sm:text-base mt-2">Reflect on your day and track your personal growth journey</p>
+        </div>
         <a href="{{ route('journals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto" onclick="showLoading('Loading page...', 'Please wait a moment')">
             <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write New Journal</span><span class="sm:hidden">New Journal</span>
         </a>
