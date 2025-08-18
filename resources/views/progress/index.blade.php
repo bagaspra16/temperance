@@ -2,17 +2,12 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Progress History</h1>
-        <p class="text-gray-500">A complete log of all your achievements.</p>
-    </div>
-
-    @if(session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <p class="font-bold">Success</p>
-            <p>{{ session('success') }}</p>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Progress History</h1>
+            <p class="text-gray-500 text-sm sm:text-base">A complete log of all your achievements.</p>
         </div>
-    @endif
+    </div>
 
     <div class="bg-gray-800/50 rounded-2xl shadow-lg overflow-hidden">
         @if($progress->count() > 0)
@@ -20,11 +15,11 @@
                 <table class="min-w-full divide-y divide-gray-600/70">
                     <thead class="bg-gray-800/50">
                         <tr>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Related Item</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Change Description</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Notes</th>
-                            <th scope="col" class="relative px-6 py-3">
+                            <th scope="col" class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Related Item</th>
+                            <th scope="col" class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Change Description</th>
+                            <th scope="col" class="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Notes</th>
+                            <th scope="col" class="relative px-3 sm:px-6 py-3 sm:py-3">
                                 <span class="sr-only">Actions</span>
                             </th>
                         </tr>
@@ -32,13 +27,13 @@
                     <tbody class="bg-gray-800/50 divide-y divide-gray-600/60">
                         @foreach($progress as $record)
                             <tr class="hover:bg-gradient-to-r from-gray-800/50 to-pink-700/70 backdrop-blur-sm transition-colors duration-200">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-400">{{ $record->created_at->format('M d, Y') }}</div>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                                    <div class="text-xs sm:text-sm font-medium text-gray-400">{{ $record->created_at->format('M d, Y') }}</div>
                                     <div class="text-xs text-gray-400">{{ $record->created_at->format('h:i A') }}</div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                     @if($record->progressable)
-                                        <a href="{{ $record->progressable->path() }}" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
+                                        <a href="{{ $record->progressable->path() }}" class="text-xs sm:text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
                                             @if($record->progressable_type === 'App\Models\Goal')
                                                 <i class="fas fa-bullseye mr-2 text-gray-400"></i>
                                             @else
@@ -48,37 +43,38 @@
                                         </a>
                                         <span class="block ml-6 text-xs text-gray-500">{{ class_basename($record->progressable_type) }}</span>
                                     @else
-                                        <span class="text-sm text-gray-500 italic">Item not found</span>
+                                        <span class="text-xs sm:text-sm text-gray-500 italic">Item not found</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                                     @if($record->percentage !== null)
                                         <i class="fas fa-chart-line mr-2 text-green-500"></i> Progress set to <span class="font-bold">{{ $record->percentage }}%</span>
                                     @else
                                         <i class="fas fa-tag mr-2 text-purple-500"></i> Status changed
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title="{{ $record->note }}">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-500 max-w-xs truncate" title="{{ $record->note }}">
                                     {{ $record->note ?? '-' }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('progress.show', $record->id) }}" class="text-blue-600 hover:text-blue-900 font-semibold" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">Details <i class="fas fa-arrow-right ml-1"></i></a>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-right text-xs sm:text-sm font-medium">
+                                    <a href="{{ route('progress.show', $record->id) }}" class="text-blue-600 hover:text-blue-900 font-semibold" onclick="showLoading('Memuat detail...', 'Mohon tunggu sebentar')">
+                                        <span class="hidden sm:inline">Details</span><span class="sm:hidden">View</span> <i class="fas fa-arrow-right ml-1"></i>
+                                    </a>
                                 </td>
-                                <!-- <tr class="@if ($loop->last) border-b border-gray-500 @endif"></tr> -->
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
                 
             </div>
-            <div class="p-4 bg-gray-800/50 divide-gray-600/70 border-t border-gray-600">
+            <div class="p-3 sm:p-4 bg-gray-800/50 divide-gray-600/70 border-t border-gray-600">
                 {{ $progress->links() }}
             </div>
         @else
-            <div class="text-center p-16">
-                <i class="fas fa-history text-6xl text-gray-300 mb-4"></i>
-                <h2 class="text-2xl font-semibold text-gray-700 mb-2">No Progress History</h2>
-                <p class="text-gray-500">Updates to your goals and tasks will be recorded here automatically.</p>
+            <div class="text-center p-8 sm:p-16">
+                <i class="fas fa-history text-4xl sm:text-6xl text-gray-300 mb-4"></i>
+                <h2 class="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">No Progress History</h2>
+                <p class="text-gray-500 text-sm sm:text-base">Updates to your goals and tasks will be recorded here automatically.</p>
             </div>
         @endif
     </div>

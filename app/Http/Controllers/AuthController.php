@@ -44,7 +44,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('dashboard'))
+                ->with('success', 'Welcome back! You have successfully logged in.');
         }
 
         return redirect()->back()
@@ -90,7 +91,8 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')
+            ->with('success', 'Welcome to Temperance! Your account has been created successfully.');
     }
 
     /**
@@ -106,6 +108,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login')
+            ->with('success', 'You have been successfully logged out.');
     }
 }

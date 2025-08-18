@@ -1,0 +1,280 @@
+/* Profile Settings Custom Styles */
+
+/* Smooth animations for profile elements */
+.profile-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.profile-avatar-large {
+    animation: pulse 2s infinite;
+}
+
+.profile-avatar-medium {
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-medium:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
+}
+
+/* Achievement card animations */
+.achievement-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.achievement-card:hover::before {
+    left: 100%;
+}
+
+.achievement-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-icon {
+    transition: all 0.3s ease;
+}
+
+.achievement-card:hover .achievement-icon {
+    transform: rotate(360deg) scale(1.1);
+}
+
+/* Stats card animations */
+.profile-stats > div {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-stats > div::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.profile-stats > div:hover::after {
+    transform: translateX(100%);
+}
+
+.profile-stats > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Form input animations */
+.profile-form input,
+.profile-form textarea {
+    transition: all 0.3s ease;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+}
+
+/* Button animations */
+.profile-btn {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.profile-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Avatar upload area */
+.avatar-upload-area {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.avatar-upload-area:hover {
+    transform: scale(1.02);
+}
+
+.avatar-upload-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(236, 72, 153, 0.1), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-upload-area:hover::before {
+    opacity: 1;
+}
+
+/* Loading animation for avatar preview */
+.avatar-loading {
+    animation: spin 1s linear infinite;
+}
+
+/* Success animation */
+.success-animation {
+    animation: successPulse 0.6s ease-out;
+}
+
+/* Keyframe animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Floating animation for achievement icons */
+.achievement-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Glow effect for active elements */
+.glow-effect {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+}
+
+/* Responsive animations */
+@media (max-width: 768px) {
+    .profile-card {
+        animation: slideInUp 0.4s ease-out;
+    }
+    
+    .achievement-card:hover {
+        transform: translateY(-1px);
+    }
+    
+    .profile-stats > div:hover {
+        transform: translateY(-1px);
+    }
+}
+
+@media (max-width: 480px) {
+    .achievement-card {
+        animation: none;
+    }
+    
+    .achievement-card:hover {
+        transform: none;
+    }
+    
+    .profile-stats > div:hover {
+        transform: none;
+    }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    .profile-card {
+        background: rgba(31, 41, 55, 0.8);
+    }
+    
+    .achievement-card {
+        background: rgba(55, 65, 81, 0.4);
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .profile-card,
+    .achievement-card,
+    .profile-stats > div,
+    .profile-btn,
+    .avatar-upload-area {
+        animation: none;
+        transition: none;
+    }
+    
+    .achievement-card:hover,
+    .profile-stats > div:hover,
+    .profile-btn:hover {
+        transform: none;
+    }
+} 

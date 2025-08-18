@@ -25,7 +25,7 @@
                 <nav class="flex items-center justify-end gap-4">
                     @auth
                         <a
-                            href="{{ url('/dashboard') }}"
+                            href="{{ route('dashboard') }}"
                             class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
                         >
                             Dashboard
@@ -273,5 +273,17 @@
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>
         @endif
+
+        <!-- Footer -->
+        <footer class="w-full text-center py-4 mt-8">
+            <div class="text-xs text-gray-500 dark:text-gray-400">
+                <p>&copy; {{ date('Y') }} Temperance. All rights reserved.</p>
+                <div class="mt-2 flex justify-center space-x-4">
+                    <a href="{{ route('legal.privacy') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Privacy Policy</a>
+                    <a href="{{ route('legal.terms') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Terms of Service</a>
+                    <a href="{{ route('legal.contact') }}" class="text-[#f53003] dark:text-[#FF4433] hover:underline">Contact Us</a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

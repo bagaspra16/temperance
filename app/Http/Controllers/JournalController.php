@@ -419,4 +419,44 @@ class JournalController extends Controller
 
         return $streak;
     }
+
+    /**
+     * Get journals by date for calendar modal.
+     *
+     * @param string $date
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getByDate($date)
+    {
+        try {
+            $journals = Journal::where('user_id', Auth::id())
+                              ->whereDate('date', $date)
+                              ->orderBy('created_at', 'desc')
+                              ->get()
+                              ->map(function ($journal) {
+                                  return [
+                                      'id' => $journal->id,
+                                      'title' => $journal->title ?: 'Journal ' . $journal->date->format('d M Y'),
+                                      'content' => $journal->content,
+                                      'mood_emoji' => $journal->mood_emoji,
+                                      'important' => $journal->important,
+                                      'tags' => $journal->tags ? implode(',', $journal->tags) : null,
+                                      'created_at' => $journal->created_at->format('M d, Y \a\t h:i A'),
+                                      'mood' => $journal->mood,
+                                      'category' => $journal->category,
+                                  ];
+                              });
+
+            return response()->json([
+                'success' => true,
+                'journals' => $journals
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching journals by date: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error loading journals for this date'
+            ], 500);
+        }
+    }
 }

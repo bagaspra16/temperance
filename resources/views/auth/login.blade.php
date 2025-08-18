@@ -109,7 +109,7 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased bg-gradient-to-br min-h-screen flex items-center justify-center p-4">
+<body class="font-sans antialiased bg-gradient-to-br min-h-screen flex items-center justify-center p-3 sm:p-4">
     <div class="animated-background">
         <div class="glow-effect"></div>
         <div class="underwater-distortion"></div>
@@ -125,25 +125,25 @@
     </div>
     <div class="content-wrapper">
         <div class="w-full max-w-md animate-fadein">
-            <div class="text-center mb-8">
-                <h1 class="text-5xl font-extrabold text-pink-500 mb-2 drop-shadow-lg tracking-tight">Temperance</h1>
-                <p class="text-gray-300 text-lg font-medium">Track your goals and progress</p>
+            <div class="text-center mb-6 sm:mb-8">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-pink-500 mb-1 sm:mb-2 drop-shadow-lg tracking-tight">Temperance</h1>
+                <p class="text-gray-300 text-sm sm:text-base md:text-lg font-medium">Track your goals and progress</p>
             </div>
             <div class="modern-card overflow-hidden">
-                <div class="p-8">
-                    <h2 class="text-2xl font-bold text-pink-400 mb-2">Welcome back</h2>
-                    <p class="text-gray-400 mb-6">Please sign in to continue your journey</p>
+                <div class="p-4 sm:p-6 md:p-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-pink-400 mb-1 sm:mb-2">Welcome back</h2>
+                    <p class="text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6">Please sign in to continue your journey</p>
 
                     @if ($errors->any())
-                        <div class="bg-red-100 border-l-4 border-pink-500 text-pink-800 p-4 rounded-lg mb-6 animate-fadein">
+                        <div class="bg-red-100 border-l-4 border-pink-500 text-pink-800 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 animate-fadein">
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <svg class="h-5 w-5 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
-                                <div class="ml-3">
-                                    <ul class="list-disc pl-5">
+                                <div class="ml-2 sm:ml-3">
+                                    <ul class="list-disc pl-3 sm:pl-5 text-xs sm:text-sm">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
@@ -156,52 +156,52 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <!-- Email -->
-                        <div class="mb-5">
-                            <label for="email" class="block text-sm modern-label mb-2">Email Address</label>
+                        <div class="mb-4 sm:mb-5">
+                            <label for="email" class="block text-xs sm:text-sm modern-label mb-1 sm:mb-2">Email Address</label>
                             <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <div class="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                                         <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                                     </svg>
                                 </div>
                                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus 
-                                    class="modern-input w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-gray-50 transition-all duration-200">
+                                    class="modern-input w-full pl-8 sm:pl-10 px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-gray-50 transition-all duration-200 text-sm sm:text-base">
                             </div>
                         </div>
                         <!-- Password -->
-                        <div class="mb-5">
+                        <div class="mb-4 sm:mb-5">
                             <div class="flex justify-between">
-                                <label for="password" class="block text-sm modern-label mb-2">Password</label>
-                                <a href="#" class="text-sm modern-link font-medium">Forgot password?</a>
+                                <label for="password" class="block text-xs sm:text-sm modern-label mb-1 sm:mb-2">Password</label>
+                                <a href="#" class="text-xs sm:text-sm modern-link font-medium">Forgot password?</a>
                             </div>
                             <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <div class="absolute inset-y-0 left-0 pl-2 sm:pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5 text-pink-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                                 <input id="password" type="password" name="password" required 
-                                    class="modern-input w-full pl-10 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-gray-50 transition-all duration-200">
+                                    class="modern-input w-full pl-8 sm:pl-10 px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-400 focus:border-pink-400 bg-gray-50 transition-all duration-200 text-sm sm:text-base">
                             </div>
                         </div>
                         <!-- Remember Me -->
-                        <div class="mb-6">
+                        <div class="mb-4 sm:mb-6">
                             <label class="inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="remember" class="rounded-md border-gray-300 text-pink-500 shadow-sm focus:border-pink-400 focus:ring focus:ring-pink-200 focus:ring-opacity-50 transition-all duration-200">
-                                <span class="ml-2 text-sm text-gray-400">Remember me</span>
+                                <span class="ml-2 text-xs sm:text-sm text-gray-400">Remember me</span>
                             </label>
                         </div>
                         <!-- Submit Button -->
-                        <button type="submit" class="modern-btn w-full py-3 px-4 mt-2 text-lg">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                        <button type="submit" class="modern-btn w-full py-2.5 sm:py-3 px-3 sm:px-4 mt-1 sm:mt-2 text-sm sm:text-base md:text-lg">
+                            <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" /></svg>
                             Sign in
                         </button>
                     </form>
                     
                     <!-- Registration Link -->
-                    <div class="text-center mt-6">
-                        <p class="text-sm text-gray-400">
+                    <div class="text-center mt-4 sm:mt-6">
+                        <p class="text-xs sm:text-sm text-gray-400">
                             Don't have an account? 
                             <a href="{{ route('register') }}" class="modern-link font-medium">Sign up</a>
                         </p>
@@ -210,12 +210,12 @@
             </div>
 
             <!-- Footer -->
-            <div class="mt-8 text-center text-xs text-gray-500">
+            <div class="mt-6 sm:mt-8 text-center text-xs text-gray-500">
                 <p>&copy; {{ date('Y') }} Temperance. All rights reserved.</p>
-                <div class="mt-2 flex justify-center space-x-4">
-                    <a href="#" class="modern-link">Privacy Policy</a>
-                    <a href="#" class="modern-link">Terms of Service</a>
-                    <a href="#" class="modern-link">Contact Us</a>
+                <div class="mt-1 sm:mt-2 flex justify-center space-x-2 sm:space-x-4">
+                    <a href="{{ route('legal.privacy') }}" class="modern-link text-xs">Privacy Policy</a>
+                    <a href="{{ route('legal.terms') }}" class="modern-link text-xs">Terms of Service</a>
+                    <a href="{{ route('legal.contact') }}" class="modern-link text-xs">Contact Us</a>
                 </div>
             </div>
         </div>
