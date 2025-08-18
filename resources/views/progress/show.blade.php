@@ -60,37 +60,41 @@
                 <!-- Right Column: Related Item -->
                 <div class="bg-gray-800/80 rounded-xl p-4 sm:p-6 border border-gray-500">
                     <h2 class="text-xl sm:text-2xl font-bold text-pink-500 mb-4 sm:mb-6">Related Item</h2>
-                    @if($progress->progressable)
-                        @if($progress->progressable_type === 'App\Models\Goal')
-                            @php $goal = $progress->progressable; @endphp
-                            <a href="{{ route('goals.show', $goal->id) }}" class="block hover:bg-white p-3 sm:p-4 rounded-lg border-2 border-transparent hover:border-blue-500 transition-all duration-300">
-                                <p class="text-xs sm:text-sm font-semibold" style="color: {{ $goal->category->color }};">{{ $goal->category->name }}</p>
-                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{ $goal->title }}</h3>
-                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Goal</p>
-                                <div class="mt-3 sm:mt-4">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <span class="text-xs sm:text-sm font-medium text-gray-700">Current Progress</span>
-                                        <span class="text-xs sm:text-sm font-bold text-blue-600">{{ $goal->progress_percent }}%</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2 sm:h-2.5">
-                                        <div class="bg-blue-600 h-2 sm:h-2.5 rounded-full" style="width: {{ $goal->progress_percent }}%;"></div>
-                                    </div>
+                    @if($progress->goal)
+                        <a href="{{ route('goals.show', $progress->goal->id) }}" class="block hover:bg-gray-800/40 p-3 sm:p-4 rounded-lg border border-gray-700/40 transition-all duration-300 backdrop-blur-sm hover:shadow-lg">
+                            @if($progress->goal->category)
+                                <p class="text-xs sm:text-sm font-semibold" style="color: {{ $progress->goal->category->color }};">{{ $progress->goal->category->name }}</p>
+                            @else
+                                <p class="text-xs sm:text-sm font-semibold text-gray-500">Uncategorized</p>
+                            @endif
+                            <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{ $progress->goal->title }}</h3>
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1">Goal</p>
+                            <div class="mt-3 sm:mt-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs sm:text-sm font-medium text-gray-700">Current Progress</span>
+                                    <span class="text-xs sm:text-sm font-bold text-blue-600">{{ $progress->goal->progress_percent }}%</span>
                                 </div>
-                            </a>
-                        @elseif($progress->progressable_type === 'App\Models\Task')
-                            @php $task = $progress->progressable; @endphp
-                            <a href="{{ route('tasks.show', $task->id) }}" class="block hover:bg-white p-3 sm:p-4 rounded-lg border-2 border-transparent hover:border-blue-500 transition-all duration-300">
-                                <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{ $task->title }}</h3>
-                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Task for goal: "{{ $task->goal->title }}"</p>
-                                <div class="mt-3 sm:mt-4">
-                                    <p class="text-xs sm:text-sm font-medium text-gray-700">Status: 
-                                        <span class="font-bold {{ $task->is_completed ? 'text-green-600' : 'text-yellow-600' }}">
-                                            {{ $task->is_completed ? 'Completed' : 'Pending' }}
-                                        </span>
-                                    </p>
+                                <div class="w-full bg-gray-200 rounded-full h-2 sm:h-2.5">
+                                    <div class="bg-blue-600 h-2 sm:h-2.5 rounded-full" style="width: {{ $progress->goal->progress_percent }}%;"></div>
                                 </div>
-                            </a>
-                        @endif
+                            </div>
+                        </a>
+                    @elseif($progress->task)
+                        <a href="{{ route('tasks.show', $progress->task->id) }}" class="block hover:bg-gray-800/40 p-3 sm:p-4 rounded-lg border border-gray-700/40 transition-all duration-300 backdrop-blur-sm hover:shadow-lg">
+                            <h3 class="text-lg sm:text-xl font-bold text-white hover:text-pink-400">{{ $progress->task->title }}</h3>
+                            @if($progress->task->goal)
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Task for goal: "{{ $progress->task->goal->title }}"</p>
+                            @else
+                                <p class="text-xs sm:text-sm text-gray-500 mt-1">Task (Goal deleted)</p>
+                            @endif
+                            <div class="mt-3 sm:mt-4">
+                                <p class="text-xs sm:text-sm font-medium text-gray-700">Status: 
+                                    <span class="font-bold {{ $progress->task->is_completed ? 'text-green-600' : 'text-yellow-600' }}">
+                                        {{ $progress->task->is_completed ? 'Completed' : 'Pending' }}
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
                     @else
                         <div class="text-center p-6 sm:p-8">
                             <i class="fas fa-question-circle text-3xl sm:text-4xl text-gray-300 mb-3 sm:mb-4"></i>

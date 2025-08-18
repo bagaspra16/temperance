@@ -147,7 +147,9 @@ class ProgressController extends Controller
      */
     public function show(string $id)
     {
-        $progress = Progress::where('user_id', Auth::id())->findOrFail($id);
+        $progress = Progress::where('user_id', Auth::id())
+            ->with(['goal.category', 'task.goal'])
+            ->findOrFail($id);
         
         return view('progress.show', compact('progress'));
     }
@@ -269,20 +271,10 @@ class ProgressController extends Controller
     public function destroy(string $id)
     {
         $progress = Progress::where('user_id', Auth::id())->findOrFail($id);
-        $goalId = $progress->goal_id;
-        $taskId = $progress->task_id;
         $progress->delete();
 
-        if ($goalId) {
-            return redirect()->route('goals.show', $goalId)
-                ->with('success', 'Progress record deleted successfully.');
-        } elseif ($taskId) {
-            return redirect()->route('tasks.show', $taskId)
-                ->with('success', 'Progress record deleted successfully.');
-        } else {
-            return redirect()->route('progress.index')
-                ->with('success', 'Progress record deleted successfully.');
-        }
+        return redirect()->route('progress.index')
+            ->with('success', 'Progress record deleted successfully.');
     }
     
     /**

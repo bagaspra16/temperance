@@ -17,7 +17,7 @@
     @if($goals->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             @foreach($goals as $goal)
-                <div class="bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 ease-in-out border border-pink-500/10">
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-600/70 transform hover:-translate-y-2 hover:bg-gray-800/40 transition-all duration-300 ease-in-out">
                     <div class="p-4 sm:p-6">
                         <div class="flex justify-between items-start mb-3 sm:mb-4">
                             <div>
@@ -70,13 +70,17 @@
             {{ $goals->links() }}
         </div>
     @else
-        <div class="text-center p-6 sm:p-8 lg:p-12 bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-pink-500/10">
-            <img src="{{ asset('img/no-goals.svg') }}" alt="No Goals" class="mx-auto h-24 sm:h-32 lg:h-40 mb-6 sm:mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold text-pink-500 mb-2">Start Your Journey</h2>
-            <p class="text-gray-300 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">You haven't set any goals yet. Click the button below to create your first one and start tracking your progress.</p>
-            <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
-                <i class="fas fa-plus"></i> <span class="hidden sm:inline">Create Your First Goal</span><span class="sm:hidden">Create Goal</span>
-            </a>
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-600/70">
+            <div class="text-center p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-pink-500/20 to-pink-700/20 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 border border-pink-500/30">
+                    <i class="fas fa-bullseye text-3xl sm:text-4xl lg:text-5xl text-pink-400"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-2">Start Your Journey</h2>
+                <p class="text-gray-300 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">You haven't set any goals yet. Click the button below to create your first one and start tracking your progress.</p>
+                <a href="{{ route('goals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
+                    <i class="fas fa-plus"></i> <span class="hidden sm:inline">Create Your First Goal</span><span class="sm:hidden">Create Goal</span>
+                </a>
+            </div>
         </div>
     @endif
 </div>

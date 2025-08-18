@@ -47,9 +47,15 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="fas fa-tag text-pink-500"></i>
-                            <span class="px-3 py-1 rounded-full text-sm" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
-                                {{ $achievement->goal->category->name }}
-                            </span>
+                            @if($achievement->goal && $achievement->goal->category)
+                                <span class="px-3 py-1 rounded-full text-sm" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
+                                    {{ $achievement->goal->category->name }}
+                                </span>
+                            @else
+                                <span class="px-3 py-1 rounded-full text-sm bg-gray-500/20 text-gray-400">
+                                    Uncategorized
+                                </span>
+                            @endif
                         </div>
                     </div>
                 </div>

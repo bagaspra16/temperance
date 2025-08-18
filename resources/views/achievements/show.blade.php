@@ -55,25 +55,43 @@
                 </div>
 
                 <!-- Goal Info -->
-                <div class="bg-gradient-to-r from-gray-700 to-gray-800 rounded-xl p-3 sm:p-4 border border-blue-500/20">
-                    <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                        <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-bullseye text-white text-[10px] sm:text-xs"></i>
+                @if($achievement->goal)
+                    <div class="bg-gradient-to-r from-gray-700 to-gray-800 rounded-xl p-3 sm:p-4 border border-blue-500/20">
+                        <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                            <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-bullseye text-white text-[10px] sm:text-xs"></i>
+                            </div>
+                            <h3 class="text-xs sm:text-sm font-semibold text-white">Completed Goal</h3>
                         </div>
-                        <h3 class="text-xs sm:text-sm font-semibold text-white">Completed Goal</h3>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-white font-semibold text-xs sm:text-sm">{{ $achievement->goal->title }}</p>
+                                <p class="text-gray-400 text-[10px] sm:text-xs">{{ $achievement->goal->description }}</p>
+                            </div>
+                            <div class="text-right">
+                                @if($achievement->goal->category)
+                                    <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
+                                        {{ $achievement->goal->category->name }}
+                                    </span>
+                                @else
+                                    <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-gray-500/20 text-gray-400">
+                                        Uncategorized
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-white font-semibold text-xs sm:text-sm">{{ $achievement->goal->title }}</p>
-                            <p class="text-gray-400 text-[10px] sm:text-xs">{{ $achievement->goal->description }}</p>
+                @else
+                    <div class="bg-gradient-to-r from-gray-700 to-gray-800 rounded-xl p-3 sm:p-4 border border-gray-500/20">
+                        <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                            <div class="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-exclamation-triangle text-white text-[10px] sm:text-xs"></i>
+                            </div>
+                            <h3 class="text-xs sm:text-sm font-semibold text-white">Goal Information</h3>
                         </div>
-                        <div class="text-right">
-                            <span class="px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium" style="background-color: {{ $achievement->goal->category->color }}20; color: {{ $achievement->goal->category->color }};">
-                                {{ $achievement->goal->category->name }}
-                            </span>
-                        </div>
+                        <p class="text-gray-400 text-[10px] sm:text-xs">Goal information is no longer available.</p>
                     </div>
-                </div>
+                @endif
             </div>
 
             <!-- Action Buttons -->
@@ -82,10 +100,17 @@
                     <i class="fas fa-download text-xs sm:text-sm"></i>
                     <span>Download Certificate</span>
                 </button>
-                <a href="{{ route('goals.show', $achievement->goal->id) }}" class="flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
-                    <i class="fas fa-eye text-xs sm:text-sm"></i>
-                    <span>View Goal</span>
-                </a>
+                @if($achievement->goal)
+                    <a href="{{ route('goals.show', $achievement->goal->id) }}" class="flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                        <i class="fas fa-eye text-xs sm:text-sm"></i>
+                        <span>View Goal</span>
+                    </a>
+                @else
+                    <button disabled class="flex-1 bg-gray-500 text-gray-300 font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-xl flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm cursor-not-allowed">
+                        <i class="fas fa-eye-slash text-xs sm:text-sm"></i>
+                        <span>Goal Unavailable</span>
+                    </button>
+                @endif
                 <button onclick="shareAchievement()" class="flex-1 bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm">
                     <i class="fas fa-share-alt text-xs sm:text-sm"></i>
                     <span>Share</span>

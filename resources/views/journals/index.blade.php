@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Daily Journals</h1>
-        <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto" onclick="showLoading('Loading page...', 'Please wait a moment')">
+        <a href="{{ route('journals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto" onclick="showLoading('Loading page...', 'Please wait a moment')">
             <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write New Journal</span><span class="sm:hidden">New Journal</span>
         </a>
     </div>
@@ -28,7 +28,7 @@
     @endif
 
     <!-- Filter Section -->
-    <div class="bg-gray-800 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-lg">
+    <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-lg border border-gray-600/70">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-base sm:text-lg font-semibold text-white">
                 <i class="fas fa-filter mr-2 text-pink-400"></i>Filter Journals
@@ -120,11 +120,11 @@
     </div>
 
     <!-- Journals List -->
-    <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-600/70">
         @if($journals->count() > 0)
-            <div class="divide-y divide-gray-700">
+            <div class="divide-y divide-gray-600/70">
                 @foreach($journals as $journal)
-                    <div class="p-4 sm:p-6 hover:bg-gray-750 transition-colors duration-200">
+                    <div class="p-4 sm:p-6 hover:bg-gray-800/40 backdrop-blur-sm transition-all duration-200">
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
                                 <div class="flex items-center space-x-2 sm:space-x-3 mb-3">
@@ -195,15 +195,17 @@
             </div>
             
             <!-- Pagination -->
-            <div class="px-4 sm:px-6 py-4 border-t border-gray-700">
+            <div class="px-4 sm:px-6 py-4 border-t border-gray-600/70">
                 {{ $journals->appends(request()->query())->links() }}
             </div>
         @else
-            <div class="text-center p-6 sm:p-8 lg:p-12">
-                <i class="fas fa-book-open text-4xl sm:text-6xl text-gray-500 mb-4 sm:mb-6"></i>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-100 mb-2">No Journals Yet</h2>
-                <p class="text-gray-400 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">Start writing your daily journals to reflect on your self-improvement journey.</p>
-                <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
+            <div class="text-center p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-pink-500/20 to-pink-700/20 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 border border-pink-500/30">
+                    <i class="fas fa-book-open text-3xl sm:text-4xl lg:text-5xl text-pink-400"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-2">No Journals Yet</h2>
+                <p class="text-gray-300 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">Start writing your daily journals to reflect on your self-improvement journey.</p>
+                <a href="{{ route('journals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
                     <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write First Journal</span><span class="sm:hidden">Write Journal</span>
                 </a>
             </div>
