@@ -3,7 +3,10 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Your Categories</h1>
+        <div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Your Categories</h1>
+            <p class="text-gray-400 text-sm sm:text-base mt-2">Organize your goals and tasks with custom categories</p>
+        </div>
         <a href="{{ route('categories.create') }}" class="bg-gradient-to-tl from-pink-500 to-pink-700 hover:bg-gradient-to-br from-pink-500 to-pink-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
             <i class="fas fa-plus"></i> <span class="hidden sm:inline">Add New Category</span><span class="sm:hidden">New Category</span>
         </a>
