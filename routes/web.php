@@ -13,9 +13,9 @@ use App\Http\Controllers\HelpController;
 use App\Http\Controllers\LegalController;
 use Illuminate\Support\Facades\Route;
 
-// Welcome page
+// Redirect root to login page
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 })->name('welcome');
 
 // Legal Pages (Public - accessible to everyone)
