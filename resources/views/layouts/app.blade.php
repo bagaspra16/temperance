@@ -26,31 +26,87 @@
     <!-- Alpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    <!-- Alpine.js Fallback -->
+    <!-- Alpine.js Fallback and Enhanced Initialization -->
     <script>
-        if (typeof Alpine === 'undefined') {
-            console.log('Loading Alpine.js fallback...');
-            const script = document.createElement('script');
-            script.src = 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js';
-            script.defer = true;
-            document.head.appendChild(script);
-        }
-    </script>
-    
-    <!-- Ensure Alpine.js is loaded before DOM -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof Alpine === 'undefined') {
-                console.error('Alpine.js not loaded');
-            } else {
+        // Enhanced Alpine.js initialization
+        let alpineLoaded = false;
+        
+        function initializeAlpine() {
+            if (typeof Alpine !== 'undefined' && !alpineLoaded) {
                 console.log('Alpine.js loaded successfully');
+                alpineLoaded = true;
                 
                 // Initialize Alpine.js components
                 Alpine.nextTick(() => {
                     console.log('Alpine.js components initialized');
+                    
+                    // Force re-evaluation of all Alpine components
+                    document.querySelectorAll('[x-data]').forEach(el => {
+                        if (Alpine.$data(el)) {
+                            Alpine.$data(el).$nextTick(() => {
+                                console.log('Component re-evaluated:', el);
+                            });
+                        }
+                    });
                 });
+            } else if (!alpineLoaded) {
+                console.log('Loading Alpine.js fallback...');
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js';
+                script.defer = true;
+                script.onload = function() {
+                    console.log('Alpine.js fallback loaded');
+                    setTimeout(initializeAlpine, 100);
+                };
+                script.onerror = function() {
+                    console.error('Failed to load Alpine.js fallback');
+                };
+                document.head.appendChild(script);
+            }
+        }
+        
+        // Check for Alpine.js on DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing Alpine.js...');
+            initializeAlpine();
+        });
+        
+        // Also check when window loads
+        window.addEventListener('load', function() {
+            console.log('Window loaded, checking Alpine.js...');
+            if (!alpineLoaded) {
+                setTimeout(initializeAlpine, 200);
             }
         });
+        
+        // Fallback for any remaining issues
+        setTimeout(function() {
+            if (!alpineLoaded) {
+                console.warn('Alpine.js still not loaded, trying one more time...');
+                initializeAlpine();
+            }
+        }, 1000);
+        
+        // Emergency fallback - if Alpine.js fails completely, provide basic functionality
+        setTimeout(function() {
+            if (typeof Alpine === 'undefined') {
+                console.error('Alpine.js failed to load, providing fallback functionality');
+                
+                // Provide basic toggle functionality for create pages
+                document.addEventListener('click', function(e) {
+                    if (e.target.matches('[data-toggle-mode]')) {
+                        const wizardMode = document.querySelector('[data-wizard-mode]');
+                        const formMode = document.querySelector('[data-form-mode]');
+                        
+                        if (wizardMode && formMode) {
+                            const isWizardVisible = wizardMode.style.display !== 'none';
+                            wizardMode.style.display = isWizardVisible ? 'none' : 'block';
+                            formMode.style.display = isWizardVisible ? 'block' : 'none';
+                        }
+                    }
+                });
+            }
+        }, 2000);
     </script>
     
     <!-- Styles -->
@@ -1647,9 +1703,318 @@
             margin-right: 0.25rem !important;
         }
 
+        /* Enhanced Mobile Responsive Styles for Create Forms */
+        @media (max-width: 640px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .max-w-4xl {
+                max-width: 100%;
+            }
+            
+            /* Wizard mode mobile optimizations */
+            .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+                width: 3rem;
+                height: 3rem;
+            }
+            
+            .text-2xl.sm\\:text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-lg.sm\\:text-xl {
+                font-size: 1.125rem;
+            }
+            
+            .text-base.sm\\:text-lg {
+                font-size: 1rem;
+            }
+            
+            .text-sm.sm\\:text-base {
+                font-size: 0.875rem;
+            }
+            
+            .text-xs.sm\\:text-sm {
+                font-size: 0.75rem;
+            }
+            
+            /* Button mobile optimizations */
+            .px-6.sm\\:px-8 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .py-3 {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
+            
+            /* Grid mobile optimizations */
+            .grid.grid-cols-1.sm\\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid.grid-cols-3.sm\\:grid-cols-4.lg\\:grid-cols-6 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            /* Color picker mobile optimizations */
+            .w-12.h-12.sm\\:w-16.sm\\:h-16 {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
 
+        @media (max-width: 480px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            /* Further mobile optimizations */
+            .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            .text-2xl.sm\\:text-3xl {
+                font-size: 1.25rem;
+            }
+            
+            .text-lg.sm\\:text-xl {
+                font-size: 1rem;
+            }
+            
+            .text-base.sm\\:text-lg {
+                font-size: 0.875rem;
+            }
+            
+            .text-sm.sm\\:text-base {
+                font-size: 0.75rem;
+            }
+            
+            .text-xs.sm\\:text-sm {
+                font-size: 0.625rem;
+            }
+            
+            /* Button further mobile optimizations */
+            .px-6.sm\\:px-8 {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            .py-3 {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            
+            /* Grid further mobile optimizations */
+            .grid.grid-cols-3.sm\\:grid-cols-4.lg\\:grid-cols-6 {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            /* Color picker further mobile optimizations */
+            .w-12.h-12.sm\\:w-16.sm\\:h-16 {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .w-16.h-16.sm\\:w-20.sm\\:h-20 {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            /* Priority cards mobile optimizations */
+            .p-4.sm\\:p-6 {
+                padding: 0.75rem;
+            }
+            
+            .w-10.h-10.sm\\:w-12.sm\\:h-12 {
+                width: 2rem;
+                height: 2rem;
+            }
+            
+            .text-base.sm\\:text-lg {
+                font-size: 0.875rem;
+            }
+        }
 
+        /* Ensure proper spacing for mobile navigation */
+        @media (max-width: 640px) {
+            .main-content {
+                padding-bottom: 6rem;
+            }
+        }
 
+        @media (max-width: 480px) {
+            .main-content {
+                padding-bottom: 5rem;
+            }
+        }
+
+        /* Enhanced form responsiveness */
+        @media (max-width: 640px) {
+            .space-y-4.sm\\:space-y-6 > * + * {
+                margin-top: 1rem;
+            }
+            
+            .gap-4.sm\\:gap-6 {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .space-y-4.sm\\:space-y-6 > * + * {
+                margin-top: 0.75rem;
+            }
+            
+            .gap-4.sm\\:gap-6 {
+                gap: 0.75rem;
+            }
+        }
+
+        /* Profile Settings Mobile Optimizations */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            .profile-avatar-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .profile-stats {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .achievement-card {
+                padding: 0.75rem;
+            }
+            
+            .achievement-icon {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-avatar-large {
+                width: 5rem;
+                height: 5rem;
+            }
+            
+            .profile-avatar-medium {
+                width: 4rem;
+                height: 4rem;
+            }
+            
+            .achievement-card {
+                padding: 0.5rem;
+            }
+            
+            .achievement-icon {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+
+        /* Line clamp utility */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-1 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Flash Message Styles */
+        .flash-message {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            backdrop-blur-xl;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid;
+            max-width: 400px;
+            animation: slideInRight 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .flash-message.hiding {
+            animation: slideOutRight 0.5s ease-in forwards;
+        }
+
+        /* Mobile responsive flash messages */
+        @media (max-width: 768px) {
+            .flash-message {
+                top: 0.5rem;
+                right: 0.5rem;
+                left: 0.5rem;
+                max-width: none;
+                padding: 0.75rem 1rem;
+            }
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -1697,8 +2062,12 @@
                     <button @click="open = !open; console.log('Mobile button clicked, open:', open)" 
                             class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200 mobile-user-btn"
                             type="button">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg mobile-user-avatar">
-                            <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg mobile-user-avatar overflow-hidden">
+                            @if(Auth::user()->avatar)
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            @endif
                         </div>
                         <span class="text-sm font-medium hidden sm:block">{{ Auth::user()->name }}</span>
                         <i class="fas fa-chevron-down text-xs transition-transform duration-200" :class="{ 'rotate-180': open }"></i>
@@ -1721,14 +2090,22 @@
                         <!-- User Info Header -->
                         <div class="px-6 py-4 border-b border-gray-600">
                             <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg">
-                                    <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg overflow-hidden">
+                                    @if(Auth::user()->avatar)
+                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                    @else
+                                        <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                    @endif
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="text-white font-semibold text-base">{{ Auth::user()->name }}</h3>
                                     <p class="text-gray-400 text-sm">{{ Auth::user()->email }}</p>
+                                    @if(Auth::user()->bio)
+                                        <p class="text-gray-500 text-xs mt-1 line-clamp-2">{{ Auth::user()->bio }}</p>
+                                    @endif
                                     <div class="flex items-center mt-1">
                                         <div class="w-2 h-2 bg-green-500 rounded-full mr-0.5 animate-pulse"></div>
+                                        <span class="text-green-400 text-xs">Online</span>
                                     </div>
                                 </div>
                             </div>
@@ -1736,29 +2113,18 @@
 
                         <!-- Menu Items -->
                         <div class="px-2 py-2">
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
-                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mr-3 shadow-md">
-                                    <i class="fas fa-user text-white text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium">Profile Settings</span>
-                                    <p class="text-xs text-gray-500">Manage your account</p>
-                                </div>
-                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
-                            </a>
+                                <a href="{{ route('profile.index') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mr-3 shadow-md">
+                                        <i class="fas fa-user text-white text-sm"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="font-medium">Profile Settings</span>
+                                        <p class="text-xs text-gray-500">Manage your account</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                                </a>
                             
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
-                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mr-3 shadow-md">
-                                    <i class="fas fa-cog text-white text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium">Preferences</span>
-                                    <p class="text-xs text-gray-500">Customize your experience</p>
-                                </div>
-                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
-                            </a>
-                            
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                            <a href="{{ route('help.index') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
                                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mr-3 shadow-md">
                                     <i class="fas fa-question-circle text-white text-sm"></i>
                                 </div>
@@ -1853,8 +2219,12 @@
                     <button @click="open = !open" 
                             class="group flex items-center justify-center w-12 h-12 mx-auto text-gray-400 hover:text-pink-500 transition-all duration-300 transform hover:scale-110 user-profile-btn" 
                             title="User Profile">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg user-avatar">
-                            <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg user-avatar overflow-hidden">
+                            @if(Auth::user()->avatar)
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                            @else
+                                <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            @endif
                         </div>
                     </button>
                     
@@ -1874,14 +2244,22 @@
                         <!-- User Info Header -->
                         <div class="px-6 py-4 border-b border-gray-700">
                             <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg">
-                                    <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg overflow-hidden">
+                                    @if(Auth::user()->avatar)
+                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                    @else
+                                        <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                                    @endif
                                 </div>
                                 <div class="flex-1">
                                     <h3 class="text-white font-semibold text-base">{{ Auth::user()->name }}</h3>
                                     <p class="text-gray-400 text-sm">{{ Auth::user()->email }}</p>
+                                    @if(Auth::user()->bio)
+                                        <p class="text-gray-500 text-xs mt-1 line-clamp-2">{{ Auth::user()->bio }}</p>
+                                    @endif
                                     <div class="flex items-center mt-1">
                                         <div class="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse"></div>
+                                        <span class="text-green-400 text-xs">Online</span>
                                     </div>
                                 </div>
                             </div>
@@ -1889,7 +2267,7 @@
 
                         <!-- Menu Items -->
                         <div class="px-2 py-2">
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                            <a href="{{ route('profile.index') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
                                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mr-3 shadow-md">
                                     <i class="fas fa-user text-white text-sm"></i>
                                 </div>
@@ -1900,18 +2278,7 @@
                                 <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
                             </a>
                             
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
-                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mr-3 shadow-md">
-                                    <i class="fas fa-cog text-white text-sm"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <span class="font-medium">Preferences</span>
-                                    <p class="text-xs text-gray-500">Customize your experience</p>
-                                </div>
-                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
-                            </a>
-                            
-                            <a href="#" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                            <a href="{{ route('help.index') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
                                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mr-3 shadow-md">
                                     <i class="fas fa-question-circle text-white text-sm"></i>
                                 </div>
@@ -1950,6 +2317,25 @@
         <div class="main-content">
             <!-- Page Content -->
             <main class="flex-1">
+                <!-- Flash Messages -->
+                @if(session('success'))
+                    <div class="flash-message success-message" id="flash-success">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-green-400 text-lg"></i>
+                            <p class="text-green-300 font-medium">{{ session('success') }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="flash-message error-message" id="flash-error">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-exclamation-circle text-red-400 text-lg"></i>
+                            <p class="text-red-300 font-medium">{{ session('error') }}</p>
+                        </div>
+                    </div>
+                @endif
+
                 @yield('content')
             </main>
 
@@ -2021,19 +2407,7 @@
                 }
             });
 
-            @if(session('success'))
-                Toast.fire({
-                    icon: 'success',
-                    title: '{{ session('success') }}'
-                })
-            @endif
 
-            @if(session('error'))
-                Toast.fire({
-                    icon: 'error',
-                    title: '{{ session('error') }}'
-                })
-            @endif
         });
 
         // Loading Screen Functions
@@ -2055,6 +2429,24 @@
         // Auto-hide loading after page load
         window.addEventListener('load', function() {
             setTimeout(hideLoading, 500);
+        });
+
+        // Flash Message Auto-hide Function
+        function autoHideFlashMessages() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.classList.add('hiding');
+                    setTimeout(() => {
+                        message.remove();
+                    }, 500);
+                }, 5000); // Hide after 5 seconds
+            });
+        }
+
+        // Initialize flash message auto-hide
+        document.addEventListener('DOMContentLoaded', function() {
+            autoHideFlashMessages();
         });
 
         // Show loading for navigation links

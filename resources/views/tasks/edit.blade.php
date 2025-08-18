@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
     <div class="max-w-3xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <a href="{{ route('tasks.show', $task->id) }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i> Back to Task
+        <div class="flex items-center justify-between mb-4 sm:mb-6">
+            <a href="{{ route('tasks.show', $task->id) }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base">
+                <i class="fas fa-arrow-left text-xs sm:text-sm"></i> Back to Task
             </a>
         </div>
-        <div class="bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-pink-500/10">
-            <div class="p-8">
-                <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-2">Edit Task</h1>
-                <p class="text-gray-300 mb-8">Make adjustments to this task.</p>
+        <div class="bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden border border-pink-500/10">
+            <div class="p-4 sm:p-6 md:p-8">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent mb-1 sm:mb-2">Edit Task</h1>
+                <p class="text-gray-300 mb-4 sm:mb-6 md:mb-8 text-xs sm:text-sm md:text-base">Make adjustments to this task.</p>
                 <form action="{{ route('tasks.update', $task->id) }}" method="POST">
                     @csrf
                     @method('PUT')

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
     <div class="max-w-2xl mx-auto">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-pink-600">Edit Category</h1>
-            <p class="text-gray-500">Refine the details of your category.</p>
+        <div class="text-center mb-4 sm:mb-6 md:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-pink-600">Edit Category</h1>
+            <p class="text-gray-500 text-sm sm:text-base">Refine the details of your category.</p>
         </div>
         
-        <div class="bg-gray-800 rounded-xl shadow-lg p-8">
+        <div class="bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
             <form action="{{ route('categories.update', $category->id) }}" method="POST" onsubmit="showLoading('Menyimpan perubahan...', 'Mohon tunggu sebentar')">
                 @csrf
                 @method('PUT')
@@ -24,27 +24,27 @@
                     </div>
                 @endif
                 
-                <div class="mb-6">
-                    <label for="name" class="block text-gray-500 font-semibold mb-2">Category Name</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" class=" text-gray-200 w-full px-4 py-3 border bg-transparent border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-shadow" required>
+                <div class="mb-4 sm:mb-6">
+                    <label for="name" class="block text-gray-500 font-semibold mb-1 sm:mb-2 text-xs sm:text-sm md:text-base">Category Name</label>
+                    <input type="text" name="name" id="name" value="{{ old('name', $category->name) }}" class="text-gray-200 w-full px-3 sm:px-4 py-2.5 sm:py-3 border bg-transparent border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-shadow text-sm sm:text-base md:text-lg" required>
                 </div>
                 
-                <div class="mb-6">
-                    <label for="color" class="block text-gray-500 font-semibold mb-2">Color</label>
-                    <input type="color" name="color" id="color" value="{{ old('color', $category->color) }}" class="text-gray-200 w-full h-12 p-1 border bg-transparent border-gray-600 rounded-lg shadow-sm cursor-pointer">
+                <div class="mb-4 sm:mb-6">
+                    <label for="color" class="block text-gray-500 font-semibold mb-1 sm:mb-2 text-xs sm:text-sm md:text-base">Color</label>
+                    <input type="color" name="color" id="color" value="{{ old('color', $category->color) }}" class="text-gray-200 w-full h-10 sm:h-12 p-1 border bg-transparent border-gray-600 rounded-lg shadow-sm cursor-pointer">
                 </div>
                 
-                <div class="mb-8">
-                    <label for="description" class="block text-gray-500 font-semibold mb-2">Description</label>
-                    <textarea name="description" id="description" rows="4" class="text-gray-200 w-full px-4 py-3 border bg-transparent border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-shadow">{{ old('description', $category->description) }}</textarea>
+                <div class="mb-6 sm:mb-8">
+                    <label for="description" class="block text-gray-500 font-semibold mb-1 sm:mb-2 text-xs sm:text-sm md:text-base">Description</label>
+                    <textarea name="description" id="description" rows="4" class="text-gray-200 w-full px-3 sm:px-4 py-2.5 sm:py-3 border bg-transparent border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-shadow text-sm sm:text-base md:text-lg">{{ old('description', $category->description) }}</textarea>
                 </div>
                 
                 <div class="flex justify-between items-center">
-                    <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-pink-600 font-semibold transition-colors duration-300" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
-                        <i class="fas fa-arrow-left mr-2"></i> Cancel
+                    <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-pink-600 font-semibold transition-colors duration-300 text-xs sm:text-sm md:text-base" onclick="showLoading('Memuat halaman...', 'Mohon tunggu sebentar')">
+                        <i class="fas fa-arrow-left mr-1 sm:mr-2 text-xs sm:text-sm"></i> Cancel
                     </a>
-                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        <i class="fas fa-save mr-2"></i> Update Category
+                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 sm:py-2.5 md:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300 text-xs sm:text-sm md:text-base">
+                        <i class="fas fa-save mr-1 sm:mr-2 text-xs sm:text-sm"></i> Update Category
                     </button>
                 </div>
             </form>

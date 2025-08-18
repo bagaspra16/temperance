@@ -23,10 +23,10 @@
         overflow: hidden;
     }
 </style>
-<div class="container mx-auto px-4 py-8">
-    <div class="mb-6">
-        <a href="{{ route('achievements.show', $achievement->id) }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-2">
-            <i class="fas fa-arrow-left"></i> Back to Achievement
+<div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+    <div class="mb-4 sm:mb-6">
+        <a href="{{ route('achievements.show', $achievement->id) }}" class="text-pink-500 hover:text-pink-700 font-semibold transition-colors duration-300 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base">
+            <i class="fas fa-arrow-left text-xs sm:text-sm"></i> Back to Achievement
         </a>
     </div>
 

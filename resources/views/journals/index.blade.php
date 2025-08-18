@@ -2,38 +2,24 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Daily Journals</h1>
-        <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300" onclick="showLoading('Loading page...', 'Please wait a moment')">
-            <i class="fas fa-plus mr-2"></i> Write New Journal
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Daily Journals</h1>
+        <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto" onclick="showLoading('Loading page...', 'Please wait a moment')">
+            <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write New Journal</span><span class="sm:hidden">New Journal</span>
         </a>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-900/50 border-l-4 border-green-500 text-green-300 p-4 mb-6 rounded-md shadow" role="alert">
-            <p class="font-bold">Success</p>
-            <p>{{ session('success') }}</p>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="bg-red-900/50 border-l-4 border-red-500 text-red-300 p-4 mb-6 rounded-md shadow" role="alert">
-            <p class="font-bold">Error</p>
-            <p>{{ session('error') }}</p>
-        </div>
-    @endif
-
     <!-- Today's Reminder -->
     @if(!$todayJournal)
-        <div class="bg-gradient-to-r from-pink-500/50 to-pink-700/50 rounded-2xl p-6 mb-8 shadow-lg">
+        <div class="bg-gradient-to-r from-pink-500/50 to-pink-700/50 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-lightbulb text-3xl text-yellow-300"></i>
+                    <i class="fas fa-lightbulb text-2xl sm:text-3xl text-yellow-300"></i>
                 </div>
-                <div class="ml-4 flex-1">
-                    <h3 class="text-xl font-bold text-white mb-2">Today's Reflection</h3>
-                    <p class="text-blue-100 mb-4">Take a moment to write today's journal. Daily reflection helps you understand your emotions and personal growth.</p>
-                    <a href="{{ route('journals.create') }}" class="inline-flex items-center bg-blue-500/70 text-gray-100 font-semibold py-2 px-4 rounded-lg hover:bg-blue-700/70 transition-colors duration-200" onclick="showLoading('Loading page...', 'Please wait a moment')">
+                <div class="ml-3 sm:ml-4 flex-1">
+                    <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Today's Reflection</h3>
+                    <p class="text-blue-100 mb-3 sm:mb-4 text-sm sm:text-base">Take a moment to write today's journal. Daily reflection helps you understand your emotions and personal growth.</p>
+                    <a href="{{ route('journals.create') }}" class="inline-flex items-center bg-blue-500 text-gray-100 font-semibold py-2 px-3 sm:px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm sm:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
                         <i class="fas fa-pen mr-2"></i> Start Writing
                     </a>
                 </div>
@@ -42,30 +28,30 @@
     @endif
 
     <!-- Filter Section -->
-    <div class="bg-gray-800 rounded-2xl p-6 mb-8 shadow-lg">
+    <div class="bg-gray-800 rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 shadow-lg">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-white">
+            <h3 class="text-base sm:text-lg font-semibold text-white">
                 <i class="fas fa-filter mr-2 text-pink-400"></i>Filter Journals
             </h3>
             @if(request('date') || request('mood') || request('category') || request('important') || request('search'))
-                <span class="text-sm text-pink-400 font-medium">
+                <span class="text-xs sm:text-sm text-pink-400 font-medium">
                     <i class="fas fa-check-circle mr-1"></i>Filters Active
                 </span>
             @endif
         </div>
         
         <form method="GET" action="{{ route('journals.index') }}" id="filterForm" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div class="flex flex-col">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Date</label>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Date</label>
                     <input type="date" name="date" value="{{ request('date') }}" 
-                           class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('date') ? 'border-pink-500' : '' }}"
+                           class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 sm:py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('date') ? 'border-pink-500' : '' }}"
                            style="min-height: 40px;">
                 </div>
                 
                 <div class="flex flex-col">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Mood</label>
-                    <select name="mood" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('mood') ? 'border-pink-500' : '' }}">
+                    <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Mood</label>
+                    <select name="mood" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 sm:py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('mood') ? 'border-pink-500' : '' }}">
                         <option value="">All Moods</option>
                         <option value="happy" {{ request('mood') == 'happy' ? 'selected' : '' }}>😊 Happy</option>
                         <option value="sad" {{ request('mood') == 'sad' ? 'selected' : '' }}>😢 Sad</option>
@@ -81,8 +67,8 @@
                 </div>
                 
                 <div class="flex flex-col">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Category</label>
-                    <select name="category" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('category') ? 'border-pink-500' : '' }}">
+                    <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Category</label>
+                    <select name="category" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 sm:py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('category') ? 'border-pink-500' : '' }}">
                         <option value="">All Categories</option>
                         <option value="Personal" {{ request('category') == 'Personal' ? 'selected' : '' }}>Personal</option>
                         <option value="Social" {{ request('category') == 'Social' ? 'selected' : '' }}>Social</option>
@@ -96,8 +82,8 @@
                 </div>
                 
                 <div class="flex flex-col">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Important</label>
-                    <select name="important" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('important') ? 'border-pink-500' : '' }}">
+                    <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Important</label>
+                    <select name="important" class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 sm:py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('important') ? 'border-pink-500' : '' }}">
                         <option value="">All</option>
                         <option value="true" {{ request('important') === 'true' ? 'selected' : '' }}>Important</option>
                         <option value="false" {{ request('important') === 'false' ? 'selected' : '' }}>Regular</option>
@@ -105,37 +91,31 @@
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div class="flex flex-col">
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Search</label>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-300 mb-2">Search</label>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search in title or content..."
-                           class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('search') ? 'border-pink-500' : '' }}">
+                           class="filter-input w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 sm:py-2.5 focus:outline-none focus:ring-2 focus:ring-pink-500 h-10 {{ request('search') ? 'border-pink-500' : '' }}">
                 </div>
                 
                 <div class="flex items-end justify-end">
-                    @if(request('date') || request('mood') || request('category') || request('important') || request('search'))
-                        <button type="button" onclick="clearFilters()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-lg transition-colors duration-200 h-10">
-                            <i class="fas fa-times mr-2"></i> Clear All
-                        </button>
-                    @else
-                        <span class="text-sm text-gray-400 italic h-10 flex items-center">No active filters</span>
-                    @endif
+                    <span class="text-xs sm:text-sm text-gray-400 italic h-10 flex items-center">No active filters</span>
                 </div>
             </div>
         </form>
     </div>
 
     <!-- Quick Actions -->
-    <div class="flex flex-wrap gap-4 mb-8">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
         <a href="{{ route('journals.calendar') }}" 
-           class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105"
+           class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
            onclick="showLoading('Loading calendar...', 'Please wait a moment')">
-            <i class="fas fa-calendar-alt mr-2"></i> Calendar View
+            <i class="fas fa-calendar-alt mr-2"></i> <span class="hidden sm:inline">Calendar View</span><span class="sm:hidden">Calendar</span>
         </a>
         <a href="{{ route('journals.insights') }}" 
-           class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105"
+           class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2 text-sm sm:text-base"
            onclick="showLoading('Loading insights...', 'Please wait a moment')">
-            <i class="fas fa-chart-bar mr-2"></i> Insights & Analytics
+            <i class="fas fa-chart-bar mr-2"></i> <span class="hidden sm:inline">Insights & Analytics</span><span class="sm:hidden">Insights</span>
         </a>
     </div>
 
@@ -144,20 +124,20 @@
         @if($journals->count() > 0)
             <div class="divide-y divide-gray-700">
                 @foreach($journals as $journal)
-                    <div class="p-6 hover:bg-gray-750 transition-colors duration-200">
+                    <div class="p-4 sm:p-6 hover:bg-gray-750 transition-colors duration-200">
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
-                                <div class="flex items-center space-x-3 mb-3">
-                                    <span class="text-2xl">{{ $journal->mood_emoji ?? '😐' }}</span>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-3 py-1 text-xs font-medium rounded-full {{ $journal->mood_badge_class }}">
+                                <div class="flex items-center space-x-2 sm:space-x-3 mb-3">
+                                    <span class="text-xl sm:text-2xl">{{ $journal->mood_emoji ?? '😐' }}</span>
+                                    <div class="flex items-center space-x-1 sm:space-x-2">
+                                        <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full {{ $journal->mood_badge_class }}">
                                             {{ ucfirst($journal->mood) }}
                                         </span>
-                                        <span class="px-3 py-1 text-xs font-medium rounded-full {{ $journal->category_badge_class }}">
+                                        <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full {{ $journal->category_badge_class }}">
                                             {{ $journal->category }}
                                         </span>
                                         @if($journal->important)
-                                            <span class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+                                            <span class="px-2 sm:px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
                                                 ⭐ Important
                                             </span>
                                         @endif
@@ -166,18 +146,20 @@
                                 
                                 <div class="mb-3">
                                     @if($journal->title)
-                                        <h3 class="text-xl font-bold text-white mb-2">{{ $journal->title }}</h3>
+                                        <h3 class="text-lg sm:text-xl font-bold text-white mb-2">{{ $journal->title }}</h3>
                                     @endif
-                                    <p class="text-gray-300 leading-relaxed">{{ $journal->content_preview }}</p>
+                                    <div class="text-gray-300 leading-relaxed text-sm sm:text-base prose prose-invert max-w-none">
+                                        {!! Str::limit(strip_tags($journal->content), 200) !!}
+                                    </div>
                                 </div>
                                 
                                 @if($journal->formatted_tags)
                                     <div class="mb-3">
-                                        <span class="text-sm text-pink-400">{{ $journal->formatted_tags }}</span>
+                                        <span class="text-xs sm:text-sm text-pink-400">{{ $journal->formatted_tags }}</span>
                                     </div>
                                 @endif
                                 
-                                <div class="flex items-center text-sm text-gray-400">
+                                <div class="flex items-center text-xs sm:text-sm text-gray-400">
                                     <i class="fas fa-calendar mr-2"></i>
                                     <span>{{ $journal->date->format('d M Y') }}</span>
                                     @if($journal->is_today)
@@ -186,21 +168,21 @@
                                 </div>
                             </div>
                             
-                            <div class="flex items-center space-x-2 ml-4">
+                            <div class="flex items-center space-x-2 ml-3 sm:ml-4">
                                 <a href="{{ route('journals.show', $journal->id) }}" 
-                                   class="text-blue-400 hover:text-blue-300 transition-colors duration-200"
+                                   class="text-blue-400 hover:text-blue-300 transition-colors duration-200 p-2"
                                    title="View Details">
-                                    <i class="fas fa-eye"></i>
+                                    <i class="fas fa-eye text-sm sm:text-base"></i>
                                 </a>
                                 <a href="{{ route('journals.edit', $journal->id) }}" 
-                                   class="text-yellow-400 hover:text-yellow-300 transition-colors duration-200"
+                                   class="text-yellow-400 hover:text-yellow-300 transition-colors duration-200 p-2"
                                    title="Edit">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="fas fa-edit text-sm sm:text-base"></i>
                                 </a>
                                 <button onclick="showDeleteConfirmation('delete-form-{{ $journal->id }}', '{{ $journal->title ?: 'Journal ' . $journal->date->format('d M Y') }}', 'journal')"
-                                        class="text-red-400 hover:text-red-300 transition-colors duration-200"
+                                        class="text-red-400 hover:text-red-300 transition-colors duration-200 p-2"
                                         title="Delete">
-                                    <i class="fas fa-trash"></i>
+                                    <i class="fas fa-trash text-sm sm:text-base"></i>
                                 </button>
                                 <form id="delete-form-{{ $journal->id }}" action="{{ route('journals.destroy', $journal->id) }}" method="POST" class="hidden">
                                     @csrf
@@ -213,22 +195,109 @@
             </div>
             
             <!-- Pagination -->
-            <div class="px-6 py-4 border-t border-gray-700">
+            <div class="px-4 sm:px-6 py-4 border-t border-gray-700">
                 {{ $journals->appends(request()->query())->links() }}
             </div>
         @else
-            <div class="text-center p-12">
-                <i class="fas fa-book-open text-6xl text-gray-500 mb-6"></i>
-                <h2 class="text-3xl font-bold text-gray-100 mb-2">No Journals Yet</h2>
-                <p class="text-gray-400 mb-8 max-w-md mx-auto">Start writing your daily journals to reflect on your self-improvement journey.</p>
-                <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-block" onclick="showLoading('Loading page...', 'Please wait a moment')">
-                    <i class="fas fa-plus mr-2"></i> Write First Journal
+            <div class="text-center p-6 sm:p-8 lg:p-12">
+                <i class="fas fa-book-open text-4xl sm:text-6xl text-gray-500 mb-4 sm:mb-6"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-100 mb-2">No Journals Yet</h2>
+                <p class="text-gray-400 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">Start writing your daily journals to reflect on your self-improvement journey.</p>
+                <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl sm:rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
+                    <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write First Journal</span><span class="sm:hidden">Write Journal</span>
                 </a>
             </div>
         @endif
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+/* Rich text content styling for index */
+.prose {
+    color: #D1D5DB;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    color: #F9FAFB;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.prose h1 { font-size: 1.125rem; }
+.prose h2 { font-size: 1rem; }
+.prose h3 { font-size: 0.875rem; }
+.prose h4 { font-size: 0.75rem; }
+.prose h5 { font-size: 0.625rem; }
+.prose h6 { font-size: 0.5rem; }
+
+.prose p {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.prose ul, .prose ol {
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+
+.prose li {
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.prose blockquote {
+    border-left: 2px solid #EC4899;
+    padding-left: 0.5rem;
+    margin: 0.5rem 0;
+    font-style: italic;
+    color: #9CA3AF;
+    background-color: rgba(236, 72, 153, 0.1);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.prose code {
+    background-color: #1F2937;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.125rem;
+    font-family: 'Courier New', monospace;
+    color: #F3F4F6;
+    font-size: 0.75em;
+}
+
+.prose strong {
+    color: #F9FAFB;
+    font-weight: 600;
+}
+
+.prose em {
+    color: #D1D5DB;
+    font-style: italic;
+}
+
+.prose u {
+    text-decoration: underline;
+    color: #F9FAFB;
+}
+
+.prose s {
+    text-decoration: line-through;
+    color: #9CA3AF;
+}
+
+.prose a {
+    color: #EC4899;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #F472B6;
+}
+</style>
+@endpush
 
 @push('scripts')
 <style>
@@ -327,11 +396,11 @@ function showDeleteConfirmation(formId, itemTitle, type) {
         background: 'linear-gradient(to top right, #1f2937, #374151)',
         customClass: {
             popup: 'rounded-2xl shadow-2xl border border-gray-700',
-            title: 'text-2xl font-bold text-red-400 pt-4',
-            htmlContainer: 'text-lg text-gray-300 pb-4',
+            title: 'text-xl sm:text-2xl font-bold text-red-400 pt-4',
+            htmlContainer: 'text-base sm:text-lg text-gray-300 pb-4',
             actions: 'w-full flex justify-center gap-x-4 px-4',
-            confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg',
-            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg'
+            confirmButton: 'bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg shadow-lg text-sm sm:text-base',
+            cancelButton: 'bg-gray-600 hover:bg-gray-700 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg shadow-lg text-sm sm:text-base'
         },
         buttonsStyling: false,
         focusCancel: true

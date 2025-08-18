@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Write New Journal</h1>
-            <a href="{{ route('journals.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-colors duration-200" onclick="showLoading('Loading page...', 'Please wait a moment')">
-                <i class="fas fa-arrow-left mr-2"></i> Back
+<div class="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
+    <div class="w-full">
+        <div class="flex items-center justify-between mb-4 sm:mb-6 md:mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Write New Journal</h1>
+            <a href="{{ route('journals.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-6 rounded-lg shadow-lg transition-colors duration-200 text-xs sm:text-sm md:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
+                <i class="fas fa-arrow-left mr-1 sm:mr-2 text-xs sm:text-sm"></i> Back
             </a>
         </div>
 
@@ -21,11 +21,27 @@
             </div>
         @endif
 
+        <!-- Prompt Display Area -->
+        <div id="promptArea" class="bg-gradient-to-r from-emerald-900/80 to-teal-900/80 rounded-xl p-4 sm:p-6 mb-6 shadow-lg border border-emerald-500/30 hidden">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-lightbulb text-2xl text-emerald-300"></i>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Writing Prompt</h3>
+                        <p id="promptText" class="text-emerald-100 text-sm"></p>
+                    </div>
+                </div>
+                <button type="button" onclick="clearPrompt()" class="text-emerald-300 hover:text-white text-lg p-2 hover:bg-emerald-700/50 rounded-lg transition-all duration-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
         <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-            <form method="POST" action="{{ route('journals.store') }}" class="p-8">
+            <form method="POST" action="{{ route('journals.store') }}" class="p-4 sm:p-6 md:p-8 lg:p-12">
                 @csrf
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label for="date" class="block text-sm font-medium text-gray-300 mb-2">
                             <i class="fas fa-calendar mr-2"></i>Date
@@ -54,7 +70,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label for="mood" class="block text-sm font-medium text-gray-300 mb-2">
                             <i class="fas fa-smile mr-2"></i>Today's Mood
@@ -90,7 +106,7 @@
 
                 <div class="mb-6">
                     <label for="tags" class="block text-sm font-medium text-gray-300 mb-2">
-                        <i class="fas fa-hashtag mr-2"></i>Tags (Optional)
+                        <i class="fas fa-hashtag mr-2"></i>Tags
                     </label>
                     <div class="space-y-2" id="tag-container">
                         <div class="flex items-center space-x-2">
@@ -114,10 +130,18 @@
                     </label>
                     <textarea id="content" 
                               name="content" 
-                              rows="12"
+                              rows="16"
                               placeholder="Write your reflection for today... How do you feel? What did you learn? What do you want to achieve?"
                               class="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors duration-200 resize-none"
                               required>{{ old('content') }}</textarea>
+                    <div class="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-400">
+                        <span class="flex items-center"><i class="fas fa-info-circle mr-1"></i>Use the toolbar above to format your text</span>
+                        <span class="flex items-center"><i class="fas fa-bold mr-1"></i>Bold</span>
+                        <span class="flex items-center"><i class="fas fa-italic mr-1"></i>Italic</span>
+                        <span class="flex items-center"><i class="fas fa-underline mr-1"></i>Underline</span>
+                        <span class="flex items-center"><i class="fas fa-list mr-1"></i>Lists</span>
+                        <span class="flex items-center"><i class="fas fa-quote-left mr-1"></i>Quotes</span>
+                    </div>
                     <p class="text-sm text-gray-400 mt-1">Take time to reflect on your day</p>
                 </div>
 
@@ -153,6 +177,47 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<!-- TinyMCE CDN -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<style>
+/* Full width layout improvements */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 100%;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    textarea#content {
+        min-height: 500px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    
+    textarea#content {
+        min-height: 600px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .container {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+    
+    textarea#content {
+        min-height: 700px;
+    }
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>
@@ -202,5 +267,170 @@ document.getElementById('content').addEventListener('input', function() {
     this.style.height = 'auto';
     this.style.height = this.scrollHeight + 'px';
 });
+
+// Initialize TinyMCE
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.getElementById('content');
+    textarea.style.minHeight = '400px';
+    
+    // Initialize TinyMCE
+    tinymce.init({
+        selector: '#content',
+        height: 400,
+        menubar: false,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+                'bold italic underline strikethrough | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | blockquote | code | help',
+        content_style: `
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+                font-size: 14px; 
+                line-height: 1.6; 
+                color: #D1D5DB; 
+                background-color: #374151; 
+                margin: 0; 
+                padding: 16px; 
+            }
+            p { margin: 0 0 16px 0; }
+            h1, h2, h3, h4, h5, h6 { 
+                color: #F9FAFB; 
+                margin: 16px 0 8px 0; 
+                font-weight: 600; 
+            }
+            h1 { font-size: 24px; }
+            h2 { font-size: 20px; }
+            h3 { font-size: 18px; }
+            h4 { font-size: 16px; }
+            h5 { font-size: 14px; }
+            h6 { font-size: 12px; }
+            blockquote { 
+                border-left: 4px solid #EC4899; 
+                padding: 8px 16px; 
+                margin: 16px 0; 
+                background-color: rgba(236, 72, 153, 0.1); 
+                border-radius: 4px; 
+                font-style: italic; 
+                color: #9CA3AF; 
+            }
+            ul, ol { 
+                margin: 16px 0; 
+                padding-left: 24px; 
+            }
+            li { 
+                margin: 4px 0; 
+                line-height: 1.6; 
+            }
+            code { 
+                background-color: #1F2937; 
+                padding: 2px 6px; 
+                border-radius: 4px; 
+                font-family: 'Courier New', monospace; 
+                color: #F3F4F6; 
+                font-size: 13px; 
+            }
+            pre { 
+                background-color: #1F2937; 
+                padding: 16px; 
+                border-radius: 8px; 
+                overflow-x: auto; 
+                margin: 16px 0; 
+                border: 1px solid #4B5563; 
+            }
+            pre code { 
+                background: none; 
+                padding: 0; 
+                border-radius: 0; 
+                color: #F3F4F6; 
+            }
+            strong { color: #F9FAFB; font-weight: 600; }
+            em { color: #D1D5DB; font-style: italic; }
+            u { text-decoration: underline; color: #F9FAFB; }
+            s { text-decoration: line-through; color: #9CA3AF; }
+            a { color: #EC4899; text-decoration: underline; }
+            a:hover { color: #F472B6; }
+            table { 
+                border-collapse: collapse; 
+                width: 100%; 
+                margin: 16px 0; 
+                background-color: #374151; 
+                border-radius: 8px; 
+                overflow: hidden; 
+            }
+            th, td { 
+                border: 1px solid #4B5563; 
+                padding: 12px; 
+                text-align: left; 
+            }
+            th { 
+                background-color: #4B5563; 
+                font-weight: 600; 
+                color: #F9FAFB; 
+            }
+            .highlight { 
+                background-color: #FEF3C7; 
+                color: #92400E; 
+                padding: 2px 6px; 
+                border-radius: 4px; 
+            }
+        `,
+        skin: 'oxide-dark',
+        content_css: 'dark',
+        branding: false,
+        promotion: false,
+        setup: function(editor) {
+            // Auto-save content to textarea
+            editor.on('change', function() {
+                editor.save();
+            });
+            
+            // Handle prompt content
+            const prompt = localStorage.getItem('journalPrompt');
+            if (prompt) {
+                editor.setContent(prompt + '<p><br></p>');
+                localStorage.removeItem('journalPrompt');
+            }
+        }
+    });
+});
+
+// Handle prompt from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    const prompt = localStorage.getItem('journalPrompt');
+    if (prompt) {
+        showPrompt(prompt);
+        localStorage.removeItem('journalPrompt'); // Clear after use
+    }
+});
+
+function showPrompt(prompt) {
+    document.getElementById('promptText').textContent = prompt;
+    document.getElementById('promptArea').classList.remove('hidden');
+    
+    // Auto-fill content with prompt in TinyMCE
+    if (tinymce.get('content')) {
+        tinymce.get('content').setContent(prompt + '<p><br></p>');
+        tinymce.get('content').focus();
+    } else {
+        // Fallback for textarea
+        const contentArea = document.getElementById('content');
+        contentArea.value = prompt + '\n\n';
+        contentArea.focus();
+        
+        // Trigger auto-resize
+        contentArea.style.height = 'auto';
+        contentArea.style.height = contentArea.scrollHeight + 'px';
+    }
+}
+
+function clearPrompt() {
+    document.getElementById('promptArea').classList.add('hidden');
+    document.getElementById('promptText').textContent = '';
+}
 </script>
 @endpush 

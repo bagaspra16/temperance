@@ -89,4 +89,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Achievement::class);
     }
+
+    /**
+     * Get the journals for the user.
+     */
+    public function journals()
+    {
+        return $this->hasMany(Journal::class);
+    }
 }
