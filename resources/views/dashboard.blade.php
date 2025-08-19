@@ -4,6 +4,10 @@
 <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 text-gray-200 lg:px-8">
     <div class="flex justify-between items-center mb-4 sm:mb-6">
         <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-pink-700 bg-clip-text text-transparent drop-shadow">Dashboard</h1>
+        <div class="text-right">
+            <div id="digital-clock" class="text-lg sm:text-xl md:text-2xl font-bold text-white font-mono"></div>
+            <div id="digital-date" class="text-xs sm:text-sm text-gray-300"></div>
+        </div>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
@@ -1082,5 +1086,41 @@ document.addEventListener('DOMContentLoaded', function() {
     
     handleMobileModal();
     window.addEventListener('resize', handleMobileModal);
+    
+    // Digital Clock Function
+    function updateDigitalClock() {
+        const now = new Date();
+        
+        // Format time (HH:MM:SS)
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        
+        // Format date
+        const options = { 
+            weekday: 'short', 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        };
+        const dateString = now.toLocaleDateString('en-US', options);
+        
+        // Update DOM elements
+        const clockElement = document.getElementById('digital-clock');
+        const dateElement = document.getElementById('digital-date');
+        
+        if (clockElement) {
+            clockElement.textContent = timeString;
+        }
+        
+        if (dateElement) {
+            dateElement.textContent = dateString;
+        }
+    }
+    
+    // Initialize clock and update every second
+    updateDigitalClock();
+    setInterval(updateDigitalClock, 1000);
 });
 </script>

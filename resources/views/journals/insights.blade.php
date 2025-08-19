@@ -19,13 +19,17 @@
     </div>
 
         @if($totalJournals == 0)
-            <div class="bg-gray-800 rounded-2xl p-8 sm:p-12 md:p-16 text-center shadow-lg">
-                <i class="fas fa-chart-bar text-4xl sm:text-6xl md:text-8xl text-gray-500 mb-4 sm:mb-6 md:mb-8"></i>
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-100 mb-2 sm:mb-4">No Data Available</h2>
-                <p class="text-gray-400 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto text-sm sm:text-base md:text-lg">Start writing journals to see insights and patterns about your self-improvement journey.</p>
-                <a href="{{ route('journals.create') }}" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 sm:py-3 md:py-4 px-4 sm:px-6 md:px-8 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 inline-block text-sm sm:text-base md:text-lg" onclick="showLoading('Loading page...', 'Please wait a moment')">
-                    <i class="fas fa-plus mr-1 sm:mr-2"></i> Write First Journal
-                </a>
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-600/70">
+                <div class="text-center p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-gray-800/30 to-gray-900/40 backdrop-blur-sm">
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 bg-gradient-to-br from-pink-500/20 to-pink-700/20 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 border border-pink-500/30">
+                        <i class="fas fa-chart-bar text-3xl sm:text-4xl lg:text-5xl text-pink-400"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-pink-600 bg-clip-text text-transparent mb-2">No Data Available</h2>
+                    <p class="text-gray-300 mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base">Start writing journals to see insights and patterns about your self-improvement journey.</p>
+                    <a href="{{ route('journals.create') }}" class="bg-gradient-to-r from-pink-500 to-pink-700 hover:from-pink-600 hover:to-pink-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base" onclick="showLoading('Loading page...', 'Please wait a moment')">
+                        <i class="fas fa-plus"></i> <span class="hidden sm:inline">Write First Journal</span><span class="sm:hidden">Write Journal</span>
+                    </a>
+                </div>
             </div>
         @else
             <!-- Overview Cards -->
