@@ -27,6 +27,12 @@ return new class extends Migration
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('goal_id')->references('id')->on('goals')->onDelete('cascade');
+            
+            // MySQL specific indexes
+            $table->index(['user_id', 'status']);
+            $table->index(['user_id', 'achievement_date']);
+            $table->index(['goal_id']);
+            $table->index(['certificate_number']);
         });
     }
 

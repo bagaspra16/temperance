@@ -131,18 +131,13 @@
                             $dayIcons = ['fas fa-sun', 'fas fa-moon', 'fas fa-star', 'fas fa-heart', 'fas fa-thumbs-up', 'fas fa-fire', 'fas fa-crown'];
                             $dayColors = ['from-yellow-500 to-orange-500', 'from-blue-500 to-indigo-500', 'from-purple-500 to-pink-500', 'from-green-500 to-emerald-500', 'from-red-500 to-pink-500', 'from-indigo-500 to-purple-500', 'from-yellow-400 to-yellow-600'];
                             
-                            // Detect database type for day numbering
-                            try {
-                                $connection = \DB::connection()->getDriverName();
-                                $isPostgreSQL = $connection === 'pgsql';
-                            } catch (\Exception $e) {
-                                $isPostgreSQL = true;
-                            }
+                            // MySQL uses DAYOFWEEK where 1=Sunday, 2=Monday, etc.
+                            $isPostgreSQL = false;
                         @endphp
                         @for($i = 0; $i < 7; $i++)
                             @php
                                 $count = 0;
-                                $dayNumber = $isPostgreSQL ? $i : $i + 1;
+                                $dayNumber = $i + 1; // MySQL DAYOFWEEK: 1=Sunday, 2=Monday, etc.
                                 if ($mostActiveDay && $mostActiveDay->day_of_week == $dayNumber) {
                                     $count = $mostActiveDay->count;
                                 }
@@ -167,7 +162,7 @@
                     @for($i = 0; $i < 7; $i++)
                         @php
                             $count = 0;
-                            $dayNumber = $isPostgreSQL ? $i : $i + 1;
+                            $dayNumber = $i + 1; // MySQL DAYOFWEEK: 1=Sunday, 2=Monday, etc.
                             if ($mostActiveDay && $mostActiveDay->day_of_week == $dayNumber) {
                                 $count = $mostActiveDay->count;
                             }

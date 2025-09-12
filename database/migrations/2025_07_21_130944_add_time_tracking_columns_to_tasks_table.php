@@ -16,6 +16,10 @@ return new class extends Migration
             $table->dateTime('completed_time')->nullable()->after('start_time');
             $table->integer('duration_minutes')->nullable()->after('completed_time');
             $table->text('force_complete_reason')->nullable()->after('duration_minutes');
+            
+            // MySQL specific indexes for new columns
+            $table->index(['start_time']);
+            $table->index(['completed_time']);
         });
     }
 

@@ -345,24 +345,12 @@ class JournalController extends Controller
             $mostActiveDay = null;
             if ($totalJournals > 0) {
                 try {
-                    // Use database-specific function for day of week
-                    $connection = \DB::connection()->getDriverName();
-                    
-                    if ($connection === 'pgsql') {
-                        // PostgreSQL uses EXTRACT(DOW FROM date) where 0=Sunday, 1=Monday, etc.
-                        $mostActiveDay = Journal::where('user_id', $userId)
-                                              ->selectRaw('EXTRACT(DOW FROM date) as day_of_week, COUNT(*) as count')
-                                              ->groupBy('day_of_week')
-                                              ->orderBy('count', 'desc')
-                                              ->first();
-                    } else {
-                        // MySQL uses DAYOFWEEK(date) where 1=Sunday, 2=Monday, etc.
-                        $mostActiveDay = Journal::where('user_id', $userId)
-                                              ->selectRaw('DAYOFWEEK(date) as day_of_week, COUNT(*) as count')
-                                              ->groupBy('day_of_week')
-                                              ->orderBy('count', 'desc')
-                                              ->first();
-                    }
+                    // Use MySQL DAYOFWEEK function where 1=Sunday, 2=Monday, etc.
+                    $mostActiveDay = Journal::where('user_id', $userId)
+                                          ->selectRaw('DAYOFWEEK(date) as day_of_week, COUNT(*) as count')
+                                          ->groupBy('day_of_week')
+                                          ->orderBy('count', 'desc')
+                                          ->first();
                 } catch (\Exception $e) {
                     \Log::warning('Could not get day of week statistics: ' . $e->getMessage());
                     // Continue without day of week data
