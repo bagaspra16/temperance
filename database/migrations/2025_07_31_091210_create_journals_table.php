@@ -24,6 +24,15 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+            
+            // MySQL specific indexes
+            $table->index(['user_id', 'date']);
+            $table->index(['user_id', 'mood']);
+            $table->index(['user_id', 'category']);
+            $table->index(['user_id', 'important']);
+            $table->index(['date']);
+            // JSON index for tags (MySQL 5.7+)
+            $table->index(['user_id'], 'journals_user_id_tags_index');
         });
     }
 

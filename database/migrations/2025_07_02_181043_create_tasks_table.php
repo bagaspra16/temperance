@@ -25,6 +25,13 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
+            
+            // MySQL specific indexes
+            $table->index(['user_id', 'status']);
+            $table->index(['user_id', 'priority']);
+            $table->index(['user_id', 'due_date']);
+            $table->index(['goal_id']);
+            $table->index(['completed_at']);
         });
     }
 

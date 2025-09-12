@@ -22,6 +22,11 @@ return new class extends Migration
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            
+            // MySQL specific indexes
+            $table->index(['user_id', 'created_at']);
+            $table->index(['goal_id', 'created_at']);
+            $table->index(['task_id', 'created_at']);
         });
     }
 

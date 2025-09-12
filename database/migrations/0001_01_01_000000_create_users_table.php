@@ -22,6 +22,10 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+            
+            // MySQL specific indexes for better performance
+            $table->index(['email']);
+            $table->index(['created_at']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -37,6 +41,9 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
+            
+            // MySQL specific indexes
+            $table->index(['user_id', 'last_activity']);
         });
     }
 

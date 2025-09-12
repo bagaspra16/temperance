@@ -18,7 +18,7 @@ Temperance adalah aplikasi manajemen tujuan dan tugas yang komprehensif, diranca
 ## Teknologi yang Digunakan
 
 - **Framework**: Laravel 10
-- **Database**: PostgreSQL
+- **Database**: MySQL
 - **Frontend**: Blade Templates, Tailwind CSS
 - **Autentikasi**: Laravel's built-in authentication
 
@@ -26,7 +26,7 @@ Temperance adalah aplikasi manajemen tujuan dan tugas yang komprehensif, diranca
 
 - PHP >= 8.2
 - Composer
-- Database PostgreSQL 14
+- Database MySQL 8.0+
 
 ## Instalasi
 
@@ -73,12 +73,12 @@ php artisan key:generate
 Edit file `.env` dan sesuaikan pengaturan database:
 
 ```
-DB_CONNECTION=pgsql
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=5432
+DB_PORT=3306
 DB_DATABASE=temperance
-DB_USERNAME=your_postgres_username
-DB_PASSWORD=your_postgres_password
+DB_USERNAME=root
+DB_PASSWORD=your_mysql_password
 ```
 
 #### 6. Migrasi dan Seeding Database
