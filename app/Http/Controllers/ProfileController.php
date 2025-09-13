@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Helpers\AvatarHelper;
 
 class ProfileController extends Controller
 {
@@ -39,18 +40,26 @@ class ProfileController extends Controller
             // Handle avatar upload or removal
             if ($request->hasFile('avatar')) {
                 // Delete old avatar if exists
-                if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                    Storage::disk('public')->delete($user->avatar);
+                AvatarHelper::deleteAvatar($user->avatar);
+                
+                // Create uploads/avatars directory if it doesn't exist
+                $uploadPath = public_path('uploads/avatars');
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
                 }
                 
-                // Store new avatar
-                $avatarPath = $request->file('avatar')->store('avatars', 'public');
-                $user->avatar = $avatarPath;
+                // Generate unique filename
+                $file = $request->file('avatar');
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                
+                // Move file to public/uploads/avatars
+                $file->move($uploadPath, $filename);
+                
+                // Store relative path in database
+                $user->avatar = 'uploads/avatars/' . $filename;
             } elseif ($request->input('remove_avatar') == '1') {
                 // Remove avatar if requested
-                if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-                    Storage::disk('public')->delete($user->avatar);
-                }
+                AvatarHelper::deleteAvatar($user->avatar);
                 $user->avatar = null;
             }
 
