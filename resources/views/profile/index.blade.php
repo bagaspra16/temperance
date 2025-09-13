@@ -27,7 +27,7 @@
                         <div class="relative">
                             <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-2xl overflow-hidden profile-avatar-large">
                                 @if($user->avatar)
-                                    <img src="{{ Storage::url($user->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                    <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl($user->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                                 @else
                                     <span class="text-white text-2xl sm:text-3xl lg:text-4xl font-bold">{{ substr($user->name, 0, 1) }}</span>
                                 @endif
@@ -79,7 +79,7 @@
                                 <div class="relative avatar-upload-area">
                                     <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg overflow-hidden profile-avatar-medium">
                                         @if($user->avatar)
-                                            <img src="{{ Storage::url($user->avatar) }}" alt="Current Avatar" class="w-full h-full object-cover" id="avatarPreview">
+                                            <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl($user->avatar) }}" alt="Current Avatar" class="w-full h-full object-cover" id="avatarPreview">
                                         @else
                                             <span class="text-white text-xl sm:text-2xl font-bold" id="avatarInitial">{{ substr($user->name, 0, 1) }}</span>
                                         @endif

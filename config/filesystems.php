@@ -74,7 +74,8 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // Symbolic links removed - using direct public uploads instead
+        // public_path('storage') => storage_path('app/public'),
     ],
 
 ];

@@ -2064,7 +2064,7 @@
                             type="button">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg mobile-user-avatar overflow-hidden">
                             @if(Auth::user()->avatar)
-                                <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                             @else
                                 <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
                             @endif
@@ -2092,7 +2092,7 @@
                             <div class="flex items-center space-x-4">
                                 <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg overflow-hidden">
                                     @if(Auth::user()->avatar)
-                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                        <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                                     @else
                                         <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
                                     @endif
@@ -2221,7 +2221,7 @@
                             title="User Profile">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg user-avatar overflow-hidden">
                             @if(Auth::user()->avatar)
-                                <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                             @else
                                 <span class="text-white font-semibold text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
                             @endif
@@ -2246,7 +2246,7 @@
                             <div class="flex items-center space-x-4">
                                 <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg overflow-hidden">
                                     @if(Auth::user()->avatar)
-                                        <img src="{{ Storage::url(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                        <img src="{{ \App\Helpers\AvatarHelper::getAvatarUrl(Auth::user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
                                     @else
                                         <span class="text-white font-bold text-lg">{{ substr(Auth::user()->name, 0, 1) }}</span>
                                     @endif
