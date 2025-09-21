@@ -44,6 +44,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+            
+            // Check if user has access to secret page
+            if (Auth::user()->email === 'protagonist@temperance.com') {
+                return redirect()->intended(route('secret.dashboard'))
+                    ->with('success', 'Welcome to the Admin Dashboard! You have successfully logged in.');
+            }
+            
             return redirect()->intended(route('dashboard'))
                 ->with('success', 'Welcome back! You have successfully logged in.');
         }

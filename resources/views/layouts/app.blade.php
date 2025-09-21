@@ -2134,6 +2134,19 @@
                                 </div>
                                 <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
                             </a>
+
+                            @if(Auth::user()->email === 'protagonist@temperance.com')
+                            <a href="{{ route('secret.dashboard') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center mr-3 shadow-md">
+                                    <i class="fas fa-shield-alt text-white text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <span class="font-medium">Admin Dashboard</span>
+                                    <p class="text-xs text-gray-500">Secret admin panel</p>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                            </a>
+                            @endif
                         </div>
                         
                         <!-- Logout Section -->
@@ -2211,6 +2224,14 @@
                    title="Achievements">
                     <i class="fas fa-trophy text-xl"></i>
                 </a>
+
+                @if(Auth::user()->email === 'protagonist@temperance.com')
+                <a href="{{ route('secret.dashboard') }}" 
+                   class="group flex items-center justify-center w-12 h-12 mx-auto {{ request()->routeIs('secret.*') ? 'text-pink-500 active' : 'text-gray-400 hover:text-pink-500' }} transition-all duration-300 transform hover:scale-110"
+                   title="Admin Dashboard">
+                    <i class="fas fa-shield-alt text-xl"></i>
+                </a>
+                @endif
             </nav>
 
             <!-- User Profile Section - Fixed at Bottom -->
@@ -2288,6 +2309,19 @@
                                 </div>
                                 <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
                             </a>
+
+                            @if(Auth::user()->email === 'protagonist@temperance.com')
+                            <a href="{{ route('secret.dashboard') }}" class="group flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-300">
+                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center mr-3 shadow-md">
+                                    <i class="fas fa-shield-alt text-white text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <span class="font-medium">Admin Dashboard</span>
+                                    <p class="text-xs text-gray-500">Secret admin panel</p>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                            </a>
+                            @endif
                         </div>
                         
                         <!-- Logout Section -->
@@ -2388,6 +2422,14 @@
                        title="Achievements">
                         <i class="fas fa-trophy text-xl"></i>
                     </a>
+
+                    @if(Auth::user()->email === 'protagonist@temperance.com')
+                    <a href="{{ route('secret.dashboard') }}" 
+                       class="flex items-center justify-center flex-1 py-3 {{ request()->routeIs('secret.*') ? 'text-pink-500 active' : 'text-gray-400 hover:text-white' }} transition-colors duration-200"
+                       title="Admin Dashboard">
+                        <i class="fas fa-shield-alt text-xl"></i>
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>
