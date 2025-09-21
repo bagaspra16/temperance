@@ -11,6 +11,7 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HelpController;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\SecretController;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to login page
@@ -78,4 +79,11 @@ Route::middleware(['auth'])->group(function () {
     
                     // Help & Support
                 Route::get('/help', [HelpController::class, 'index'])->name('help.index');
+});
+
+// Secret Admin Routes (Protected by special middleware)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/secret', [SecretController::class, 'index'])->name('secret.dashboard');
+    Route::get('/secret/users', [SecretController::class, 'users'])->name('secret.users');
+    Route::get('/secret/users/{id}', [SecretController::class, 'userDetail'])->name('secret.user.detail');
 });
